@@ -5,7 +5,7 @@ import Search from './components/Search';
 import Header from './components/Header';
 
 const App = () => {
-  const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
+  // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
 
   const defaultNotes = [{
     key: nanoid(),
@@ -23,7 +23,14 @@ const App = () => {
     date: new Date(2024, 10, 1, 10, 9, 5, 10)
   }];
 
+  const parseNoteDates = (parsedNotes) => {
+    return parsedNotes.map(val => {
+      return {...val, date: new Date(val.date)};
+    })
+  };
+
   const [notes, setNotes] = useState(() => {
+    /*
     const localStorageNotes = localStorage.getItem(LOCAL_STORAGE_DATA_NAME);
     const parsedNotes = JSON.parse(localStorageNotes);
     if (parsedNotes)
@@ -32,15 +39,30 @@ const App = () => {
         return {...val, date: new Date(val.date)};
       });
     }
+    */
 
     return defaultNotes;
   });
 
   const [searchText, setSearchText] = useState('');
 
+  /*
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_DATA_NAME, JSON.stringify(notes));
   }, [notes]);
+  */
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/Notes')
+       .then((response) => response.json())
+       .then((data) => {
+          console.log(data);
+          setNotes(parseNoteDates(data));
+       })
+       .catch((err) => {
+          console.log(err.message);
+       });
+ }, []);
 
   const addNote = (text) => {
     setNotes([...notes, {

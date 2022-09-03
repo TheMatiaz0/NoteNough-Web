@@ -9,6 +9,8 @@
       POSTGRES_DB: "notenoughdb"
     ports:
       - "5432:5432"
+    expose:
+      - "5432"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 
@@ -33,5 +35,7 @@
       - ConnectionStrings__Postgres_Db=Server=db;Database=notenoughdb;Port=5432;Username=admin;Password=root1234
     ports:
       - "8080:80"
+    expose:
+    - "8080"
     depends_on:
       - db

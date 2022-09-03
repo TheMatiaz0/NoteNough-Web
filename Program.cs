@@ -8,7 +8,17 @@ namespace NoteNough.NET
     {
         public static void Main(string[] args)
         {
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("http://localhost:8080", "http://localhost", "https://localhost", "https://localhost:8080", "http://localhost:3000", "https://localhost:3000");
+                                  });
+            });
 
             builder.Services.AddAuthorization();
 
@@ -22,6 +32,7 @@ namespace NoteNough.NET
             builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db")));
 
             var app = builder.Build();
+            app.UseCors();
             app.MapControllers();
 
             app.UseSwagger();
