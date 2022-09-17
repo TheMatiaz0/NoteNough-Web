@@ -80,10 +80,27 @@ const App = () => {
 
   const deleteNoteFromDatabase = async (id) => {
     await fetch(`http://localhost:8080/api/Notes/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
     });
-    let notesExcludingDeleted = [...notes].filter(i => i.key !== id);
-    setNotes(notesExcludingDeleted);
+    setNotes([...notes].filter((i) => i.key !== id));
+  };
+
+  const editNoteFromDatabase = async (note, updatedText) => {
+    await fetch(`http://localhost:8080/api/Notes/${note.key}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        key: note.key,
+        text: updatedText,
+        updated: new Date(),
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+
+    note.text = updatedText;
+    note.date = new Date();
+    setNotes([...notes]);
   };
 
   useEffect(() => {
@@ -116,10 +133,13 @@ const App = () => {
     const newNotes = [...notes];
     const specificNote = newNotes[specificIndex];
     if (newText !== specificNote.text) {
+      editNoteFromDatabase(specificNote, newText);
+    }
+    /*
       specificNote.text = newText;
       specificNote.date = new Date();
       setNotes(newNotes);
-    }
+    */
   };
 
   const filterText = (note) =>
