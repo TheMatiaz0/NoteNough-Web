@@ -27,11 +27,9 @@ const App = () => {
 
   const parseNoteDates = (parsedNotes) => {
     return parsedNotes.map((val) => {
-      const createdDate = new Date(val.created);
-      const updatedDate = new Date(val.updated);
       return {
         ...val,
-        date: updatedDate > createdDate ? updatedDate : createdDate,
+        date: new Date(val.created),
       };
     });
   };
@@ -65,7 +63,6 @@ const App = () => {
       body: JSON.stringify({
         text: text,
         created: new Date(),
-        updated: null,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -91,7 +88,6 @@ const App = () => {
       body: JSON.stringify({
         key: note.key,
         text: updatedText,
-        updated: new Date(),
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
