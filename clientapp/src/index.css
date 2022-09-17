@@ -8,7 +8,7 @@
   --color-additional: rgb(92, 92, 92);
   --color-additional-2: rgb(208, 208, 208);
   --color-additional-3: rgb(122, 122, 122);
-  --color-special: rgb(131, 129, 2);
+  --color-special: #CDC62B;
   --primary-font-name: 'Overlock';
   --logo-font-name: 'Barlow';
   --secondary-font-name: 'Karla';
@@ -62,7 +62,9 @@ body {
 
 .header {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 2%;
 }
 
 .header a {
@@ -70,11 +72,24 @@ body {
   text-decoration: none;
 }
 
-.logo {
-  font-size: 2.6rem;
-  font-weight: bold;
-  font-family: 'Barlow';
+.auth-button, .auth-button:link, .auth-button:visited {
   margin-right: 25px;
+  font-size: 1.25rem;
+  border: 4px dashed var(--color-additional-3);
+  padding: 10px 15px;
+  background-color: whitesmoke;
+  color: var(--color-additional);
+}
+
+.auth-button:hover {
+  border: 4px dashed var(--color-primary);
+  color: var(--color-primary);
+}
+
+.logo img {
+  margin-bottom: 6%;
+  width: 70%;
+  margin-top: 5%;
 }
 
 .search {

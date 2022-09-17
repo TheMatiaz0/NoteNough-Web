@@ -1,22 +1,23 @@
 import React from "react";
-import {MdOutlineStickyNote2} from 'react-icons/md';
 
 const Header = () => {
-    return (
-        <div className="header">
-            <h1 className="logo">
-                <a href="http://localhost:3000">
-                    <div className="logo-container">
-                        <div className="image-and-text">
-                            <MdOutlineStickyNote2 className="primary-logo-span"/>
-                            <span className="primary-logo-span">Note</span>
-                        </div>
-                        <span className="secondary-logo-span">Nough</span>
-                    </div>
-                </a>
-            </h1>
-        </div>
-    )
-}
+  return (
+    <div className="header">
+      <div className="logo">
+        <a href="/">
+          <img alt="test" src="logo.png" />
+        </a>
+      </div>
+      <div>
+        <a className="auth-button" href="/login">
+          Login
+        </a>
+        <a className="auth-button signup-btn" href="/signup">
+          Sign up
+        </a>
+      </div>
+    </div>
+  );
+};
 
 export default Header;
