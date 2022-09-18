@@ -1,24 +1,25 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <div className="header">
       <div className="logo">
-        <a href="/">
+        <Link to="/">
           <img alt="test" src="logo.png" />
-        </a>
+        </Link>
       </div>
       <nav>
         <ul>
           <li>
-            <a className="auth-button" href="/login">
+            <Link className="auth-button" to="/login">
               Login
-            </a>
+            </Link>
           </li>
-          <li className="active">
-            <a className="auth-button signup-btn" href="/signup">
+          <li>
+            <Link className="auth-button signup-btn" to="/signup">
               Sign up
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
