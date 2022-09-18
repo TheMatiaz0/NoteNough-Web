@@ -6,9 +6,8 @@ const Note = ({ id, text, date, handleRemoveNote, handleEditNote }) => {
             <div className='fade'>
                 <span className="note-text">{text}</span>
             </div>
-
             <div className="note-footer">
-            <small className='remaining date-color'>{date.toLocaleString()}</small>
+            <small title={`Created/Last updated: ${date.toLocaleString()}`} className='remaining date-color'>{date.toLocaleString()}</small>
             <div className='vl'></div>
                 <div>
                     <MdEdit title='Edit the note' onClick={() => handleEditNote()} className='action-icon' size='1.6em' />

@@ -4,6 +4,7 @@
 
 :root {
   --color-primary: black;
+  --color-btn-background: whitesmoke;
   --color-secondary: rgb(235, 235, 235);
   --color-additional: rgb(92, 92, 92);
   --color-additional-2: rgb(208, 208, 208);
@@ -64,8 +65,21 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: 2%;
 }
+
+nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+/*
+nav li.active a, nav li.active a:link, nav li.active a:visited {
+  background-color: var(--color-special);
+}
+*/
 
 .header a {
   color: inherit;
@@ -73,17 +87,20 @@ body {
 }
 
 .auth-button, .auth-button:link, .auth-button:visited {
-  margin-right: 25px;
   font-size: 1.25rem;
   border: 4px dashed var(--color-additional-3);
   padding: 10px 15px;
-  background-color: whitesmoke;
+  background-color: var(--color-btn-background);
   color: var(--color-additional);
 }
 
 .auth-button:hover {
   border: 4px dashed var(--color-primary);
   color: var(--color-primary);
+}
+
+.note-text::selection {
+  color: var(--color-special);
 }
 
 .logo img {
