@@ -1,7 +1,11 @@
+import Header from '../components/Header'
+import SignUpButton from '../components/SignUpButton'
+
 const Login = () => {
     return (
         <div>
-            <p>Log in!</p>
+            <Header buttons={[<SignUpButton />]} />
+            <p>Login!</p>
         </div>
     );
 }

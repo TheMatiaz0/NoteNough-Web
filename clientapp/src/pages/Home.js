@@ -2,10 +2,13 @@ import NotesList from "../components/NotesList";
 import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import Search from "../components/Search";
+import Header from "../components/Header";
+import SignUpButton from "../components/SignUpButton";
+import LoginButton from "../components/LoginButton";
 
 const Home = () => {
   // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
-
+  const ROOT_URL = "http://localhost:8080/api";
   const defaultNotes = [
     {
       key: nanoid(),
@@ -57,7 +60,7 @@ const Home = () => {
   */
 
   const addNoteToDatabase = async (text) => {
-    let response = await fetch("http://localhost:8080/api/Notes", {
+    let response = await fetch("/Notes", {
       method: "POST",
       body: JSON.stringify({
         text: text,
@@ -75,14 +78,14 @@ const Home = () => {
   };
 
   const deleteNoteFromDatabase = async (id) => {
-    await fetch(`http://localhost:8080/api/Notes/${id}`, {
+    await fetch(`${ROOT_URL}/${id}`, {
       method: "DELETE",
     });
     setNotes([...notes].filter((i) => i.key !== id));
   };
 
   const editNoteFromDatabase = async (note, updatedText) => {
-    await fetch(`http://localhost:8080/api/Notes/${note.key}`, {
+    await fetch(`${ROOT_URL}/${note.key}`, {
       method: "PUT",
       body: JSON.stringify({
         key: note.key,
@@ -98,11 +101,24 @@ const Home = () => {
     setNotes([...notes]);
   };
 
+  async function fetchNotes() {
+    try {
+      const response = await fetch(`${ROOT_URL}/Notes`);
+      if (!response.ok) {
+        throw new Error(`An error has occured: ${response.status}`);
+      }
+      return await response.json();
+    } catch (e) {
+      console.error(`An error has occured: ${e}`);
+    }
+  }
+
   useEffect(() => {
     const fetchNotesFromDatabase = async () => {
-      const response = await fetch("http://localhost:8080/api/Notes");
-      const data = await response.json();
-      setNotes(parseNoteDates(data));
+      const data = await fetchNotes();
+      if (data !== undefined) {
+        setNotes(parseNoteDates(data));
+      }
     };
     fetchNotesFromDatabase();
   }, []);
@@ -139,9 +155,10 @@ const Home = () => {
 
   const filterText = (note) =>
     note.text.toLowerCase().includes(searchText.toLowerCase());
-    
+
   return (
     <div>
+      <Header buttons={[<LoginButton />, <SignUpButton />]} />
       <Search handleSearchText={setSearchText} />
       <NotesList
         notes={notes.filter(filterText)}

@@ -1,26 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({buttons}) => {
+  const rootRoute = "/";
   return (
     <div className="header">
       <div className="logo">
-        <Link to="/">
+        <Link to={rootRoute}>
           <img alt="test" src="logo.png" />
         </Link>
       </div>
       <nav>
         <ul>
-          <li>
-            <Link className="auth-button" to="/login">
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link className="auth-button signup-btn" to="/signup">
-              Sign up
-            </Link>
-          </li>
+          {buttons.map((button, i) => (
+            <li key={i}>
+              {React.cloneElement(button)}
+            </li>
+          ))}
         </ul>
       </nav>
     </div>
