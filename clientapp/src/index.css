@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Overlock:regular,bold,italic&subset=latin,latin-ext');
-@import url('https://fonts.googleapis.com/css?family=Barlow:regular,bold,italic&subset=latin,latin-ext');
-@import url('https://fonts.googleapis.com/css?family=Karla:regular,bold,italic&subset=latin,latin-ext');
+@import url("https://fonts.googleapis.com/css?family=Overlock:regular,bold,italic&subset=latin,latin-ext");
+@import url("https://fonts.googleapis.com/css?family=Barlow:regular,bold,italic&subset=latin,latin-ext");
+@import url("https://fonts.googleapis.com/css?family=Karla:regular,bold,italic&subset=latin,latin-ext");
 
 :root {
   --color-primary: black;
@@ -9,10 +9,10 @@
   --color-additional: rgb(92, 92, 92);
   --color-additional-2: rgb(208, 208, 208);
   --color-additional-3: rgb(122, 122, 122);
-  --color-special: #CDC62B;
-  --primary-font-name: 'Overlock';
-  --logo-font-name: 'Barlow';
-  --secondary-font-name: 'Karla';
+  --color-special: #cdc62b;
+  --primary-font-name: "Overlock";
+  --logo-font-name: "Barlow";
+  --secondary-font-name: "Karla";
 }
 
 .primary-logo-span {
@@ -51,14 +51,12 @@ body {
   padding-left: 15px;
 }
 
-.regular-button {
-  color: var(--color-primary);
-  border: none;
-}
+/* -- Header -- */
 
-.regular-button:hover {
-  color: var(--color-special);
-  cursor: pointer;
+.logo img {
+  margin-bottom: 6%;
+  width: 70%;
+  margin-top: 5%;
 }
 
 .header {
@@ -67,26 +65,20 @@ body {
   align-items: center;
 }
 
-nav ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-}
-
-/*
-nav li.active a, nav li.active a:link, nav li.active a:visited {
-  background-color: var(--color-special);
-}
-*/
-
 .header a {
   color: inherit;
   text-decoration: none;
 }
 
-.auth-button, .auth-button:link, .auth-button:visited {
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.auth-button,
+.auth-button:link,
+.auth-button:visited {
   font-size: 1.25rem;
   border: 4px dashed var(--color-additional-3);
   padding: 10px 15px;
@@ -99,15 +91,7 @@ nav li.active a, nav li.active a:link, nav li.active a:visited {
   color: var(--color-primary);
 }
 
-.note-text::selection {
-  color: var(--color-special);
-}
-
-.logo img {
-  margin-bottom: 6%;
-  width: 70%;
-  margin-top: 5%;
-}
+/* -- Search Box -- */
 
 .search {
   display: flex;
@@ -122,7 +106,6 @@ nav li.active a, nav li.active a:link, nav li.active a:visited {
 
 .search input {
   border: none;
-  padding: 0.5rem;
   background-color: var(--color-additional-2);
   font-family: var(--primary-font-name);
   font-size: 1rem;
@@ -132,33 +115,17 @@ nav li.active a, nav li.active a:link, nav li.active a:visited {
   outline: none;
 }
 
+.search ::placeholder {
+  color: var(--color-additional);
+  font-family: "Karla";
+}
+
+/* -- Notes -- */
+
 .notes-list {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-
-.note.new {
-  background-color: var(--color-secondary);
-  border-color: var(--color-primary);
-  border-style: dashed;
-}
-
-textarea {
-  border: none;
-  resize: none;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  background-color: var(--color-secondary);
-}
-
-textarea:focus {
-  outline: none;
-}
-
-.save {
-  border-radius: 50%;
-  padding: 5px 9px 5px 9px;
 }
 
 .note {
@@ -173,6 +140,18 @@ textarea:focus {
   justify-content: space-between;
 }
 
+textarea {
+  border: none;
+  resize: none;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  background-color: var(--color-secondary);
+}
+
+textarea:focus {
+  outline: none;
+}
+
 .note-text {
   font-family: var(--secondary-font-name);
   font-size: 1.25rem;
@@ -180,9 +159,10 @@ textarea:focus {
   margin-bottom: 1rem;
 }
 
-::placeholder {
-  color: var(--color-additional);
-  font-family: 'Karla';
+.note.new {
+  background-color: var(--color-secondary);
+  border-color: var(--color-primary);
+  border-style: dashed;
 }
 
 .fade {
@@ -198,9 +178,23 @@ textarea:focus {
   align-items: center;
 }
 
-.logo-container {
-  display: flex;
-  align-items: center;
+.vl {
+  margin-right: 10px;
+  margin-left: 10px;
+  border-left: 1px solid var(--color-additional);
+  height: 100%;
+}
+
+/* -- Interaction (buttons, hrefs, etc.) -- */
+
+.regular-button {
+  color: var(--color-primary);
+  border: none;
+}
+
+.regular-button:hover {
+  color: var(--color-special);
+  cursor: pointer;
 }
 
 .action-icon {
@@ -210,17 +204,4 @@ textarea:focus {
 
 .action-icon:hover {
   color: var(--color-secondary);
-}
-
-.vl {
-  margin-right: 10px;
-  margin-left: 10px;
-  border-left: 1px solid var(--color-additional);
-  height: 100%;
-}
-
-@media screen and (min-width: 600px) {
-  .logo-container {
-    font-size: 42px;
-  }
 }
