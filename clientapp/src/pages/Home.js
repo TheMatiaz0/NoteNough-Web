@@ -60,7 +60,7 @@ const Home = () => {
   */
 
   const addNoteToDatabase = async (text) => {
-    let response = await fetch("/Notes", {
+    let response = await fetch(`${ROOT_URL}/Notes`, {
       method: "POST",
       body: JSON.stringify({
         text: text,
