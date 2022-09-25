@@ -78,14 +78,14 @@ const Home = () => {
   };
 
   const deleteNoteFromDatabase = async (id) => {
-    await fetch(`${ROOT_URL}/${id}`, {
+    await fetch(`${ROOT_URL}/Notes/${id}`, {
       method: "DELETE",
     });
     setNotes([...notes].filter((i) => i.key !== id));
   };
 
   const editNoteFromDatabase = async (note, updatedText) => {
-    await fetch(`${ROOT_URL}/${note.key}`, {
+    await fetch(`${ROOT_URL}/Notes/${note.key}`, {
       method: "PUT",
       body: JSON.stringify({
         key: note.key,
