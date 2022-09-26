@@ -8,7 +8,7 @@ import LoginButton from "../components/LoginButton";
 
 const Home = () => {
   // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
-  const ROOT_URL = "http://localhost:8080/api";
+  const ROOT_URL = `http://${window.location.hostname}:8080/api/Notes`;
   const defaultNotes = [
     {
       key: nanoid(),
@@ -60,7 +60,7 @@ const Home = () => {
   */
 
   const addNoteToDatabase = async (text) => {
-    let response = await fetch(`${ROOT_URL}/Notes`, {
+    let response = await fetch(ROOT_URL, {
       method: "POST",
       body: JSON.stringify({
         text: text,
@@ -78,14 +78,14 @@ const Home = () => {
   };
 
   const deleteNoteFromDatabase = async (id) => {
-    await fetch(`${ROOT_URL}/Notes/${id}`, {
+    await fetch(`${ROOT_URL}/${id}`, {
       method: "DELETE",
     });
     setNotes([...notes].filter((i) => i.key !== id));
   };
 
   const editNoteFromDatabase = async (note, updatedText) => {
-    await fetch(`${ROOT_URL}/Notes/${note.key}`, {
+    await fetch(`${ROOT_URL}/${note.key}`, {
       method: "PUT",
       body: JSON.stringify({
         key: note.key,
@@ -103,7 +103,7 @@ const Home = () => {
 
   async function fetchNotes() {
     try {
-      const response = await fetch(`${ROOT_URL}/Notes`);
+      const response = await fetch(`${ROOT_URL}`);
       if (!response.ok) {
         throw new Error(`An error has occured: ${response.status}`);
       }
@@ -157,7 +157,7 @@ const Home = () => {
     note.text.toLowerCase().includes(searchText.toLowerCase());
 
   return (
-    <div>
+    <div className="home">
       <Header buttons={[<LoginButton />, <SignUpButton />]} />
       <Search handleSearchText={setSearchText} />
       <NotesList

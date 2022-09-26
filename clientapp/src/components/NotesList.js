@@ -1,3 +1,4 @@
+import "./NotesList.css";
 import Note from './Note';
 import InputNote from './InputNote';
 import { useState } from 'react';
@@ -32,10 +33,10 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
         }).reverse();
 
     return (
-        <div className="notes-list">
+        <main className="notes-list">
             {searchText.length <= 0 && <InputNote handleAddNote={handleAddNote} />}
             {sortByNewest(notes).map(((note) => constructNote(note, handleRemoveNote, enterEditNoteMode)))}
-        </div>
+        </main>
     );
 };
 

@@ -1,0 +1,39 @@
+.logo img {
+  width: 22.5vh;
+}
+
+header {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header a {
+  color: inherit;
+  text-decoration: none;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.auth-button,
+.auth-button:link,
+.auth-button:visited {
+  font-family: var(--primary-font-name);
+  font-size: 1.25rem;
+  border: 2px solid var(--color-additional-3);
+  padding: 10px 15px;
+  background-color: var(--color-btn-background);
+  color: var(--color-additional-3);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.auth-button:hover {
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
