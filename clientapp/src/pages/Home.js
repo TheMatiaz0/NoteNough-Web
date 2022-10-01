@@ -5,6 +5,7 @@ import Search from "../components/Search";
 import Header from "../components/Header";
 import SignUpButton from "../components/SignUpButton";
 import LoginButton from "../components/LoginButton";
+import AuthDrawer from "../components/AuthDrawer";
 
 const Home = () => {
   // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
@@ -156,9 +157,19 @@ const Home = () => {
   const filterText = (note) =>
     note.text.toLowerCase().includes(searchText.toLowerCase());
 
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+
+  const toggleLogin = () => {
+    setIsLoggingIn((prevState) => !prevState);
+  };
+
   return (
     <div className="home">
-      <Header buttons={[<LoginButton />, <SignUpButton />]} />
+      <div className="back">
+      <Header
+        buttons={[<LoginButton onClick={toggleLogin} />, <SignUpButton onClick={toggleLogin} />]}
+      />
       <Search handleSearchText={setSearchText} />
       <NotesList
         notes={notes.filter(filterText)}
@@ -167,6 +178,8 @@ const Home = () => {
         handleRemoveNote={removeNote}
         handleEditNote={editNote}
       />
+      </div>
+      <AuthDrawer isOpen={isLoggingIn} onClose={toggleLogin} />
     </div>
   );
 };

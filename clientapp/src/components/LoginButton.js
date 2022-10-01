@@ -1,8 +1,8 @@
 /* import { Link } from "react-router-dom"; */
 
-const LoginButton = () => {
+const LoginButton = ({onClick}) => {
   return (
-    <button className={`auth-button login-btn`} /* to="/login" */>
+    <button onClick={onClick} className={`auth-button login-btn`} /* to="/login" */>
       Login
     </button>
   );

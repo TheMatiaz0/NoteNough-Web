@@ -45,3 +45,10 @@ body::-webkit-scrollbar-thumb {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+.back {
+  overscroll-behavior: contain;
+}
+
+
+

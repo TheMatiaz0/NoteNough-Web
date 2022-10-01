@@ -2,9 +2,8 @@ import "./AuthModal.css";
 
 const AuthModal = () => {
   return (
-    <div className="auth-form">
+    <dialog className="modal" id="modal">
       <div className="form">
-        <div>&times;</div>
         <div className="form-info">
           <h1>Login</h1>
           <p>Enter your login details to get into your account.</p>
@@ -15,7 +14,7 @@ const AuthModal = () => {
           <input type="submit" />
         </form>
       </div>
-    </div>
+    </dialog>
   );
 };
 
