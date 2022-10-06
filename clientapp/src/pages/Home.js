@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import SignUpButton from "../components/SignUpButton";
 import LoginButton from "../components/LoginButton";
 import AuthDrawer from "../components/AuthDrawer";
+import OffCanvasMenu from "../components/OffCanvasMenu";
 
 const Home = () => {
   // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
@@ -165,21 +166,24 @@ const Home = () => {
   };
 
   return (
-    <div className="home">
-      <div className="back">
-      <Header
-        buttons={[<LoginButton onClick={toggleLogin} />, <SignUpButton onClick={toggleLogin} />]}
-      />
-      <Search handleSearchText={setSearchText} />
-      <NotesList
-        notes={notes.filter(filterText)}
-        searchText={searchText}
-        handleAddNote={addNote}
-        handleRemoveNote={removeNote}
-        handleEditNote={editNote}
-      />
+    <div>
+      <div className="back app-container" id="main">
+        <Header
+          buttons={[
+            <LoginButton onClick={toggleLogin} />,
+            <SignUpButton onClick={toggleLogin} />,
+          ]}
+        />
+        <Search handleSearchText={setSearchText} />
+        <NotesList
+          notes={notes.filter(filterText)}
+          searchText={searchText}
+          handleAddNote={addNote}
+          handleRemoveNote={removeNote}
+          handleEditNote={editNote}
+        />
       </div>
-      <AuthDrawer isOpen={isLoggingIn} onClose={toggleLogin} />
+      <OffCanvasMenu isOpen={isLoggingIn} onClose={toggleLogin} />
     </div>
   );
 };

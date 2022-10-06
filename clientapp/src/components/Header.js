@@ -6,12 +6,12 @@ const Header = ({ buttons }) => {
   const rootRoute = "/";
   return (
     <header>
-      <div className="logo">
-        <Link to={rootRoute}>
-          <img alt="test" src="logo.png" />
-        </Link>
-      </div>
       <nav>
+        <div className="logo">
+          <Link to={rootRoute}>
+            <img alt="test" src="logo.png" />
+          </Link>
+        </div>
         <ul>
           {buttons.map((button, i) => (
             <li key={i}>{React.cloneElement(button)}</li>

@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
-    <div className="app-container">
+    <div>
       <Routes>
         <Route path="/" element={<Home />} />
 

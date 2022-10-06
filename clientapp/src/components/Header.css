@@ -1,15 +1,14 @@
 .logo img {
-  width: 22.5vh;
+  max-width: 225px;
 }
 
-header {
+nav {
   margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-header a {
+nav a {
   color: inherit;
   text-decoration: none;
 }
