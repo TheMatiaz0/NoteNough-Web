@@ -53,7 +53,6 @@ body::-webkit-scrollbar-thumb {
   min-height: 100%;
 }
 
-
 .overlay {
   position: fixed;
   z-index: 1;
@@ -71,22 +70,80 @@ body::-webkit-scrollbar-thumb {
   position: fixed;
   z-index: 100;
   top: 0;
-  left: 0;
-  background-color: #111;
+  right: 0;
+  background-color: black;
   overflow-x: hidden;
   transition: 0.5s;
   color:white;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
 }
 
 .sidenav .form {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  margin-left: 50px;
+  padding: 50px;
 }
 
+.sidenav .form .logo {
+  width: 45px;
+  height: 50px;
+}
+
+.sidenav .form .auth-header {
+  position: relative;
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.form .input-field {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.input-field input {
+  position: absolute;
+  height: 100%;
+  width: 82.5%;
+  padding: 0 35px;
+  border: none;
+  outline: none;
+  background-color: black;
+  color:white;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid transparent;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.input-field input:is(:valid) {
+  border-bottom-color: white;
+}
+
+.input-field input:is(:focus) {
+  border-bottom-color: var(--color-special);
+}
+
+.input-field .auth-icon {
+  z-index: 200;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 23px;
+}
+
+.input-field input:is(:valid) ~ .auth-icon {
+  color: white;
+}
+
+.input-field input:is(:focus) ~ .auth-icon {
+  color: var(--color-special);
+}
+
+
 #main {
-  transition: margin-left 0.5s;
+  transition: margin-right 0.5s;
 }
 
 @media screen and (max-height: 450px) {

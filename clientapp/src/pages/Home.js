@@ -5,7 +5,6 @@ import Search from "../components/Search";
 import Header from "../components/Header";
 import SignUpButton from "../components/SignUpButton";
 import LoginButton from "../components/LoginButton";
-import AuthDrawer from "../components/AuthDrawer";
 import OffCanvasMenu from "../components/OffCanvasMenu";
 
 const Home = () => {
