@@ -32,6 +32,10 @@ body {
   transition: background-color 0.5s;
 }
 
+html,body {
+  overflow: auto;
+}
+
 body::-webkit-scrollbar {
   width:10px;
   background-color:#424242;
@@ -69,7 +73,7 @@ body::-webkit-scrollbar-thumb {
   left: 0;
   width: 100vw;
   height: 100vh;
-  transition: 0.5s;
+  transition: background-color 0.5s;
   pointer-events: none;
 }
 
@@ -171,6 +175,10 @@ select:-webkit-autofill:focus {
   right:0;
 }
 
+.btn-icon {
+  cursor: pointer;
+}
+
 /* Checkbox and remember me */
 .form .form-bottom {
   margin-top: 20px;
@@ -197,16 +205,30 @@ select:-webkit-autofill:focus {
   font-size: 14px;
 }
 
+.form-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .close {
   color: #aaaaaa;
-  float: right;
   font-size: 28px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 /* Moving smoothly main content to the left */
 #main {
   transition: margin-right 0.5s;
+}
+
+.button input {
+  background-color: #111;
+  cursor: pointer;
+}
+
+.button input:hover {
+  border-bottom: 2px solid yellow;
 }
 
 @media screen and (max-height: 450px) {

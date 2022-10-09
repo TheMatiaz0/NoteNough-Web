@@ -164,25 +164,26 @@ const Home = () => {
     setIsLoggingIn((prevState) => !prevState);
   };
 
-  
-  const contentMarginRight = isLoggingIn ? "600px" : "25%";
+  const contentMarginRight = isLoggingIn ? "100px" : "0";
   return (
     <div>
-      <div className="back app-container" id="main">
-        <Header
-          buttons={[
-            <LoginButton onClick={toggleLogin} />,
-            <SignUpButton onClick={toggleLogin} />,
-          ]}
-        />
-        <Search handleSearchText={setSearchText} />
-        <NotesList
-          notes={notes.filter(filterText)}
-          searchText={searchText}
-          handleAddNote={addNote}
-          handleRemoveNote={removeNote}
-          handleEditNote={editNote}
-        />
+      <div className="back app-container">
+        <div id="main" style={{ marginRight: contentMarginRight }}>
+          <Header
+            buttons={[
+              <LoginButton onClick={toggleLogin} />,
+              <SignUpButton onClick={toggleLogin} />,
+            ]}
+          />
+          <Search handleSearchText={setSearchText} />
+          <NotesList
+            notes={notes.filter(filterText)}
+            searchText={searchText}
+            handleAddNote={addNote}
+            handleRemoveNote={removeNote}
+            handleEditNote={editNote}
+          />
+        </div>
       </div>
       <OffCanvasMenu isOpen={isLoggingIn} onClose={toggleLogin} />
     </div>

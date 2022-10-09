@@ -1,11 +1,21 @@
 import "react-modern-drawer/dist/index.css";
 import { MdOutlineMail, MdLockOutline } from "react-icons/md";
-import { IoMdEye } from "react-icons/io";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import {useState} from "react";
 
 const OffCanvasMenu = ({ isOpen, onClose }) => {
-  const canvasWidth = isOpen ? "500px" : "0";
+  let canvasWidth = "0";
+  if (isOpen) {
+    canvasWidth = window.innerWidth < 500 ? "100vw" : "500px";
+  }
   const backgroundClr = isOpen ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0)";
   const overlayPointerEvents = isOpen ? "all" : "none";
+
+  const [isShowingPassword, setShowingPassword] = useState(false);
+  const toggleShowPassword = () => {
+    setShowingPassword((prevState) => !prevState);
+  };
+  const ShowPassword = isShowingPassword ? IoMdEyeOff : IoMdEye
 
   return (
     <div>
@@ -16,7 +26,7 @@ const OffCanvasMenu = ({ isOpen, onClose }) => {
               <img className="logo" alt="logo" src="favicon.png" />
               <div className="auth-header">Welcome back</div>
             </div>
-            <span className="close">&times;</span>
+            <span onClick={onClose} className="close">&times;</span>
           </div>
           <form action="#">
             <div className="input-field">
@@ -38,7 +48,7 @@ const OffCanvasMenu = ({ isOpen, onClose }) => {
                 required
               />
               <MdLockOutline className="auth-icon" />
-              <IoMdEye className="auth-icon right-icon" />
+              <ShowPassword onClick={toggleShowPassword} className="auth-icon right-icon btn-icon" />
             </div>
             <div className="form-bottom">
               <div className="input-checkbox">

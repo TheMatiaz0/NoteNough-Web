@@ -38,7 +38,6 @@ textarea:focus {
   font-family: var(--secondary-font-name);
   font-size: 1.25rem;
   line-height: 1.5;
-  margin-bottom: 1rem;
   max-height: 102px;
 }
 
@@ -54,7 +53,7 @@ textarea:focus {
 }
 
 .note-footer {
-  margin-top: 20px;
+  margin-top: 5px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
