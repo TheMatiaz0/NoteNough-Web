@@ -3,10 +3,9 @@ import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import Search from "../components/Search";
 import Header from "../components/Header";
-import SignUpButton from "../components/SignUpButton";
-import LoginButton from "../components/LoginButton";
 import OffCanvasMenu from "../components/OffCanvasMenu";
 import LoginForm from "../components/LoginForm";
+import SignUpForm from "../components/SignUpForm";
 
 const Home = () => {
   // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
@@ -123,6 +122,7 @@ const Home = () => {
       }
     };
     fetchNotesFromDatabase();
+    //eslint-disable-next-line
   }, []);
 
   const addNote = (text) => {
@@ -159,23 +159,28 @@ const Home = () => {
     note.text.toLowerCase().includes(searchText.toLowerCase());
 
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
   const toggleLogin = () => {
     setIsLoggingIn((prevState) => !prevState);
   };
 
-  const contentMarginRight = isLoggingIn ? "100px" : "0";
+  const toggleSignUp = () => {
+    setIsSigningUp((prevState) => !prevState);
+  }
+
+  const handleSubmit = (email, password, shouldRememberPassword) => {
+    console.log(email);
+    console.log(password);
+    console.log(shouldRememberPassword);
+  }
+
+  const contentMarginRight = (isLoggingIn || isSigningUp) ? "100px" : "0";
   return (
     <div>
-      <div className="back app-container">
+      <div className="app-container">
         <div id="main" style={{ marginRight: contentMarginRight }}>
-          <Header
-            buttons={[
-              <LoginButton onClick={toggleLogin} />,
-              <SignUpButton onClick={toggleLogin} />,
-            ]}
-          />
+          <Header onLoginClick={toggleLogin} onSignUpClick={toggleSignUp}/>
           <Search handleSearchText={setSearchText} />
           <NotesList
             notes={notes.filter(filterText)}
@@ -186,7 +191,8 @@ const Home = () => {
           />
         </div>
       </div>
-      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} />} isOpen={isLoggingIn} onClose={toggleLogin} />
+      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} handleOnSubmit={handleSubmit} />} isOpen={isLoggingIn} onClose={toggleLogin} />
+      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} handleOnSubmit={handleSubmit} />} isOpen={isSigningUp} onClose={toggleSignUp} />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import "./Header.css";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = ({ buttons }) => {
+const Header = ({ onLoginClick, onSignUpClick }) => {
   const rootRoute = "/";
   return (
     <header>
@@ -13,9 +13,18 @@ const Header = ({ buttons }) => {
           </Link>
         </div>
         <ul>
-          {buttons.map((button, i) => (
-            <li key={i}>{React.cloneElement(button)}</li>
-          ))}
+          <button
+            onClick={onLoginClick}
+            className={`auth-button login-btn`}
+          >
+            Login
+          </button>
+          <button
+            onClick={onSignUpClick}
+            className={`auth-button signup-btn`} 
+          >
+            Sign up
+          </button>
         </ul>
       </nav>
     </header>
