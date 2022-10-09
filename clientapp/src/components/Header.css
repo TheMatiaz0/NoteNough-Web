@@ -1,6 +1,7 @@
 .logo img {
   position: absolute;
-  max-width: 210px;
+  max-width: 100%;
+  height: auto;
   display: inline-block;
   vertical-align: middle;
 }
@@ -10,6 +11,7 @@ nav {
   margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
 }
 
 nav a {
@@ -41,4 +43,12 @@ nav ul {
 .auth-button:hover {
   border: 2px solid var(--color-primary);
   color: var(--color-primary);
+}
+
+@media screen and (max-width: 450px) {
+  nav {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 3rem;
+  }
 }

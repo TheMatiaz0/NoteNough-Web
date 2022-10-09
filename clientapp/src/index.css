@@ -228,7 +228,7 @@ select:-webkit-autofill:focus {
 }
 
 .button input:hover {
-  border-bottom: 2px solid yellow;
+  border-bottom: 2px solid var(--color-special);
 }
 
 @media screen and (max-height: 450px) {
