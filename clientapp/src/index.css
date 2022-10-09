@@ -15,6 +15,13 @@
   --secondary-font-name: "Karla";
 }
 
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
   background-color: rgb(225, 225, 225);
   margin: 0;
@@ -47,11 +54,13 @@ body::-webkit-scrollbar-thumb {
   padding-left: 15px;
 }
 
+/*
 .back {
   overscroll-behavior: contain;
   padding-bottom: 0 !important;
   min-height: 100%;
 }
+*/
 
 .overlay {
   position: fixed;
@@ -66,7 +75,6 @@ body::-webkit-scrollbar-thumb {
 
 .sidenav {
   height: 100%;
-  width: 0;
   position: fixed;
   z-index: 100;
   top: 0;
@@ -82,38 +90,42 @@ body::-webkit-scrollbar-thumb {
   padding: 50px;
 }
 
-.sidenav .form .logo {
-  width: 45px;
-  height: 50px;
-}
-
-.sidenav .form .auth-header {
-  position: relative;
-  font-size: 27px;
-  font-weight: 600;
-}
-
 .form .input-field {
   position: relative;
   height: 50px;
-  width: 100%;
   margin-top: 30px;
 }
 
 .input-field input {
   position: absolute;
   height: 100%;
-  width: 82.5%;
+  width: 100%;
   padding: 0 35px;
   border: none;
   outline: none;
   background-color: black;
   color:white;
-  border-bottom: 2px solid #ccc;
-  border-top: 2px solid transparent;
   font-size: 16px;
   transition: all 0.2s ease;
+  border-bottom: 2px solid #ccc;
 }
+
+/* Handles autofill background-color by Chrome etc. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+
+/* Deco stuff */ 
 
 .input-field input:is(:valid) {
   border-bottom-color: white;
@@ -124,10 +136,10 @@ body::-webkit-scrollbar-thumb {
 }
 
 .input-field .auth-icon {
-  z-index: 200;
+  z-index: 101;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-60%);
   color: #999;
   font-size: 23px;
 }
@@ -140,6 +152,17 @@ body::-webkit-scrollbar-thumb {
   color: var(--color-special);
 }
 
+.sidenav .form .logo {
+  width: 45px;
+  height: 50px;
+}
+
+.sidenav .form .auth-header {
+  position: relative;
+  font-size: 27px;
+  font-weight: 600;
+}
+
 .left-icon {
   left: 0;
 }
@@ -148,6 +171,7 @@ body::-webkit-scrollbar-thumb {
   right:0;
 }
 
+/* Checkbox and remember me */
 .form .form-bottom {
   margin-top: 20px;
   display: flex;
@@ -173,6 +197,14 @@ body::-webkit-scrollbar-thumb {
   font-size: 14px;
 }
 
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Moving smoothly main content to the left */
 #main {
   transition: margin-right 0.5s;
 }

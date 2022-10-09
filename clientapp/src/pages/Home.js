@@ -164,6 +164,8 @@ const Home = () => {
     setIsLoggingIn((prevState) => !prevState);
   };
 
+  
+  const contentMarginRight = isLoggingIn ? "600px" : "25%";
   return (
     <div>
       <div className="back app-container" id="main">

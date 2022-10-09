@@ -4,21 +4,19 @@ import { IoMdEye } from "react-icons/io";
 
 const OffCanvasMenu = ({ isOpen, onClose }) => {
   const canvasWidth = isOpen ? "500px" : "0";
-  const canvasMarginLeft = isOpen ? "0" : "500px";
   const backgroundClr = isOpen ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0)";
   const overlayPointerEvents = isOpen ? "all" : "none";
 
   return (
     <div>
-      <div
-        id="mySidenav"
-        className="sidenav"
-        style={{ width: canvasWidth, marginLeft: canvasMarginLeft }}
-      >
+      <div id="mySidenav" className="sidenav" style={{ width: canvasWidth }}>
         <div className="form">
-          <div className="form-info">
-            <img className="logo" alt="logo" src="favicon.png" />
-            <div className="auth-header">Welcome back</div>
+          <div className="form-header">
+            <div className="form-info">
+              <img className="logo" alt="logo" src="favicon.png" />
+              <div className="auth-header">Welcome back</div>
+            </div>
+            <span className="close">&times;</span>
           </div>
           <form action="#">
             <div className="input-field">
@@ -26,6 +24,7 @@ const OffCanvasMenu = ({ isOpen, onClose }) => {
                 type="text"
                 placeholder="Enter your email"
                 autoComplete="email"
+                name="Enter your email to log in"
                 required
               />
               <MdOutlineMail className="auth-icon" />
@@ -35,6 +34,7 @@ const OffCanvasMenu = ({ isOpen, onClose }) => {
                 type="password"
                 placeholder="Enter your password"
                 autoComplete="current-password"
+                name="Enter your password to log in"
                 required
               />
               <MdLockOutline className="auth-icon" />
@@ -52,7 +52,7 @@ const OffCanvasMenu = ({ isOpen, onClose }) => {
               </a>
             </div>
             <div className="input-field button">
-              <input className="auth-button" type="submit" value="Log in" />
+              <input type="submit" value="Log in" />
             </div>
           </form>
         </div>
