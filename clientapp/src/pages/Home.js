@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import SignUpButton from "../components/SignUpButton";
 import LoginButton from "../components/LoginButton";
 import OffCanvasMenu from "../components/OffCanvasMenu";
+import LoginForm from "../components/LoginForm";
 
 const Home = () => {
   // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
@@ -185,7 +186,7 @@ const Home = () => {
           />
         </div>
       </div>
-      <OffCanvasMenu isOpen={isLoggingIn} onClose={toggleLogin} />
+      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} />} isOpen={isLoggingIn} onClose={toggleLogin} />
     </div>
   );
 };
