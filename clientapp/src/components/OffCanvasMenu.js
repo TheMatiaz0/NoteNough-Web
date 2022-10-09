@@ -3,7 +3,7 @@ import { MdOutlineMail, MdLockOutline } from "react-icons/md";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useState } from "react";
 
-const OffCanvasMenu = ({ isOpen, onClose, onComplete }) => {
+const OffCanvasMenu = ({ isOpen, onClose, handleOnSubmit }) => {
   let canvasWidth = "0";
   if (isOpen) {
     canvasWidth = window.innerWidth < 500 ? "100%" : "500px";
@@ -25,11 +25,16 @@ const OffCanvasMenu = ({ isOpen, onClose, onComplete }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!email.trim() || !password.trim()) {
-      return;
-    }
+
     /* Encrypt password here */
-    onComplete(email, password);
+    setPassword("");
+    setEmail("");
+
+    // handleOnSubmit(email, password);
+    // fetch notes on log in + should it save current notes too?
+    // save current notes on register
+    
+    onClose();
   };
 
   const handleChangeEmail = (event) => {
@@ -39,6 +44,13 @@ const OffCanvasMenu = ({ isOpen, onClose, onComplete }) => {
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
   };
+
+  const getSpecialKeysWarning = (event) => {
+    var caps = event.getModifierState( 'CapsLock' );
+    var num = event.getModifierState('NumLock');
+    console.log(`Caps Lock: ${caps}`);
+    console.log(`Num Lock: ${num}`);
+  }
 
   return (
     <div>
@@ -63,6 +75,8 @@ const OffCanvasMenu = ({ isOpen, onClose, onComplete }) => {
                 onChange={handleChangeEmail}
                 value={email}
                 required
+                onKeyUp={getSpecialKeysWarning}
+                onClick={getSpecialKeysWarning}
               />
               <MdOutlineMail className="auth-icon" />
             </div>
