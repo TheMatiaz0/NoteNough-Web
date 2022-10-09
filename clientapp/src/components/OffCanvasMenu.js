@@ -85,10 +85,10 @@ const OffCanvasMenu = ({ isOpen, onClose, onComplete }) => {
             <div className="form-bottom">
               <div className="input-checkbox">
                 <input
-                  checked={isRememberingPassword}
                   onClick={toggleRememberPassword}
                   type="checkbox"
                   id="remember"
+                  value={isRememberingPassword}
                 />
                 <label htmlFor="remember" className="text">
                   Remember password

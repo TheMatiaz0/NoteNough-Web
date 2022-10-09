@@ -28,6 +28,8 @@ const InputNote = ({ handleAddNote, defaultText = "" }) => {
         placeholder="Type to add a note..."
         value={noteText}
         onChange={handleChange}
+        autoFocus
+        onFocus={e => e.currentTarget.select()}
       ></textarea>
       <div className="note-footer">
         <small className="remaining remain-color">
