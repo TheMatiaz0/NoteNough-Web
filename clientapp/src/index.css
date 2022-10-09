@@ -127,7 +127,6 @@ body::-webkit-scrollbar-thumb {
   z-index: 200;
   position: absolute;
   top: 50%;
-  left: 0;
   transform: translateY(-50%);
   color: #999;
   font-size: 23px;
@@ -141,6 +140,38 @@ body::-webkit-scrollbar-thumb {
   color: var(--color-special);
 }
 
+.left-icon {
+  left: 0;
+}
+
+.right-icon {
+  right:0;
+}
+
+.form .form-bottom {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-checkbox input {
+  margin: 0 8px -2px 4px;
+  accent-color: var(--color-special);
+}
+
+.form a.text {
+  color: var(--color-special);
+  text-decoration: none;
+}
+
+.form a:hover {
+  text-decoration: underline;
+}
+
+.form .text {
+  color: var(--color-additional-2);
+  font-size: 14px;
+}
 
 #main {
   transition: margin-right 0.5s;

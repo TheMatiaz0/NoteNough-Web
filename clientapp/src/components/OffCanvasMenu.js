@@ -38,13 +38,22 @@ const OffCanvasMenu = ({ isOpen, onClose }) => {
                 required
               />
               <MdLockOutline className="auth-icon" />
-              <IoMdEye />
+              <IoMdEye className="auth-icon right-icon" />
             </div>
-            <div className="input-checkbox">
-              <input type="checkbox" name="remember" />
-              <label htmlFor="remember">Remember password</label>
+            <div className="form-bottom">
+              <div className="input-checkbox">
+                <input type="checkbox" id="remember" />
+                <label htmlFor="remember" className="text">
+                  Remember password
+                </label>
+              </div>
+              <a href="#" className="text">
+                Forgot password?
+              </a>
             </div>
-            <input className="auth-button" type="submit" value="Log in" />
+            <div className="input-field button">
+              <input className="auth-button" type="submit" value="Log in" />
+            </div>
           </form>
         </div>
       </div>
