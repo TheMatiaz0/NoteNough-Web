@@ -2,8 +2,14 @@ import { MdOutlineMail, MdLockOutline, MdInfoOutline } from "react-icons/md";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useState } from "react";
 
-const AuthForm = ({ title, canForgotPassword, buttonText, rememberPasswordText, onClose, handleOnSubmit }) => {
-
+const AuthForm = ({
+  title,
+  canForgotPassword,
+  buttonText,
+  rememberPasswordText,
+  onClose,
+  handleOnSubmit,
+}) => {
   const [isShowingPassword, setShowingPassword] = useState(false);
   const toggleShowPassword = () => {
     setShowingPassword((prevState) => !prevState);
@@ -84,6 +90,7 @@ const AuthForm = ({ title, canForgotPassword, buttonText, rememberPasswordText, 
             onKeyUp={getSpecialKeysWarning}
             onClick={getSpecialKeysWarning}
             maxLength="64"
+            minLength="8"
           />
           <MdLockOutline className="auth-icon" />
           <ShowPasswordIcon
@@ -93,7 +100,17 @@ const AuthForm = ({ title, canForgotPassword, buttonText, rememberPasswordText, 
         </div>
         <div className="password-tips">
           <p>
-            {canForgotPassword ? `Remember that your password contains at least <b>8 characters</b>.` : `&times; - At least 8 characters.`}
+            {canForgotPassword
+              ? [
+                  `⚪ Remember that your password contains at least `,
+                  <b>8 characters</b>,
+                  `.`,
+                ]
+              : [
+                  `${password.length > 8 ? `✔️` : `❌`} - At least `,
+                  <b>8 characters</b>,
+                  `.`,
+                ]}
           </p>
           {isCapsLocked && (
             <p>
@@ -110,19 +127,20 @@ const AuthForm = ({ title, canForgotPassword, buttonText, rememberPasswordText, 
         </div>
         <div className="form-bottom">
           <div className="input-checkbox">
-            <input
-              onClick={toggleRememberPassword}
-              type="checkbox"
-              id="remember"
-              defaultChecked={isRememberingPassword}
-            />
-            <label htmlFor="remember" className="text">
+            <label className="text">
+              <input
+                onClick={toggleRememberPassword}
+                type="checkbox"
+                defaultChecked={isRememberingPassword}
+              />
               {rememberPasswordText}
             </label>
           </div>
-          {canForgotPassword && <a href="forgot-password" className="text">
-            Forgot password?
-          </a>}
+          {canForgotPassword && (
+            <a href="forgot-password" className="text">
+              Forgot password?
+            </a>
+          )}
         </div>
         <div className="input-field button">
           <input type="submit" value={buttonText} />
