@@ -31,7 +31,7 @@ const AuthForm = ({
     setPassword("");
     setEmail("");
 
-    handleOnSubmit(email, password, isRememberingPassword);
+    handleOnSubmit(email, password, isRememberingPassword, !canForgotPassword);
     // fetch notes on log in + should it save current notes too?
     // save current notes on register
 
@@ -99,19 +99,17 @@ const AuthForm = ({
           />
         </div>
         <div className="password-tips">
-          <p>
-            {canForgotPassword
-              ? [
-                  `⚪ Remember that your password contains at least `,
-                  <b>8 characters</b>,
-                  `.`,
-                ]
-              : [
-                  `${password.length > 8 ? `✔️` : `❌`} - At least `,
-                  <b>8 characters</b>,
-                  `.`,
-                ]}
-          </p>
+          {canForgotPassword ? (
+            <p>
+              ⚪ Remember that your password contains at least{" "}
+              <b>8 characters</b>.
+            </p>
+          ) : (
+            <p>
+              {password.length > 8 ? `✔️` : `❌`} - At least <b>8 characters</b>
+              .
+            </p>
+          )}
           {isCapsLocked && (
             <p>
               <MdInfoOutline size="1.2em" />
