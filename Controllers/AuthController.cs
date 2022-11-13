@@ -81,10 +81,6 @@ namespace NoteNough.NET.Controllers
             try
             {
                 var jwt = Request.Cookies["jwt"];
-                if (jwt == null)
-                {
-                    return BadRequest("JWT cookie is missing!");
-                }
                 var token = _jwtService.Verify(jwt);
                 int userId = int.Parse(token.Issuer);
                 var existingUser = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
@@ -104,7 +100,7 @@ namespace NoteNough.NET.Controllers
         }
 
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete")]
         public IActionResult DeleteUser(int id)
         {
             if (_dbContext.Users == null)
