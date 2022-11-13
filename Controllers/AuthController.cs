@@ -20,23 +20,6 @@ namespace NoteNough.NET.Controllers
             _jwtService = jwtService;
         }
 
-        public async Task<ActionResult<User>> GetUser(string email)
-        {
-            if (_dbContext.Users == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _dbContext.Users.FindAsync(email);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
-        }
-
         [HttpPost("register")]
         public IActionResult PostRegistration(User user)
         {
@@ -45,17 +28,21 @@ namespace NoteNough.NET.Controllers
                 return Problem("Entity set 'AppDBContext.Notes'  is null.");
             }
 
-            var specialUser = new User() { Email = user.Email, Password = HashPassword(user.Password) };
+            var hashedUser = new User
+            { 
+                Email = user.Email, 
+                Password = HashPassword(user.Password) 
+            };
 
-            if (UserExists(specialUser.Email))
+            if (UserExists(hashedUser.Email))
             {
                 return BadRequest("User with that email already exists!");
             }
 
-            _dbContext.Users.Add(specialUser);
-            specialUser.Id = _dbContext.SaveChanges();
+            _dbContext.Users.Add(hashedUser);
+            hashedUser.Id = _dbContext.SaveChanges();
 
-            return Created("Register", specialUser);
+            return Created("Register", hashedUser);
         }
 
         [HttpPost("login")]
@@ -66,19 +53,19 @@ namespace NoteNough.NET.Controllers
                 return Problem("Entity set 'AppDBContext.Notes'  is null.");
             }
 
-            var verifiedUser = _dbContext.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+            var existingUser = _dbContext.Users.FirstOrDefault(u => u.Email == user.Email);
 
-            if (verifiedUser == null)
+            if (existingUser == null)
             {
                 return BadRequest("Invalid credentials!");
             }
 
-            if (!Verify(user.Password, verifiedUser.Result.Password))
+            if (!Verify(user.Password, existingUser.Password))
             {
                 return BadRequest("Invalid credentials!");
             }
 
-            var jwt = _jwtService.Generate(verifiedUser.Id);
+            var jwt = _jwtService.Generate(existingUser.Id);
 
             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {
@@ -88,28 +75,52 @@ namespace NoteNough.NET.Controllers
             return Ok("Logged in!");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        [HttpGet("user")]
+        public IActionResult GetUser()
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+                if (jwt == null)
+                {
+                    return BadRequest("JWT cookie is missing!");
+                }
+                var token = _jwtService.Verify(jwt);
+                int userId = int.Parse(token.Issuer);
+                var existingUser = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+                return Ok(existingUser);
+            }
+            catch
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("logout")]
+        public IActionResult PostLogout()
+        {
+            Response.Cookies.Delete("jwt");
+            return Ok("Success!");
+        }
+
+
+        [HttpDelete("delete/{id}")]
+        public IActionResult DeleteUser(int id)
         {
             if (_dbContext.Users == null)
             {
                 return NotFound();
             }
-            var user = await _dbContext.Users.FindAsync(id);
+            var user = _dbContext.Users.Find(id);
             if (user == null)
             {
                 return NotFound();
             }
 
             _dbContext.Users.Remove(user);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
 
             return NoContent();
-        }
-
-        private bool UserExists(int id)
-        {
-            return (_dbContext.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
         private bool UserExists(string email)
