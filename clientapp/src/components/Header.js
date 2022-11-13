@@ -2,7 +2,7 @@ import "./Header.css";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = ({ user, onLoginClick, onSignUpClick }) => {
+const Header = ({ username, onLoginClick, onSignUpClick }) => {
   const rootRoute = "/";
   return (
     <header>
@@ -12,7 +12,7 @@ const Header = ({ user, onLoginClick, onSignUpClick }) => {
             <img alt="test" src="logo.png" />
           </Link>
         </div>
-        {isLoggedIn ? <div><span>{user.email}</span></div> :
+        {username ? <div><span>{username}</span></div> :
           <ul>
             <button
               onClick={onLoginClick}

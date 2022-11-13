@@ -27,25 +27,19 @@ const AuthForm = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    canForgotPassword ?
-      await fetch(`http://localhost:8080/api/auth/login`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      }) :
-      await fetch(`http://localhost:8080/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+    const urlName = canForgotPassword ? "login" : "register";
+    const credentialsType = canForgotPassword ? "include" : "same-origin";
+    await fetch(`http://localhost:8080/api/auth/${urlName}`, {
+      method: 'POST',
+      credentials: credentialsType,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
 
     setPassword("");
     setEmail("");
 
     handleOnSubmit(email, password, isRememberingPassword, !canForgotPassword);
-    // fetch notes on log in + should it save current notes too?
-    // save current notes on register
 
     onClose();
   };

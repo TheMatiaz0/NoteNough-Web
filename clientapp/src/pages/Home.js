@@ -9,7 +9,8 @@ import SignUpForm from "../components/SignUpForm";
 
 const Home = () => {
   // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
-  const ROOT_URL = `http://${window.location.hostname}:8080/api/Notes`;
+  const ROOT_NOTES_URL = `http://${window.location.hostname}:8080/api/Notes`;
+  const ROOT_AUTHENTICATION_URL = `http://${window.location.hostname}:8080/api/auth`
   const defaultNotes = [
     {
       key: nanoid(),
@@ -61,7 +62,7 @@ const Home = () => {
   */
 
   const addNoteToDatabase = async (text) => {
-    let response = await fetch(ROOT_URL, {
+    let response = await fetch(ROOT_NOTES_URL, {
       method: "POST",
       body: JSON.stringify({
         text: text,
@@ -79,14 +80,14 @@ const Home = () => {
   };
 
   const deleteNoteFromDatabase = async (id) => {
-    await fetch(`${ROOT_URL}/${id}`, {
+    await fetch(`${ROOT_NOTES_URL}/${id}`, {
       method: "DELETE",
     });
     setNotes([...notes].filter((i) => i.key !== id));
   };
 
   const editNoteFromDatabase = async (note, updatedText) => {
-    await fetch(`${ROOT_URL}/${note.key}`, {
+    await fetch(`${ROOT_NOTES_URL}/${note.key}`, {
       method: "PUT",
       body: JSON.stringify({
         key: note.key,
@@ -104,25 +105,39 @@ const Home = () => {
 
   async function fetchNotes() {
     try {
-      const response = await fetch(`${ROOT_URL}`);
+      const response = await fetch(ROOT_NOTES_URL);
       if (!response.ok) {
-        throw new Error(`An error has occured: ${response.status}`);
+        throw new Error(response.status);
       }
       return await response.json();
     } catch (e) {
-      console.error(`An error has occured: ${e}`);
+      console.error(e);
     }
   }
 
   useEffect(() => {
     const fetchNotesFromDatabase = async () => {
-      const data = await fetchNotes();
-      if (data !== undefined) {
-        setNotes(parseNoteDates(data));
+      const response = await fetchNotes();
+      if (response !== undefined) {
+        setNotes(parseNoteDates(response));
       }
     };
     fetchNotesFromDatabase();
     //eslint-disable-next-line
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${ROOT_AUTHENTICATION_URL}/user`);
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        const content = await response.json();
+        setEmail(content.email);
+      }
+      catch (e) {
+        console.error(e);
+      }
+    }
+    fetchUser();
   }, []);
 
   const addNote = (text) => {
@@ -161,7 +176,7 @@ const Home = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isSigningUp, setIsSigningUp] = useState(false);
 
-  const [user, setUser] = useState({ email: "matisiema878@gmail.com" });
+  const [email, setEmail] = useState("");
 
   const toggleLogin = () => {
     setIsLoggingIn((prevState) => !prevState);
@@ -172,10 +187,7 @@ const Home = () => {
   }
 
   const handleSubmit = (email, password, shouldRememberPassword) => {
-    setUser((notes) => [
-      { email: email },
-      ...notes,
-    ]);
+
   }
 
   const contentMarginRight = (isLoggingIn || isSigningUp) ? "100px" : "0";
@@ -183,7 +195,7 @@ const Home = () => {
     <div>
       <div className="app-container">
         <div id="main" style={{ marginRight: contentMarginRight }}>
-          <Header user={isLoggedIn} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />
+          <Header username={email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />
           <Search handleSearchText={setSearchText} />
           <NotesList
             notes={notes.filter(filterText)}
