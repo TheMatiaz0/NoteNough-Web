@@ -24,10 +24,22 @@ const AuthForm = ({
     setRememberingPassword((prevState) => !prevState);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    /* Encrypt password here */
+    canForgotPassword ?
+      await fetch(`http://localhost:8080/api/auth/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      }) :
+      await fetch(`http://localhost:8080/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
     setPassword("");
     setEmail("");
 

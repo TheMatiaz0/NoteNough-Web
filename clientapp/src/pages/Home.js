@@ -161,6 +161,8 @@ const Home = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isSigningUp, setIsSigningUp] = useState(false);
 
+  const [user, setUser] = useState({ email: "matisiema878@gmail.com" });
+
   const toggleLogin = () => {
     setIsLoggingIn((prevState) => !prevState);
   };
@@ -170,9 +172,10 @@ const Home = () => {
   }
 
   const handleSubmit = (email, password, shouldRememberPassword) => {
-    console.log(email);
-    console.log(password);
-    console.log(shouldRememberPassword);
+    setUser((notes) => [
+      { email: email },
+      ...notes,
+    ]);
   }
 
   const contentMarginRight = (isLoggingIn || isSigningUp) ? "100px" : "0";
@@ -180,7 +183,7 @@ const Home = () => {
     <div>
       <div className="app-container">
         <div id="main" style={{ marginRight: contentMarginRight }}>
-          <Header onLoginClick={toggleLogin} onSignUpClick={toggleSignUp}/>
+          <Header user={isLoggedIn} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />
           <Search handleSearchText={setSearchText} />
           <NotesList
             notes={notes.filter(filterText)}

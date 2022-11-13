@@ -13,7 +13,6 @@ namespace NoteNough.NET.Models
         [Required]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
         [JsonIgnore]
         public string Password { get; set; } = string.Empty;
 
