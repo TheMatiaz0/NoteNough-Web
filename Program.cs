@@ -34,7 +34,6 @@ namespace NoteNough.NET
 
             builder.Services.AddControllers();
             builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db")));
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<JwtService>();
 
             var app = builder.Build();
