@@ -7,6 +7,8 @@ namespace NoteNough.NET.Data
     {
         public DbSet<Note> Notes { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
         }

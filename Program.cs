@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using NoteNough.NET.Data;
+using NoteNough.NET.Services;
 
 namespace NoteNough.NET
 {
@@ -16,7 +17,10 @@ namespace NoteNough.NET
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("http://localhost:8080", "http://localhost", "https://localhost", "https://localhost:8080", "http://localhost:3000", "https://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+                                      policy.WithOrigins("http://localhost:8080", "http://localhost", "https://localhost", "https://localhost:8080", "http://localhost:3000", "https://localhost:3000")
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader()
+                                      .AllowCredentials();
                                   });
             });
 
@@ -30,6 +34,8 @@ namespace NoteNough.NET
 
             builder.Services.AddControllers();
             builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db")));
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<JwtService>();
 
             var app = builder.Build();
             app.UseCors(MyAllowSpecificOrigins);
