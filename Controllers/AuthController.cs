@@ -38,7 +38,7 @@ namespace NoteNough.NET.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> PostRegistration(User user)
+        public IActionResult PostRegistration(User user)
         {
             if (_dbContext.Users == null)
             {
@@ -53,22 +53,27 @@ namespace NoteNough.NET.Controllers
             }
 
             _dbContext.Users.Add(specialUser);
-            specialUser.Id = await _dbContext.SaveChangesAsync();
+            specialUser.Id = _dbContext.SaveChanges();
 
             return Created("Register", specialUser);
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> PostLogin(User user)
+        public IActionResult PostLogin(User user)
         {
             if (_dbContext.Users == null)
             {
                 return Problem("Entity set 'AppDBContext.Notes'  is null.");
             }
 
-            var verifiedUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+            var verifiedUser = _dbContext.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
 
-            if (verifiedUser != null || !Verify(user.Password, verifiedUser.Password))
+            if (verifiedUser == null)
+            {
+                return BadRequest("Invalid credentials!");
+            }
+
+            if (!Verify(user.Password, verifiedUser.Result.Password))
             {
                 return BadRequest("Invalid credentials!");
             }
