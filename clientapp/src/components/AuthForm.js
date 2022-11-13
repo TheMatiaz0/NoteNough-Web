@@ -101,12 +101,12 @@ const AuthForm = ({
         <div className="password-tips">
           {canForgotPassword ? (
             <p>
-              ⚪ Remember that your password contains at least{" "}
+              🟡 Remember that your password contains at least{" "}
               <b>8 characters</b>.
             </p>
           ) : (
             <p>
-              {password.length > 8 ? `✔️` : `❌`} - At least <b>8 characters</b>
+              {password.length > 8 ? `✔️` : `❌`} - Password should have at least <b>8 characters</b>
               .
             </p>
           )}

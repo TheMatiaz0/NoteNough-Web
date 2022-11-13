@@ -8,7 +8,7 @@ namespace NoteNough.NET.Models
         public int Key { get; set; }
 
         [Required]
-        [MaxLength(100000)]
+        [MaxLength(200)]
         public string Text { get; set; } = string.Empty;
 
         [Required]

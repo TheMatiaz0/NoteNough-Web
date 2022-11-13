@@ -45,12 +45,17 @@ namespace NoteNough.NET.Controllers
                 return Problem("Entity set 'AppDBContext.Notes'  is null.");
             }
 
-            user.Password = HashPassword(user.Password);
+            var specialUser = new User() { Email = user.Email, Password = HashPassword(user.Password) };
 
-            _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync();
+            if (UserExists(specialUser.Email))
+            {
+                return BadRequest("User with that email already exists!");
+            }
 
-            return CreatedAtAction("Register", new { id = user.Id }, user);
+            _dbContext.Users.Add(specialUser);
+            specialUser.Id = await _dbContext.SaveChangesAsync();
+
+            return Created("Register", specialUser);
         }
 
         [HttpPost("login")]
@@ -61,7 +66,7 @@ namespace NoteNough.NET.Controllers
                 return Problem("Entity set 'AppDBContext.Notes'  is null.");
             }
 
-            var verifiedUser = await _dbContext.Users.FindAsync(user.Email);
+            var verifiedUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
 
             if (verifiedUser != null || !Verify(user.Password, verifiedUser.Password))
             {
