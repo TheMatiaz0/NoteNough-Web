@@ -8,6 +8,7 @@ namespace NoteNough.NET.Models
     public class User
     {
         [Key]
+        [JsonIgnore]
         public int Id { get; set; }
 
         [Required]

@@ -115,6 +115,22 @@ const Home = () => {
     }
   }
 
+  const fetchUser = async () => {
+    try {
+      const url = `${ROOT_AUTHENTICATION_URL}/user`
+      const response = await fetch(url);
+      console.log(url);
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      const content = await response.json();
+      setEmail(content.email);
+    }
+    catch (e) {
+      console.error(e);
+    }
+  }
+
   useEffect(() => {
     const fetchNotesFromDatabase = async () => {
       const response = await fetchNotes();
@@ -124,19 +140,7 @@ const Home = () => {
     };
     fetchNotesFromDatabase();
     //eslint-disable-next-line
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`${ROOT_AUTHENTICATION_URL}/user`);
-        if (!response.ok) {
-          throw new Error(response.status);
-        }
-        const content = await response.json();
-        setEmail(content.email);
-      }
-      catch (e) {
-        console.error(e);
-      }
-    }
+
     fetchUser();
   }, []);
 
@@ -187,7 +191,9 @@ const Home = () => {
   }
 
   const handleSubmit = (email, password, shouldRememberPassword) => {
-
+    console.log(password);
+    console.log(shouldRememberPassword);
+    fetchUser();
   }
 
   const contentMarginRight = (isLoggingIn || isSigningUp) ? "100px" : "0";

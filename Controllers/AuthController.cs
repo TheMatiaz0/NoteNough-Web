@@ -11,6 +11,8 @@ namespace NoteNough.NET.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private const string JWTCookieKey = "jwt";
+
         private readonly AppDBContext _dbContext;
         private readonly JwtService _jwtService;
 
@@ -25,7 +27,7 @@ namespace NoteNough.NET.Controllers
         {
             if (_dbContext.Users == null)
             {
-                return Problem("Entity set 'AppDBContext.Notes'  is null.");
+                return Problem("Entity set 'AppDBContext.Notes' is null.");
             }
 
             var hashedUser = new User
@@ -54,20 +56,20 @@ namespace NoteNough.NET.Controllers
             }
 
             var existingUser = _dbContext.Users.FirstOrDefault(u => u.Email == user.Email);
-
+            string credentialsError = "Invalid credentials!";
             if (existingUser == null)
             {
-                return BadRequest("Invalid credentials!");
+                return BadRequest(credentialsError);
             }
 
             if (!Verify(user.Password, existingUser.Password))
             {
-                return BadRequest("Invalid credentials!");
+                return BadRequest(credentialsError);
             }
 
             var jwt = _jwtService.Generate(existingUser.Id);
 
-            Response.Cookies.Append("jwt", jwt, new CookieOptions
+            Response.Cookies.Append(JWTCookieKey, jwt, new CookieOptions
             {
                 HttpOnly = true
             });
@@ -80,7 +82,7 @@ namespace NoteNough.NET.Controllers
         {
             try
             {
-                var jwt = Request.Cookies["jwt"];
+                var jwt = Request.Cookies[JWTCookieKey];
                 var token = _jwtService.Verify(jwt);
                 int userId = int.Parse(token.Issuer);
                 var existingUser = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
@@ -95,7 +97,7 @@ namespace NoteNough.NET.Controllers
         [HttpPost("logout")]
         public IActionResult PostLogout()
         {
-            Response.Cookies.Delete("jwt");
+            Response.Cookies.Delete(JWTCookieKey);
             return Ok("Success!");
         }
 
