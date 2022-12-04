@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoteNough.NET.Data;
 using NoteNough.NET.Models;
 
 namespace NoteNough.NET.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class NotesController : ControllerBase
@@ -20,22 +23,22 @@ namespace NoteNough.NET.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Note>>> GetNotes()
         {
-            if (_context.Notes == null)
+            if (_context.SavedNotes == null)
             {
                 return NotFound();
             }
-            return await _context.Notes.ToListAsync();
+            return await _context.SavedNotes.ToListAsync();
         }
 
         // GET: api/Notes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Note>> GetNote(int id)
         {
-            if (_context.Notes == null)
+            if (_context.SavedNotes == null)
             {
                 return NotFound();
             }
-            var note = await _context.Notes.FindAsync(id);
+            var note = await _context.SavedNotes.FindAsync(id);
 
             if (note == null)
             {
@@ -81,11 +84,11 @@ namespace NoteNough.NET.Controllers
         [HttpPost]
         public async Task<ActionResult<Note>> PostNote(Note note)
         {
-            if (_context.Notes == null)
+            if (_context.SavedNotes == null)
             {
                 return Problem("Entity set 'AppDBContext.Notes'  is null.");
             }
-            _context.Notes.Add(note);
+            _context.SavedNotes.Add(note);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetNote", new { id = note.Key }, note);
@@ -95,17 +98,17 @@ namespace NoteNough.NET.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNote(int id)
         {
-            if (_context.Notes == null)
+            if (_context.SavedNotes == null)
             {
                 return NotFound();
             }
-            var note = await _context.Notes.FindAsync(id);
+            var note = await _context.SavedNotes.FindAsync(id);
             if (note == null)
             {
                 return NotFound();
             }
 
-            _context.Notes.Remove(note);
+            _context.SavedNotes.Remove(note);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -113,7 +116,7 @@ namespace NoteNough.NET.Controllers
 
         private bool NoteExists(int id)
         {
-            return (_context.Notes?.Any(e => e.Key == id)).GetValueOrDefault();
+            return (_context.SavedNotes?.Any(e => e.Key == id)).GetValueOrDefault();
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NoteNough.NET.Data;
 using NoteNough.NET.Models;
 using NoteNough.NET.Services;
+using System.Security.Claims;
 using static BCrypt.Net.BCrypt;
 
 namespace NoteNough.NET.Controllers
@@ -11,7 +12,7 @@ namespace NoteNough.NET.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private const string JWTCookieKey = "jwt";
+        private const string JWTCookieKey = "Bearer";
 
         private readonly AppDBContext _dbContext;
         private readonly JwtService _jwtService;
@@ -23,9 +24,9 @@ namespace NoteNough.NET.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult PostRegistration(User user)
+        public IActionResult PostRegister(User user)
         {
-            if (_dbContext.Users == null)
+            if (_dbContext.SavedUsers == null)
             {
                 return Problem("Entity set 'AppDBContext.Notes' is null.");
             }
@@ -41,57 +42,52 @@ namespace NoteNough.NET.Controllers
                 return BadRequest("User with that email already exists!");
             }
 
-            _dbContext.Users.Add(hashedUser);
+            _dbContext.SavedUsers.Add(hashedUser);
             hashedUser.Id = _dbContext.SaveChanges();
 
-            return Created("Register", hashedUser);
+            return Created(nameof(PostRegister), hashedUser);
         }
 
         [HttpPost("login")]
         public IActionResult PostLogin(User user)
         {
-            if (_dbContext.Users == null)
+            if (_dbContext.SavedUsers == null)
             {
-                return Problem("Entity set 'AppDBContext.Notes'  is null.");
+                return Problem("Entity set 'AppDBContext.Notes' is null.");
             }
 
-            var existingUser = _dbContext.Users.FirstOrDefault(u => u.Email == user.Email);
+            var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Email == user.Email);
             string credentialsError = "Invalid credentials!";
             if (existingUser == null)
             {
                 return BadRequest(credentialsError);
             }
-
             if (!Verify(user.Password, existingUser.Password))
             {
                 return BadRequest(credentialsError);
             }
 
-            var jwt = _jwtService.Generate(existingUser.Id);
-
-            Response.Cookies.Append(JWTCookieKey, jwt, new CookieOptions
-            {
-                HttpOnly = true
-            });
-
-            return Ok("Logged in!");
-        }
-
-        [HttpGet("user")]
-        public IActionResult GetUser()
-        {
-            try
-            {
-                var jwt = Request.Cookies[JWTCookieKey];
-                var token = _jwtService.Verify(jwt);
-                int userId = int.Parse(token.Issuer);
-                var existingUser = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
-                return Ok(existingUser);
-            }
-            catch
+            var jwt = _jwtService.Generate(existingUser.Id, existingUser.Email);
+            if (jwt == null)
             {
                 return Unauthorized();
             }
+
+            Response.Cookies.Append("Authorization", jwt, new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(15),
+            });
+
+            return Ok(jwt);
+        }
+
+        [HttpGet("user")]
+        [Authorize]
+        public IActionResult GetUser()
+        {
+            var currentUser = GetCurrentUser();
+            return Ok(currentUser);
         }
 
         [HttpPost("logout")]
@@ -105,17 +101,17 @@ namespace NoteNough.NET.Controllers
         [HttpDelete("delete")]
         public IActionResult DeleteUser(int id)
         {
-            if (_dbContext.Users == null)
+            if (_dbContext.SavedUsers == null)
             {
                 return NotFound();
             }
-            var user = _dbContext.Users.Find(id);
+            var user = _dbContext.SavedUsers.Find(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _dbContext.Users.Remove(user);
+            _dbContext.SavedUsers.Remove(user);
             _dbContext.SaveChanges();
 
             return NoContent();
@@ -123,7 +119,39 @@ namespace NoteNough.NET.Controllers
 
         private bool UserExists(string email)
         {
-            return (_dbContext.Users?.Any(e => e.Email == email)).GetValueOrDefault();
+            return (_dbContext.SavedUsers?.Any(e => e.Email == email)).GetValueOrDefault();
         }
+
+        private User? GetCurrentUser()
+        {
+            if (HttpContext.User.Identity is ClaimsIdentity identity)
+            {
+                var userClaims = identity.Claims;
+                return new User
+                {
+                    Email = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value,
+                };
+            }
+            return null;
+        }
+
+        /*
+        [HttpGet("user")]
+        public IActionResult GetUser()
+        {
+            try
+            {
+                var jwt = Request.Cookies[JWTCookieKey];
+                var token = _jwtService.Verify(jwt);
+                int userId = int.Parse(token.Issuer);
+                var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Id == userId);
+                return Ok(existingUser);
+            }
+            catch
+            {
+                return Unauthorized();
+            }
+        }
+        */
     }
 }

@@ -4,7 +4,7 @@
 
 namespace NoteNough.NET.Migrations
 {
-    public partial class InitialAPIOperations : Migration
+    public partial class InitialV2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoteNough.NET.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NoteNough.NET.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221127130855_InitialV2")]
+    partial class InitialV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +35,6 @@ namespace NoteNough.NET.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -44,11 +43,14 @@ namespace NoteNough.NET.Migrations
                     b.Property<DateTime?>("Updated")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Key");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("SavedNotes");
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("NoteNough.NET.Models.User", b =>
@@ -72,18 +74,18 @@ namespace NoteNough.NET.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("SavedUsers");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("NoteNough.NET.Models.Note", b =>
                 {
-                    b.HasOne("NoteNough.NET.Models.User", "Owner")
+                    b.HasOne("NoteNough.NET.Models.User", "User")
                         .WithMany("Notes")
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NoteNough.NET.Models.User", b =>

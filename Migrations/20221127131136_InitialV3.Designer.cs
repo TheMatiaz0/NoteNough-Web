@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NoteNough.NET.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20221112223230_CreateUsersTable")]
-    partial class CreateUsersTable
+    [Migration("20221127131136_InitialV3")]
+    partial class InitialV3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,9 @@ namespace NoteNough.NET.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -43,12 +46,9 @@ namespace NoteNough.NET.Migrations
                     b.Property<DateTime?>("Updated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Key");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Notes");
                 });
@@ -79,9 +79,13 @@ namespace NoteNough.NET.Migrations
 
             modelBuilder.Entity("NoteNough.NET.Models.Note", b =>
                 {
-                    b.HasOne("NoteNough.NET.Models.User", null)
+                    b.HasOne("NoteNough.NET.Models.User", "Owner")
                         .WithMany("Notes")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("NoteNough.NET.Models.User", b =>

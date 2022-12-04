@@ -8,8 +8,7 @@ namespace NoteNough.NET.Models
     public class User
     {
         [Key]
-        [JsonIgnore]
-        public int Id { get; set; }
+        public int Id { get; set; } = default(int);
 
         [Required]
         public string Email { get; set; } = string.Empty;

@@ -5,9 +5,9 @@ namespace NoteNough.NET.Data
 {
     public class AppDBContext : DbContext
     {
-        public DbSet<Note> Notes { get; set; }
+        public DbSet<Note> SavedNotes { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> SavedUsers { get; set; }
 
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {

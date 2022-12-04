@@ -62,6 +62,7 @@ const Home = () => {
   */
 
   const addNoteToDatabase = async (text) => {
+    const cookie = getCookie("Authorization");
     let response = await fetch(ROOT_NOTES_URL, {
       method: "POST",
       body: JSON.stringify({
@@ -70,6 +71,7 @@ const Home = () => {
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        "Authorization": cookie
       },
     });
     let data = await response.json();
@@ -103,9 +105,31 @@ const Home = () => {
     setNotes([...notes]);
   };
 
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
   async function fetchNotes() {
     try {
-      const response = await fetch(ROOT_NOTES_URL);
+      const cookie = getCookie("Authorization");
+      console.log(cookie);
+      const response = await fetch(ROOT_NOTES_URL, {
+        headers: {
+          "Authorization": cookie
+        }
+      });
       if (!response.ok) {
         throw new Error(response.status);
       }
@@ -117,14 +141,17 @@ const Home = () => {
 
   const fetchUser = async () => {
     try {
-      const url = `${ROOT_AUTHENTICATION_URL}/user`
+      const url = `${ROOT_AUTHENTICATION_URL}/user`;
       const response = await fetch(url);
-      console.log(url);
       if (!response.ok) {
         throw new Error(response.status);
       }
       const content = await response.json();
+      console.log(content.email);
       setEmail(content.email);
+      const cookie = getCookie("Authorization");
+      console.log(cookie);
+      // setNotes(content.notes);
     }
     catch (e) {
       console.error(e);
@@ -138,10 +165,10 @@ const Home = () => {
         setNotes(parseNoteDates(response));
       }
     };
-    fetchNotesFromDatabase();
+    // fetchNotesFromDatabase();
     //eslint-disable-next-line
 
-    fetchUser();
+    // fetchUser();
   }, []);
 
   const addNote = (text) => {
@@ -191,8 +218,6 @@ const Home = () => {
   }
 
   const handleSubmit = (email, password, shouldRememberPassword) => {
-    console.log(password);
-    console.log(shouldRememberPassword);
     fetchUser();
   }
 
@@ -204,7 +229,7 @@ const Home = () => {
           <Header username={email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />
           <Search handleSearchText={setSearchText} />
           <NotesList
-            notes={notes.filter(filterText)}
+            notes={notes.length > 0 && notes.filter(filterText)}
             searchText={searchText}
             handleAddNote={addNote}
             handleRemoveNote={removeNote}
