@@ -10,7 +10,8 @@ import SignUpForm from "../components/SignUpForm";
 const Home = () => {
   // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
   const ROOT_NOTES_URL = `http://${window.location.hostname}:8080/api/Notes`;
-  const ROOT_AUTHENTICATION_URL = `http://${window.location.hostname}:8080/api/auth`
+  const ROOT_AUTHENTICATION_URL = `http://${window.location.hostname}:8080/api/auth`;
+  const AUTHORIZATION_COOKIE_KEY = 'Authorization';
   const defaultNotes = [
     {
       key: nanoid(),
@@ -62,7 +63,7 @@ const Home = () => {
   */
 
   const addNoteToDatabase = async (text) => {
-    const cookie = getCookie("Authorization");
+    const cookie = getCookie(AUTHORIZATION_COOKIE_KEY);
     let response = await fetch(ROOT_NOTES_URL, {
       method: "POST",
       body: JSON.stringify({
@@ -106,15 +107,19 @@ const Home = () => {
   };
 
   function getCookie(cname) {
+    console.log(document.cookie);
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
     for (let i = 0; i < ca.length; i++) {
       let c = ca[i];
-      while (c.charAt(0) == ' ') {
+      while (c.charAt(0) === ' ') {
         c = c.substring(1);
+        console.log("substring!");
       }
-      if (c.indexOf(name) == 0) {
+      console.log(c);
+      if (c.indexOf(name) === 0) {
+        console.log("substring fin!");
         return c.substring(name.length, c.length);
       }
     }
@@ -123,7 +128,7 @@ const Home = () => {
 
   async function fetchNotes() {
     try {
-      const cookie = getCookie("Authorization");
+      const cookie = getCookie(AUTHORIZATION_COOKIE_KEY);
       console.log(cookie);
       const response = await fetch(ROOT_NOTES_URL, {
         headers: {
@@ -149,7 +154,7 @@ const Home = () => {
       const content = await response.json();
       console.log(content.email);
       setEmail(content.email);
-      const cookie = getCookie("Authorization");
+      const cookie = getCookie(AUTHORIZATION_COOKIE_KEY);
       console.log(cookie);
       // setNotes(content.notes);
     }

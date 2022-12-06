@@ -10,6 +10,11 @@ namespace NoteNough.NET
 {
     public class Program
     {
+        public const string JWTCookieKey = "Authorization";
+        public const string JWTSecurityKey = "This is a very secure and I tell you... very secure key to be honest!";
+        public const string JWTAudience = "localhost:8080";
+        public const string JWTIssuer = "http://localhost:8080";
+
         public static void Main(string[] args)
         {
             var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -38,41 +43,28 @@ namespace NoteNough.NET
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "http://localhost:8080",
-                    ValidAudience = "localhost:8080",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("This is a very secure and I tell you... very secure key to be honest!"))
+                    ValidIssuer = JWTIssuer,
+                    ValidAudience = JWTAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTSecurityKey))
                 };
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>
                     {
-                        context.Token = context.Request.Cookies["Authorization"];
+                        context.Token = context.Request.Cookies[JWTCookieKey];
                         return Task.CompletedTask;
                     }
                 };
             });
             builder.Services.AddAuthorization();
-
-            // builder.Services.AddEndpointsApiExplorer();
-            /*
-            builder.Services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "NoteNoughAPI", Version = "v1", Description = "NoteNough!" });
-            });
-            */
             builder.Services.AddControllers();
+
             builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db")));
             builder.Services.AddScoped<JwtService>();
 
             var app = builder.Build();
             app.UseCors(MyAllowSpecificOrigins);
-            /*
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "NoteNoughAPI V1");
-            });
-            */
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSpa(spa =>
@@ -99,7 +91,12 @@ namespace NoteNough.NET
                 app.MapControllers();
             });
 
-            /*
+            // FixMigration();
+            app.Run();
+        }
+
+        private static void FixMigration(WebApplication app)
+        {
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -110,8 +107,6 @@ namespace NoteNough.NET
                     context.Database.Migrate();
                 }
             }
-            */
-            app.Run();
         }
     }
 }

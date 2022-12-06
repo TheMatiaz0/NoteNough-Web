@@ -12,8 +12,6 @@ namespace NoteNough.NET.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private const string JWTCookieKey = "Bearer";
-
         private readonly AppDBContext _dbContext;
         private readonly JwtService _jwtService;
 
@@ -67,13 +65,13 @@ namespace NoteNough.NET.Controllers
                 return BadRequest(credentialsError);
             }
 
-            var jwt = _jwtService.Generate(existingUser.Id, existingUser.Email);
+            var jwt = _jwtService.Generate(existingUser.Email);
             if (jwt == null)
             {
                 return Unauthorized();
             }
 
-            Response.Cookies.Append("Authorization", jwt, new CookieOptions
+            Response.Cookies.Append(Program.JWTCookieKey, jwt, new CookieOptions
             {
                 HttpOnly = true,
                 Expires = DateTimeOffset.UtcNow.AddMinutes(15),
@@ -93,7 +91,7 @@ namespace NoteNough.NET.Controllers
         [HttpPost("logout")]
         public IActionResult PostLogout()
         {
-            Response.Cookies.Delete(JWTCookieKey);
+            Response.Cookies.Delete(Program.JWTCookieKey);
             return Ok("Success!");
         }
 
@@ -134,24 +132,5 @@ namespace NoteNough.NET.Controllers
             }
             return null;
         }
-
-        /*
-        [HttpGet("user")]
-        public IActionResult GetUser()
-        {
-            try
-            {
-                var jwt = Request.Cookies[JWTCookieKey];
-                var token = _jwtService.Verify(jwt);
-                int userId = int.Parse(token.Issuer);
-                var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Id == userId);
-                return Ok(existingUser);
-            }
-            catch
-            {
-                return Unauthorized();
-            }
-        }
-        */
     }
 }

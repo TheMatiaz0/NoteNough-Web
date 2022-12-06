@@ -7,24 +7,23 @@ namespace NoteNough.NET.Services
 {
     public class JwtService
     {
-        private string secureKey = "This is a very secure and I tell you... very secure key to be honest!";
-        public string Generate(int id, string email)
+        public string Generate(string email)
         {
-            var tokenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
+            var tokenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Program.JWTSecurityKey));
             var credentials = new SigningCredentials(tokenKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, email)
             };
-            var token = new JwtSecurityToken("http://localhost:8080", "localhost:8080", claims, expires: DateTime.Now.AddMinutes(15), signingCredentials: credentials);
+            var token = new JwtSecurityToken(Program.JWTIssuer, Program.JWTAudience, claims, expires: DateTime.Now.AddMinutes(15), signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
+        /*
         public JwtSecurityToken Verify(string jwt)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secureKey);
+            var key = Encoding.ASCII.GetBytes(Program.JWTSecurityKey);
 
             tokenHandler.ValidateToken(jwt, new TokenValidationParameters
             {
@@ -36,5 +35,6 @@ namespace NoteNough.NET.Services
 
             return (JwtSecurityToken)validatedToken;
         }
+        */
     }
 }
