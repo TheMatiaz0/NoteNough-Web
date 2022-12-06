@@ -10,19 +10,17 @@ namespace NoteNough.NET
 {
     public class Program
     {
-        public const string JWTCookieKey = "Authorization";
-        public const string JWTSecurityKey = "This is a very secure and I tell you... very secure key to be honest!";
-        public const string JWTAudience = "localhost:8080";
-        public const string JWTIssuer = "http://localhost:8080";
+        public static JWTConfigurationData JWTConfig { get; private set; }
 
         public static void Main(string[] args)
         {
-            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+            var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
             var builder = WebApplication.CreateBuilder(args);
+            JWTConfig = builder.Configuration.Get<JWTConfigurationData>();
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
+                options.AddPolicy(name: myAllowSpecificOrigins,
                                   policy =>
                                   {
                                       policy.WithOrigins("http://localhost:8080", "http://localhost", "https://localhost", "https://localhost:8080", "http://localhost:3000", "https://localhost:3000")
@@ -43,27 +41,26 @@ namespace NoteNough.NET
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = JWTIssuer,
-                    ValidAudience = JWTAudience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTSecurityKey))
+                    ValidIssuer = JWTConfig.Issuer,
+                    ValidAudience = JWTConfig.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTConfig.SecurityKey))
                 };
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>
                     {
-                        context.Token = context.Request.Cookies[JWTCookieKey];
+                        context.Token = context.Request.Cookies[JWTConfig.CookieHeader];
                         return Task.CompletedTask;
                     }
                 };
             });
             builder.Services.AddAuthorization();
             builder.Services.AddControllers();
-
             builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db")));
             builder.Services.AddScoped<JwtService>();
 
             var app = builder.Build();
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(myAllowSpecificOrigins);
 
             if (app.Environment.IsDevelopment())
             {
@@ -94,7 +91,7 @@ namespace NoteNough.NET
             // FixMigration();
             app.Run();
         }
-
+        /*
         private static void FixMigration(WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
@@ -108,5 +105,6 @@ namespace NoteNough.NET
                 }
             }
         }
+        */
     }
 }

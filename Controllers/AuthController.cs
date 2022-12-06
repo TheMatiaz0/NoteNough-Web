@@ -71,7 +71,7 @@ namespace NoteNough.NET.Controllers
                 return Unauthorized();
             }
 
-            Response.Cookies.Append(Program.JWTCookieKey, jwt, new CookieOptions
+            Response.Cookies.Append(Program.JWTConfig.CookieHeader, jwt, new CookieOptions
             {
                 HttpOnly = true,
                 Expires = DateTimeOffset.UtcNow.AddMinutes(15),
@@ -91,7 +91,7 @@ namespace NoteNough.NET.Controllers
         [HttpPost("logout")]
         public IActionResult PostLogout()
         {
-            Response.Cookies.Delete(Program.JWTCookieKey);
+            Response.Cookies.Delete(Program.JWTConfig.CookieHeader);
             return Ok("Success!");
         }
 
@@ -127,7 +127,7 @@ namespace NoteNough.NET.Controllers
                 var userClaims = identity.Claims;
                 return new User
                 {
-                    Email = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value,
+                    Email = userClaims?.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value,
                 };
             }
             return null;

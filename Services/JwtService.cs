@@ -9,13 +9,13 @@ namespace NoteNough.NET.Services
     {
         public string Generate(string email)
         {
-            var tokenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Program.JWTSecurityKey));
+            var tokenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Program.JWTConfig.SecurityKey));
             var credentials = new SigningCredentials(tokenKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, email)
             };
-            var token = new JwtSecurityToken(Program.JWTIssuer, Program.JWTAudience, claims, expires: DateTime.Now.AddMinutes(15), signingCredentials: credentials);
+            var token = new JwtSecurityToken(Program.JWTConfig.Issuer, Program.JWTConfig.Audience, claims, expires: DateTime.Now.AddMinutes(15), signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
