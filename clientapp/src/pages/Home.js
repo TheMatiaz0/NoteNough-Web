@@ -12,6 +12,7 @@ const Home = () => {
   const ROOT_NOTES_URL = `http://${window.location.hostname}:8080/api/Notes`;
   const ROOT_AUTHENTICATION_URL = `http://${window.location.hostname}:8080/api/auth`;
   const AUTHORIZATION_COOKIE_KEY = 'Authorization';
+  const FETCH_CONTENT_TYPE = "application/json; charset=UTF-8";
   const defaultNotes = [
     {
       key: nanoid(),
@@ -71,7 +72,7 @@ const Home = () => {
         created: new Date(),
       }),
       headers: {
-        "Content-type": "application/json; charset=UTF-8",
+        "Content-type": FETCH_CONTENT_TYPE,
         "Authorization": cookie
       },
     });
@@ -97,7 +98,7 @@ const Home = () => {
         text: updatedText,
       }),
       headers: {
-        "Content-type": "application/json; charset=UTF-8",
+        "Content-type": FETCH_CONTENT_TYPE,
       },
     });
 

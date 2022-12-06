@@ -2,9 +2,11 @@
 {
     public class JWTConfigurationData
     {
-        public string SecurityKey { get; private set; }
-        public string Issuer { get; private set; }
-        public string Audience { get; private set; }
-        public string CookieHeader { get; private set; }
+        public const string Header = "JWT";
+
+        public string SecurityKey { get; set; }
+        public string Issuer { get; set; }
+        public string Audience { get; set; }
+        public string CookieHeader { get; set; }
     }
 }

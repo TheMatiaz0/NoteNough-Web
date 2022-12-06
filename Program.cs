@@ -10,13 +10,13 @@ namespace NoteNough.NET
 {
     public class Program
     {
-        public static JWTConfigurationData JWTConfig { get; private set; }
+        public static JWTConfigurationData JWTConfig { get; private set; } = new();
 
         public static void Main(string[] args)
         {
             var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
             var builder = WebApplication.CreateBuilder(args);
-            JWTConfig = builder.Configuration.Get<JWTConfigurationData>();
+            builder.Configuration.GetSection(JWTConfigurationData.Header).Bind(JWTConfig);
 
             builder.Services.AddCors(options =>
             {
@@ -56,7 +56,7 @@ namespace NoteNough.NET
             });
             builder.Services.AddAuthorization();
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db")));
+            builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db")));
             builder.Services.AddScoped<JwtService>();
 
             var app = builder.Build();
