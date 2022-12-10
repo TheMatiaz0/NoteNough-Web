@@ -4,6 +4,9 @@ namespace NoteNough.NET.Models
 {
     public class NoteDTO
     {
+        [Key]
+        public int Key { get; set; }
+
         [Required]
         [MaxLength(200)]
         public string Text { get; set; } = string.Empty;

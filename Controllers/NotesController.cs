@@ -62,6 +62,7 @@ namespace NoteNough.NET.Controllers
 
             var note = new Note 
             {
+                Key = noteDTO.Key,
                 Text = noteDTO.Text,
                 User = user,
                 UserId = userId,
@@ -71,9 +72,9 @@ namespace NoteNough.NET.Controllers
             noteDTO.Created = note.Created;
 
             _context.SavedNotes.Add(note);
-            int key = await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetNote", new { id = key}, noteDTO);
+            return CreatedAtAction("GetNote", new { id = noteDTO.Key}, noteDTO);
         }
 
         // GET: api/Notes/5
@@ -95,7 +96,6 @@ namespace NoteNough.NET.Controllers
 
             return Ok(note);
         }
-
 
         // PUT: api/Notes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
