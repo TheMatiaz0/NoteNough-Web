@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NoteNough.NET.Models
@@ -12,15 +13,13 @@ namespace NoteNough.NET.Models
         [MaxLength(200)]
         public string Text { get; set; } = string.Empty;
 
-        [Required]
         public DateTime Created { get; set; }
 
         public DateTime? Updated { get; set; }
 
-        [Required]
-        public User Owner { get; set; }
+        public int UserId { get; set; }
 
-        [Required]
-        public int OwnerId { get; set; } = default(int);
+        [ForeignKey("UserId"), JsonIgnore]
+        public virtual User User { get; set; }
     }
 }

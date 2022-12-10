@@ -11,7 +11,7 @@ namespace NoteNough.NET.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "SavedUsers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -21,11 +21,11 @@ namespace NoteNough.NET.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_SavedUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Notes",
+                name: "SavedNotes",
                 columns: table => new
                 {
                     Key = table.Column<int>(type: "integer", nullable: false)
@@ -37,23 +37,23 @@ namespace NoteNough.NET.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notes", x => x.Key);
+                    table.PrimaryKey("PK_SavedNotes", x => x.Key);
                     table.ForeignKey(
-                        name: "FK_Notes_Users_UserId",
+                        name: "FK_SavedNotes_SavedUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "SavedUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notes_UserId",
-                table: "Notes",
+                name: "IX_SavedNotes_UserId",
+                table: "SavedNotes",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
+                name: "IX_SavedUsers_Email",
+                table: "SavedUsers",
                 column: "Email",
                 unique: true);
         }
@@ -61,10 +61,10 @@ namespace NoteNough.NET.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Notes");
+                name: "SavedNotes");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "SavedUsers");
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoteNough.NET.Data;
 using NoteNough.NET.Models;
+using System.Security.Claims;
 
 namespace NoteNough.NET.Controllers
 {
@@ -21,44 +21,103 @@ namespace NoteNough.NET.Controllers
 
         // GET: api/Notes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Note>>> GetNotes()
+        public IActionResult GetNotes()
         {
             if (_context.SavedNotes == null)
             {
                 return NotFound();
             }
-            return await _context.SavedNotes.ToListAsync();
+
+            int userId = GetLoggedInUserId();
+            var notes = GetUserNotes(userId);
+            return Ok(notes);
+        }
+
+        private int GetLoggedInUserId()
+        {
+            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        }
+
+        private IEnumerable<Note> GetUserNotes(int userId)
+        {
+            return _context.SavedNotes.Where(note => note.UserId == userId);
+        }
+
+        // POST: api/Notes
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Note>> PostNote(AddNoteDTO noteDTO)
+        {
+            if (_context.SavedNotes == null)
+            {
+                return Problem("Entity set 'AppDBContext.Notes'  is null.");
+            }
+
+            int userId = GetLoggedInUserId();
+            var user = _context.SavedUsers.Find(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var note = new Note 
+            { 
+                Key = noteDTO.Key,
+                Text = noteDTO.Text,
+                User = user,
+                UserId = userId,
+                Created = DateTime.UtcNow,
+                Updated = noteDTO.Updated
+            };
+
+            _context.SavedNotes.Add(note);
+            await _context.SaveChangesAsync();
+
+            return Ok(note.Key);
         }
 
         // GET: api/Notes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Note>> GetNote(int id)
+        public IActionResult GetNote(int id)
         {
             if (_context.SavedNotes == null)
             {
                 return NotFound();
             }
-            var note = await _context.SavedNotes.FindAsync(id);
+
+            int userId = GetLoggedInUserId();
+            var note = GetUserNotes(userId).FirstOrDefault(x => x.Key == id);
 
             if (note == null)
             {
                 return NotFound();
             }
 
-            return note;
+            return Ok(note);
         }
+
 
         // PUT: api/Notes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNote(int id, Note note)
+        public async Task<IActionResult> PutNote(int id, AddNoteDTO noteDTO)
         {
-            if (id != note.Key)
+            int userId = GetLoggedInUserId();
+            var existingNote = _context.SavedNotes.Find(id);
+            if (existingNote == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(note).State = EntityState.Modified;
+            if (existingNote.UserId != userId)
+            {
+                return NotFound();
+            }
+
+            existingNote.Text = noteDTO.Text;
+            existingNote.Updated = DateTime.UtcNow;
+
+            _context.Entry(existingNote).State = EntityState.Modified;
 
             try
             {
@@ -79,19 +138,9 @@ namespace NoteNough.NET.Controllers
             return NoContent();
         }
 
-        // POST: api/Notes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Note>> PostNote(Note note)
+        private bool NoteExists(int id)
         {
-            if (_context.SavedNotes == null)
-            {
-                return Problem("Entity set 'AppDBContext.Notes'  is null.");
-            }
-            _context.SavedNotes.Add(note);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetNote", new { id = note.Key }, note);
+            return (_context.SavedNotes?.Any(e => e.Key == id)).GetValueOrDefault();
         }
 
         // DELETE: api/Notes/5
@@ -102,7 +151,9 @@ namespace NoteNough.NET.Controllers
             {
                 return NotFound();
             }
-            var note = await _context.SavedNotes.FindAsync(id);
+
+            int userId = GetLoggedInUserId();
+            var note = GetUserNotes(userId).FirstOrDefault(x => x.Key == id);
             if (note == null)
             {
                 return NotFound();
@@ -111,12 +162,7 @@ namespace NoteNough.NET.Controllers
             _context.SavedNotes.Remove(note);
             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
-
-        private bool NoteExists(int id)
-        {
-            return (_context.SavedNotes?.Any(e => e.Key == id)).GetValueOrDefault();
+            return Ok();
         }
     }
 }

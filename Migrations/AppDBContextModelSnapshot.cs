@@ -33,9 +33,6 @@ namespace NoteNough.NET.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -44,9 +41,12 @@ namespace NoteNough.NET.Migrations
                     b.Property<DateTime?>("Updated")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Key");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("SavedNotes");
                 });
@@ -77,13 +77,13 @@ namespace NoteNough.NET.Migrations
 
             modelBuilder.Entity("NoteNough.NET.Models.Note", b =>
                 {
-                    b.HasOne("NoteNough.NET.Models.User", "Owner")
+                    b.HasOne("NoteNough.NET.Models.User", "User")
                         .WithMany("Notes")
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NoteNough.NET.Models.User", b =>

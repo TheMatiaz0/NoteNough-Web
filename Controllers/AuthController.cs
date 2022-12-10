@@ -65,7 +65,7 @@ namespace NoteNough.NET.Controllers
                 return BadRequest(credentialsError);
             }
 
-            var jwt = _jwtService.Generate(existingUser.Email);
+            var jwt = _jwtService.Generate(existingUser.Id, existingUser.Email);
             if (jwt == null)
             {
                 return Unauthorized();
@@ -73,7 +73,6 @@ namespace NoteNough.NET.Controllers
 
             Response.Cookies.Append(Program.JWTConfig.CookieHeader, jwt, new CookieOptions
             {
-                HttpOnly = true,
                 Expires = DateTimeOffset.UtcNow.AddMinutes(15),
             });
 
@@ -91,19 +90,30 @@ namespace NoteNough.NET.Controllers
         [HttpPost("logout")]
         public IActionResult PostLogout()
         {
+            var user = User as ClaimsPrincipal;
+            var identity = user.Identity as ClaimsIdentity;
+
             Response.Cookies.Delete(Program.JWTConfig.CookieHeader);
+            var currentClaims = user.Claims.ToArray();
+            foreach (var claim in currentClaims)
+            {
+                identity?.RemoveClaim(claim);
+            }
+
             return Ok("Success!");
         }
 
-
         [HttpDelete("delete")]
-        public IActionResult DeleteUser(int id)
+        [Authorize]
+        public IActionResult DeleteUser()
         {
             if (_dbContext.SavedUsers == null)
             {
                 return NotFound();
             }
-            var user = _dbContext.SavedUsers.Find(id);
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            var user = _dbContext.SavedUsers.Find(userId);
             if (user == null)
             {
                 return NotFound();
@@ -112,7 +122,7 @@ namespace NoteNough.NET.Controllers
             _dbContext.SavedUsers.Remove(user);
             _dbContext.SaveChanges();
 
-            return NoContent();
+            return Ok("Success!");
         }
 
         private bool UserExists(string email)
@@ -122,15 +132,9 @@ namespace NoteNough.NET.Controllers
 
         private User? GetCurrentUser()
         {
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
-            {
-                var userClaims = identity.Claims;
-                return new User
-                {
-                    Email = userClaims?.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value,
-                };
-            }
-            return null;
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var user = _dbContext.SavedUsers.Find(userId);
+            return user;
         }
     }
 }
