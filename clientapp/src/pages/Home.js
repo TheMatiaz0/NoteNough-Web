@@ -151,6 +151,16 @@ const Home = () => {
     fetchUser();
   }
 
+  const deleteAccount = async () => {
+    await fetch(`${ROOT_AUTHENTICATION_URL}/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": FETCH_CONTENT_TYPE,
+      },
+    });
+    fetchUser();
+  }
+
 
   useEffect(() => {
     fetchUser();
@@ -208,7 +218,7 @@ const Home = () => {
     <div>
       <div className="app-container">
         <div id="main" style={{ marginRight: contentMarginRight }}>
-          <Header username={email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={logoutUser} />
+          <Header username={email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={logoutUser} onDeleteAccountClick={deleteAccount} />
           <Search handleSearchText={setSearchText} />
           <NotesList
             notes={notes.filter(filterText)}
