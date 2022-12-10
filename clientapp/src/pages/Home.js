@@ -73,7 +73,10 @@ const Home = () => {
       },
     });
     let data = await response.json();
-    setNotes(parseNoteDates(data));
+    setNotes((notes) => [
+      { key: data.key, text: data.text, date: new Date(data.created) },
+      ...notes,
+    ]);
   };
 
   const deleteNoteFromDatabase = async (id) => {
@@ -84,7 +87,7 @@ const Home = () => {
   };
 
   const editNoteFromDatabase = async (note, updatedText) => {
-    const response = await fetch(`${ROOT_NOTES_URL}/${note.key}`, {
+    let response = await fetch(`${ROOT_NOTES_URL}/${note.key}`, {
       method: "PUT",
       body: JSON.stringify({
         text: updatedText,
@@ -93,8 +96,9 @@ const Home = () => {
         "Content-type": FETCH_CONTENT_TYPE,
       },
     });
+    let data = await response.json();
     note.text = updatedText;
-    note.date = response;
+    note.date = new Date(data.updated);
     setNotes([...notes]);
   };
 
@@ -129,26 +133,27 @@ const Home = () => {
       }
       const content = await response.json();
       setEmail(content.email);
-      fetchNotesFromDatabase();
     }
     catch (e) {
+      setEmail("");
       console.error(e);
     }
+    fetchNotesFromDatabase();
   }
 
   const logoutUser = async () => {
-    console.log("tso?");
     await fetch(`${ROOT_AUTHENTICATION_URL}/logout`, {
       method: "POST",
       headers: {
         "Content-type": FETCH_CONTENT_TYPE,
       },
     });
+    fetchUser();
   }
+
 
   useEffect(() => {
     fetchUser();
-    fetchNotesFromDatabase();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -65,9 +65,10 @@ namespace NoteNough.NET.Controllers
                 Text = noteDTO.Text,
                 User = user,
                 UserId = userId,
-                Created = DateTime.UtcNow,
-                Updated = noteDTO.Updated
+                Created = DateTime.UtcNow
             };
+
+            noteDTO.Created = note.Created;
 
             _context.SavedNotes.Add(note);
             await _context.SaveChangesAsync();
@@ -114,7 +115,7 @@ namespace NoteNough.NET.Controllers
             }
 
             existingNote.Text = noteDTO.Text;
-            existingNote.Updated = DateTime.UtcNow;
+            existingNote.Updated = noteDTO.Updated = DateTime.UtcNow;
 
             _context.Entry(existingNote).State = EntityState.Modified;
 
@@ -134,7 +135,7 @@ namespace NoteNough.NET.Controllers
                 }
             }
 
-            return Ok(existingNote.Updated);
+            return Ok(noteDTO);
         }
 
         private bool NoteExists(int id)
