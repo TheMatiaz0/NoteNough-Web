@@ -46,11 +46,11 @@ namespace NoteNough.NET.Controllers
         // POST: api/Notes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Note>> PostNote(AddNoteDTO noteDTO)
+        public async Task<ActionResult<Note>> PostNote(NoteDTO noteDTO)
         {
             if (_context.SavedNotes == null)
             {
-                return Problem("Entity set 'AppDBContext.Notes'  is null.");
+                return Problem("Entity set 'AppDBContext.Notes' is null.");
             }
 
             int userId = GetLoggedInUserId();
@@ -62,7 +62,6 @@ namespace NoteNough.NET.Controllers
 
             var note = new Note 
             { 
-                Key = noteDTO.Key,
                 Text = noteDTO.Text,
                 User = user,
                 UserId = userId,
@@ -73,7 +72,7 @@ namespace NoteNough.NET.Controllers
             _context.SavedNotes.Add(note);
             await _context.SaveChangesAsync();
 
-            return Ok(note.Key);
+            return CreatedAtAction("GetNote", new { id = note.Key}, noteDTO);
         }
 
         // GET: api/Notes/5
@@ -100,7 +99,7 @@ namespace NoteNough.NET.Controllers
         // PUT: api/Notes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNote(int id, AddNoteDTO noteDTO)
+        public async Task<IActionResult> PutNote(int id, NoteDTO noteDTO)
         {
             int userId = GetLoggedInUserId();
             var existingNote = _context.SavedNotes.Find(id);
@@ -135,7 +134,7 @@ namespace NoteNough.NET.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(existingNote.Updated);
         }
 
         private bool NoteExists(int id)

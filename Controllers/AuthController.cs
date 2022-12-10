@@ -22,7 +22,7 @@ namespace NoteNough.NET.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult PostRegister(User user)
+        public async Task<ActionResult> PostRegister(LoginDTO loginDTO)
         {
             if (_dbContext.SavedUsers == null)
             {
@@ -30,9 +30,9 @@ namespace NoteNough.NET.Controllers
             }
 
             var hashedUser = new User
-            { 
-                Email = user.Email, 
-                Password = HashPassword(user.Password) 
+            {
+                Email = loginDTO.Email, 
+                Password = HashPassword(loginDTO.Password) 
             };
 
             if (UserExists(hashedUser.Email))
@@ -41,42 +41,48 @@ namespace NoteNough.NET.Controllers
             }
 
             _dbContext.SavedUsers.Add(hashedUser);
-            hashedUser.Id = _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
-            return Created(nameof(PostRegister), hashedUser);
+            return Created("register", hashedUser);
         }
 
         [HttpPost("login")]
-        public IActionResult PostLogin(User user)
+        public IActionResult PostLogin(LoginDTO loginDTO)
         {
             if (_dbContext.SavedUsers == null)
             {
                 return Problem("Entity set 'AppDBContext.Notes' is null.");
             }
 
-            var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Email == user.Email);
+            var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Email == loginDTO.Email);
             string credentialsError = "Invalid credentials!";
             if (existingUser == null)
             {
                 return BadRequest(credentialsError);
             }
-            if (!Verify(user.Password, existingUser.Password))
+            if (!Verify(loginDTO.Password, existingUser.Password))
             {
                 return BadRequest(credentialsError);
             }
 
-            var jwt = _jwtService.Generate(existingUser.Id, existingUser.Email);
+            var jwt = _jwtService.Generate(existingUser.Id);
             if (jwt == null)
             {
                 return Unauthorized();
             }
 
+            var cookieExpiration = loginDTO.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddMinutes(15);
             Response.Cookies.Append(Program.JWTConfig.CookieHeader, jwt, new CookieOptions
             {
-                Expires = DateTimeOffset.UtcNow.AddMinutes(15),
+                Expires = cookieExpiration,
+                Domain = "localhost",
+                HttpOnly = true,
+                Secure = false,
+                SameSite = SameSiteMode.Lax,
+                IsEssential = true
             });
 
-            return Ok(jwt);
+            return Ok();
         }
 
         [HttpGet("user")]
@@ -105,22 +111,21 @@ namespace NoteNough.NET.Controllers
 
         [HttpDelete("delete")]
         [Authorize]
-        public IActionResult DeleteUser()
+        public async Task<ActionResult> DeleteUser()
         {
             if (_dbContext.SavedUsers == null)
             {
                 return NotFound();
             }
-            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            var user = _dbContext.SavedUsers.Find(userId);
+            var user = GetCurrentUser();
             if (user == null)
             {
                 return NotFound();
             }
 
             _dbContext.SavedUsers.Remove(user);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
             return Ok("Success!");
         }

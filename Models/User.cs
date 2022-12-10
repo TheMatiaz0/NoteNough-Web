@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace NoteNough.NET.Models
 {
@@ -14,7 +14,7 @@ namespace NoteNough.NET.Models
         public string Email { get; set; } = string.Empty;
 
         [JsonIgnore]
-        public string Password { get; set; } = string.Empty;
+        public string Password { get; set; }
 
         public ICollection<Note>? Notes { get; set; }
     }

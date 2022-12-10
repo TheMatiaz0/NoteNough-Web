@@ -11,7 +11,6 @@ const Home = () => {
   // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
   const ROOT_NOTES_URL = `http://${window.location.hostname}:8080/api/Notes`;
   const ROOT_AUTHENTICATION_URL = `http://${window.location.hostname}:8080/api/auth`;
-  const AUTHORIZATION_COOKIE_KEY = 'Authorization';
   const FETCH_CONTENT_TYPE = "application/json; charset=UTF-8";
   const defaultNotes = [
     {
@@ -64,23 +63,17 @@ const Home = () => {
   */
 
   const addNoteToDatabase = async (text) => {
-    const cookie = getCookie(AUTHORIZATION_COOKIE_KEY);
     let response = await fetch(ROOT_NOTES_URL, {
       method: "POST",
       body: JSON.stringify({
         text: text,
-        created: new Date(),
       }),
       headers: {
         "Content-type": FETCH_CONTENT_TYPE,
-        "Authorization": cookie
       },
     });
     let data = await response.json();
-    setNotes((notes) => [
-      { key: data.key, text: data.text, date: new Date(data.created) },
-      ...notes,
-    ]);
+    setNotes(parseNoteDates(data));
   };
 
   const deleteNoteFromDatabase = async (id) => {
@@ -91,51 +84,23 @@ const Home = () => {
   };
 
   const editNoteFromDatabase = async (note, updatedText) => {
-    await fetch(`${ROOT_NOTES_URL}/${note.key}`, {
+    const response = await fetch(`${ROOT_NOTES_URL}/${note.key}`, {
       method: "PUT",
       body: JSON.stringify({
-        key: note.key,
         text: updatedText,
       }),
       headers: {
         "Content-type": FETCH_CONTENT_TYPE,
       },
     });
-
     note.text = updatedText;
-    note.date = new Date();
+    note.date = response;
     setNotes([...notes]);
   };
 
-  function getCookie(cname) {
-    console.log(document.cookie);
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) === ' ') {
-        c = c.substring(1);
-        console.log("substring!");
-      }
-      console.log(c);
-      if (c.indexOf(name) === 0) {
-        console.log("substring fin!");
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
-
   async function fetchNotes() {
     try {
-      const cookie = getCookie(AUTHORIZATION_COOKIE_KEY);
-      console.log(cookie);
-      const response = await fetch(ROOT_NOTES_URL, {
-        headers: {
-          "Authorization": cookie
-        }
-      });
+      const response = await fetch(ROOT_NOTES_URL);
       if (!response.ok) {
         throw new Error(response.status);
       }
@@ -145,6 +110,16 @@ const Home = () => {
     }
   }
 
+  const fetchNotesFromDatabase = async () => {
+    const response = await fetchNotes();
+    if (response !== undefined && response.length > 0) {
+      setNotes(parseNoteDates(response));
+    }
+    else {
+      setNotes(defaultNotes);
+    }
+  };
+
   const fetchUser = async () => {
     try {
       const url = `${ROOT_AUTHENTICATION_URL}/user`;
@@ -153,28 +128,28 @@ const Home = () => {
         throw new Error(response.status);
       }
       const content = await response.json();
-      console.log(content.email);
       setEmail(content.email);
-      const cookie = getCookie(AUTHORIZATION_COOKIE_KEY);
-      console.log(cookie);
-      // setNotes(content.notes);
+      fetchNotesFromDatabase();
     }
     catch (e) {
       console.error(e);
     }
   }
 
-  useEffect(() => {
-    const fetchNotesFromDatabase = async () => {
-      const response = await fetchNotes();
-      if (response !== undefined) {
-        setNotes(parseNoteDates(response));
-      }
-    };
-    // fetchNotesFromDatabase();
-    //eslint-disable-next-line
+  const logoutUser = async () => {
+    console.log("tso?");
+    await fetch(`${ROOT_AUTHENTICATION_URL}/logout`, {
+      method: "POST",
+      headers: {
+        "Content-type": FETCH_CONTENT_TYPE,
+      },
+    });
+  }
 
-    // fetchUser();
+  useEffect(() => {
+    fetchUser();
+    fetchNotesFromDatabase();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addNote = (text) => {
@@ -223,19 +198,15 @@ const Home = () => {
     setIsSigningUp((prevState) => !prevState);
   }
 
-  const handleSubmit = (email, password, shouldRememberPassword) => {
-    fetchUser();
-  }
-
   const contentMarginRight = (isLoggingIn || isSigningUp) ? "100px" : "0";
   return (
     <div>
       <div className="app-container">
         <div id="main" style={{ marginRight: contentMarginRight }}>
-          <Header username={email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />
+          <Header username={email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={logoutUser} />
           <Search handleSearchText={setSearchText} />
           <NotesList
-            notes={notes.length > 0 && notes.filter(filterText)}
+            notes={notes.filter(filterText)}
             searchText={searchText}
             handleAddNote={addNote}
             handleRemoveNote={removeNote}
@@ -243,8 +214,8 @@ const Home = () => {
           />
         </div>
       </div>
-      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} handleOnSubmit={handleSubmit} />} isOpen={isLoggingIn} onClose={toggleLogin} />
-      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} handleOnSubmit={handleSubmit} />} isOpen={isSigningUp} onClose={toggleSignUp} />
+      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} handleOnSubmit={fetchUser} />} isOpen={isLoggingIn} onClose={toggleLogin} />
+      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} handleOnSubmit={fetchUser} />} isOpen={isSigningUp} onClose={toggleSignUp} />
     </div>
   );
 };

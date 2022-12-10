@@ -30,7 +30,6 @@ namespace NoteNough.NET
                                   });
             });
 
-            builder.Services.AddRouting();
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -83,10 +82,7 @@ namespace NoteNough.NET
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(app =>
-            {
-                app.MapControllers();
-            });
+            app.MapControllers();
 
             // FixMigration();
             app.Run();

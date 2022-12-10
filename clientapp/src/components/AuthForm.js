@@ -10,6 +10,7 @@ const AuthForm = ({
   onClose,
   handleOnSubmit,
 }) => {
+  const defaultRememberPassword = true;
   const [isShowingPassword, setShowingPassword] = useState(false);
   const toggleShowPassword = () => {
     setShowingPassword((prevState) => !prevState);
@@ -19,29 +20,37 @@ const AuthForm = ({
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const [isRememberingPassword, setRememberingPassword] = useState(true);
-  const toggleRememberPassword = () => {
-    setRememberingPassword((prevState) => !prevState);
-  };
+  const [isRememberPassword, setRememberPassword] = useState(defaultRememberPassword);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const urlName = canForgotPassword ? "login" : "register";
     const credentialsType = canForgotPassword ? "include" : "same-origin";
-    await fetch(`http://localhost:8080/api/auth/${urlName}`, {
+    const response = await fetch(`http://localhost:8080/api/auth/${urlName}`, {
       method: 'POST',
       credentials: credentialsType,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      headers:
+      {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        {
+          email: email,
+          password: password,
+          rememberMe: isRememberPassword
+        }),
     })
 
-    setPassword("");
-    setEmail("");
+    if (response.ok) {
+      setPassword("");
+      setEmail("");
+      setRememberPassword(defaultRememberPassword);
 
-    handleOnSubmit(email, password, isRememberingPassword, !canForgotPassword);
+      handleOnSubmit();
 
-    onClose();
+      onClose();
+    }
   };
 
   const handleChangeEmail = (event) => {
@@ -50,6 +59,10 @@ const AuthForm = ({
 
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
+  };
+
+  const toggleRememberPassword = () => {
+    setRememberPassword((prevState) => !prevState);
   };
 
   const [isCapsLocked, setCapsLocked] = useState(false);
@@ -135,7 +148,7 @@ const AuthForm = ({
               <input
                 onClick={toggleRememberPassword}
                 type="checkbox"
-                defaultChecked={isRememberingPassword}
+                defaultChecked={isRememberPassword}
               />
               {rememberPasswordText}
             </label>

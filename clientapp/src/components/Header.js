@@ -2,7 +2,7 @@ import "./Header.css";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = ({ username, onLoginClick, onSignUpClick }) => {
+const Header = ({ username, onLoginClick, onSignUpClick, onLogoutClick }) => {
   const rootRoute = "/";
   return (
     <header>
@@ -12,7 +12,11 @@ const Header = ({ username, onLoginClick, onSignUpClick }) => {
             <img alt="test" src="logo.png" />
           </Link>
         </div>
-        {username ? <div><span>{username}</span></div> :
+        {username ?
+          <div>
+            <span>{username}</span>
+            <button onClick={onLogoutClick} className={`auth-button login-btn`}>Log out</button>
+          </div> :
           <ul>
             <button
               onClick={onLoginClick}

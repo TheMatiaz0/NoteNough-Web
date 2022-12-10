@@ -7,7 +7,7 @@ namespace NoteNough.NET.Services
 {
     public class JwtService
     {
-        public string Generate(int userId, string email)
+        public string Generate(int userId)
         {
             var tokenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Program.JWTConfig.SecurityKey));
             var credentials = new SigningCredentials(tokenKey, SecurityAlgorithms.HmacSha256);
