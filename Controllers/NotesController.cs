@@ -62,7 +62,6 @@ namespace NoteNough.NET.Controllers
 
             var note = new Note 
             {
-                Key = noteDTO.Key,
                 Text = noteDTO.Text,
                 User = user,
                 UserId = userId,
@@ -73,6 +72,7 @@ namespace NoteNough.NET.Controllers
 
             _context.SavedNotes.Add(note);
             await _context.SaveChangesAsync();
+            noteDTO.Key = note.Key;
 
             return CreatedAtAction("GetNote", new { id = noteDTO.Key}, noteDTO);
         }
