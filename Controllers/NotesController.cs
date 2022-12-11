@@ -21,7 +21,7 @@ namespace NoteNough.NET.Controllers
 
         // GET: api/Notes
         [HttpGet]
-        public IActionResult GetNotes()
+        public ActionResult GetNotes()
         {
             if (_context.SavedNotes == null)
             {
@@ -79,7 +79,7 @@ namespace NoteNough.NET.Controllers
 
         // GET: api/Notes/5
         [HttpGet("{id}")]
-        public IActionResult GetNote(int id)
+        public ActionResult GetNote(int id)
         {
             if (_context.SavedNotes == null)
             {
@@ -100,7 +100,7 @@ namespace NoteNough.NET.Controllers
         // PUT: api/Notes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNote(int id, NoteDTO noteDTO)
+        public async Task<ActionResult> PutNote(int id, NoteDTO noteDTO)
         {
             int userId = GetLoggedInUserId();
             var existingNote = _context.SavedNotes.Find(id);
@@ -145,7 +145,7 @@ namespace NoteNough.NET.Controllers
 
         // DELETE: api/Notes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteNote(int id)
+        public async Task<ActionResult> DeleteNote(int id)
         {
             if (_context.SavedNotes == null)
             {

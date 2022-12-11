@@ -43,11 +43,14 @@ namespace NoteNough.NET.Controllers
             _dbContext.SavedUsers.Add(hashedUser);
             await _dbContext.SaveChangesAsync();
 
-            return Created("register", hashedUser);
+            var loginResult = PostLogin(loginDTO);
+
+            return loginResult;
         }
 
         [HttpPost("login")]
-        public IActionResult PostLogin(LoginDTO loginDTO)
+        [ActionName("login")]
+        public ActionResult PostLogin(LoginDTO loginDTO)
         {
             if (_dbContext.SavedUsers == null)
             {
@@ -60,41 +63,44 @@ namespace NoteNough.NET.Controllers
             {
                 return BadRequest(credentialsError);
             }
-            if (!Verify(loginDTO.Password, existingUser.Password))
+
+            if (Verify(loginDTO.Password, existingUser.Password))
+            {
+                var jwt = _jwtService.Generate(existingUser.Id);
+                if (jwt == null)
+                {
+                    return Unauthorized();
+                }
+
+                var cookieExpiration = loginDTO.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddMinutes(15);
+                Response.Cookies.Append(Program.JWTConfig.CookieHeader, jwt, new CookieOptions
+                {
+                    Expires = cookieExpiration,
+                    Domain = "localhost",
+                    HttpOnly = true,
+                    Secure = false,
+                    SameSite = SameSiteMode.Lax,
+                    IsEssential = true,
+                });
+
+                return Ok();
+            }
+            else
             {
                 return BadRequest(credentialsError);
             }
-
-            var jwt = _jwtService.Generate(existingUser.Id);
-            if (jwt == null)
-            {
-                return Unauthorized();
-            }
-
-            var cookieExpiration = loginDTO.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddMinutes(15);
-            Response.Cookies.Append(Program.JWTConfig.CookieHeader, jwt, new CookieOptions
-            {
-                Expires = cookieExpiration,
-                Domain = "localhost",
-                HttpOnly = true,
-                Secure = false,
-                SameSite = SameSiteMode.Lax,
-                IsEssential = true
-            });
-
-            return Ok();
         }
 
         [HttpGet("user")]
         [Authorize]
-        public IActionResult GetUser()
+        public ActionResult GetUser()
         {
             var currentUser = GetCurrentUser();
             return Ok(currentUser);
         }
 
         [HttpPost("logout")]
-        public IActionResult PostLogout()
+        public ActionResult PostLogout()
         {
             var user = User as ClaimsPrincipal;
             var identity = user.Identity as ClaimsIdentity;
@@ -106,7 +112,7 @@ namespace NoteNough.NET.Controllers
                 identity?.RemoveClaim(claim);
             }
 
-            return Ok("Success!");
+            return Ok();
         }
 
         [HttpDelete("delete")]
@@ -127,7 +133,7 @@ namespace NoteNough.NET.Controllers
             _dbContext.SavedUsers.Remove(user);
             await _dbContext.SaveChangesAsync();
 
-            return Ok("Success!");
+            return Ok();
         }
 
         private bool UserExists(string email)
