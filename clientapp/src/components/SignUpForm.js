@@ -1,10 +1,10 @@
 import AuthForm from "./AuthForm"
 
-const SignUpForm = ({ onClose, handleOnSubmit }) => {
+const SignUpForm = ({ onClose, handleOnSubmit, onLoginClick, onSignUpClick }) => {
 
     return (
         <div>
-            <AuthForm title="Hello newcomer 🧑" canForgotPassword={false} buttonText="Create account" rememberPasswordText="Remember password" onClose={onClose} handleOnSubmit={handleOnSubmit} />
+            <AuthForm canForgotPassword={false} buttonText="Create account" rememberPasswordText="Remember password" onClose={onClose} handleOnSubmit={handleOnSubmit} onLoginClick={onLoginClick} onSignUpClick={onSignUpClick} />
         </div>
     );
 };

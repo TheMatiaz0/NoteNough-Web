@@ -8,7 +8,6 @@ import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
 
 const Home = () => {
-  // const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
   const ROOT_NOTES_URL = `http://${window.location.hostname}:8080/api/Notes`;
   const ROOT_AUTHENTICATION_URL = `http://${window.location.hostname}:8080/api/auth`;
   const FETCH_CONTENT_TYPE = "application/json; charset=UTF-8";
@@ -40,27 +39,10 @@ const Home = () => {
   };
 
   const [notes, setNotes] = useState(() => {
-    /*
-    const localStorageNotes = localStorage.getItem(LOCAL_STORAGE_DATA_NAME);
-    const parsedNotes = JSON.parse(localStorageNotes);
-    if (parsedNotes)
-    {
-      return parsedNotes.map(val => {
-        return {...val, date: new Date(val.date)};
-      });
-    }
-    */
-
     return defaultNotes;
   });
 
   const [searchText, setSearchText] = useState("");
-
-  /*
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_DATA_NAME, JSON.stringify(notes));
-  }, [notes]);
-  */
 
   const addNoteToDatabase = async (text) => {
     let response = await fetch(ROOT_NOTES_URL, {
@@ -169,18 +151,10 @@ const Home = () => {
 
   const addNote = (text) => {
     addNoteToDatabase(text);
-    /*
-    setNotes([...notes, {
-      key: nanoid(),
-      text: text,
-      date: new Date()
-    }]);
-    */
   };
 
   const removeNote = (key) => {
     deleteNoteFromDatabase(key);
-    /* setNotes(notes.filter(note => note.key !== key)); */
   };
 
   const editNote = (key, newText) => {
@@ -190,11 +164,6 @@ const Home = () => {
     if (newText !== specificNote.text) {
       editNoteFromDatabase(specificNote, newText);
     }
-    /*
-      specificNote.text = newText;
-      specificNote.date = new Date();
-      setNotes(newNotes);
-    */
   };
 
   const filterText = (note) =>
@@ -206,10 +175,12 @@ const Home = () => {
   const [email, setEmail] = useState("");
 
   const toggleLogin = () => {
+    setIsSigningUp(false);
     setIsLoggingIn((prevState) => !prevState);
   };
 
   const toggleSignUp = () => {
+    setIsLoggingIn(false);
     setIsSigningUp((prevState) => !prevState);
   }
 
@@ -229,8 +200,8 @@ const Home = () => {
           />
         </div>
       </div>
-      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} handleOnSubmit={fetchUser} />} isOpen={isLoggingIn} onClose={toggleLogin} />
-      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} handleOnSubmit={fetchUser} />} isOpen={isSigningUp} onClose={toggleSignUp} />
+      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} handleOnSubmit={fetchUser} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
+      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} handleOnSubmit={fetchUser} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
     </div>
   );
 };

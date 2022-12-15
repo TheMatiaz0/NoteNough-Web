@@ -1,14 +1,16 @@
 import { MdOutlineMail, MdLockOutline, MdInfoOutline } from "react-icons/md";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useState } from "react";
+import SwitchFormButton from "./SwitchFormButton";
 
 const AuthForm = ({
-  title,
   canForgotPassword,
   buttonText,
   rememberPasswordText,
   onClose,
   handleOnSubmit,
+  onLoginClick,
+  onSignUpClick
 }) => {
   const defaultRememberPassword = true;
   const [isShowingPassword, setShowingPassword] = useState(false);
@@ -74,10 +76,19 @@ const AuthForm = ({
 
   return (
     <div className="form">
-      <div className="form-header">
+      <div className="form-header vert-align">
         <div className="form-info">
           <img className="logo" alt="logo" src="favicon.png" />
-          <div className="auth-header">{title}</div>
+          <div className="auth-headers">
+            <SwitchFormButton
+              isActive={canForgotPassword}
+              text="Log in to your account"
+              onClick={onLoginClick} />
+            <SwitchFormButton
+              isActive={!canForgotPassword}
+              text="Create an account"
+              onClick={onSignUpClick} />
+          </div>
         </div>
         <span onClick={onClose} className="close">
           &times;

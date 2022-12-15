@@ -100,6 +100,7 @@ namespace NoteNough.NET.Controllers
         }
 
         [HttpPost("logout")]
+        [Authorize]
         public ActionResult PostLogout()
         {
             var user = User as ClaimsPrincipal;

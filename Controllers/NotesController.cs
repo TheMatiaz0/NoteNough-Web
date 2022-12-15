@@ -68,10 +68,9 @@ namespace NoteNough.NET.Controllers
                 Created = DateTime.UtcNow
             };
 
-            noteDTO.Created = note.Created;
-
             _context.SavedNotes.Add(note);
             await _context.SaveChangesAsync();
+            noteDTO.Created = note.Created;
             noteDTO.Key = note.Key;
 
             return CreatedAtAction("GetNote", new { id = noteDTO.Key}, noteDTO);

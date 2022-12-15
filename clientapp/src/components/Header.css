@@ -38,6 +38,9 @@ nav ul {
   color: var(--color-additional-3);
   cursor: pointer;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  align-content: space-between;
 }
 
 .auth-button:hover {

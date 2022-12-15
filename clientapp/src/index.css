@@ -134,7 +134,7 @@ select:-webkit-autofill:focus {
 .input-field .auth-icon {
   z-index: 101;
   position: absolute;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   color: #999;
   font-size: 23px;
@@ -157,6 +157,12 @@ select:-webkit-autofill:focus {
   position: relative;
   font-size: 27px;
   font-weight: 600;
+  margin-top: 16.6px;
+  color: white;
+  display: flex;
+  align-content: space-between;
+  align-items: center;
+  vertical-align: middle;
 }
 
 .left-icon {
@@ -169,6 +175,10 @@ select:-webkit-autofill:focus {
 
 .btn-icon {
   cursor: pointer;
+}
+
+.arrow-break {
+  margin-right: 5px;
 }
 
 /* Checkbox and remember me */
@@ -228,5 +238,20 @@ select:-webkit-autofill:focus {
   vertical-align: middle;
 }
 
+.password-tips {
+  margin-top: 40px;
+}
+
+.b1 {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.sidenav .form .inactive-header {
+  color: rgb(151, 151, 151);
+}
 
 

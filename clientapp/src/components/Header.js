@@ -1,7 +1,7 @@
 import "./Header.css";
 import React from "react";
 import { Link } from "react-router-dom";
-import { MdArrowDropDownCircle } from "react-icons/md";
+import { MdArrowDropDownCircle, MdOutlineManageAccounts, MdLogout, MdLogin, MdHowToVote } from "react-icons/md";
 
 const Header = ({ username, onLoginClick, onSignUpClick, onLogoutClick, onDeleteAccountClick }) => {
   const rootRoute = "/";
@@ -13,15 +13,15 @@ const Header = ({ username, onLoginClick, onSignUpClick, onLogoutClick, onDelete
             <img alt="test" src="logo.png" />
           </Link>
         </div>
-        {username ?
+        {!username ?
           <ul>
             <div className="dropdown">
               <button className="auth-button dropbtn">
-                {username}<MdArrowDropDownCircle size="1.2em" />
+                mateusz.kusionowicz@protonmail.com<MdArrowDropDownCircle size="1.2em" />
               </button>
-              <div class="dropdown-content">
-                <button onClick={onLogoutClick} className={`auth-button login-btn`}>Log out</button>
-                <button onClick={onDeleteAccountClick} className={`auth-button login-btn`}>Delete account</button>
+              <div class="dropdown-content auth-button">
+                <button onClick={onDeleteAccountClick} className={`auth-button login-btn`}><MdOutlineManageAccounts className="arrow-break" size="1em" />Account settings</button>
+                <button onClick={onLogoutClick} className={`auth-button login-btn`}><MdLogout className="arrow-break" size="1em" />Sign out</button>
               </div>
             </div>
           </ul> :
@@ -30,13 +30,13 @@ const Header = ({ username, onLoginClick, onSignUpClick, onLogoutClick, onDelete
               onClick={onLoginClick}
               className={`auth-button login-btn`}
             >
-              Login
+              <MdLogin size="1em" /> | Log in
             </button>
             <button
               onClick={onSignUpClick}
               className={`auth-button signup-btn`}
             >
-              Sign up
+              <MdHowToVote size="1em" /> | Sign up
             </button>
           </ul>}
       </nav>
