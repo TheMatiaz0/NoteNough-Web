@@ -13,7 +13,7 @@ const Header = ({ username, onLoginClick, onSignUpClick, onLogoutClick, onDelete
             <img alt="test" src="logo.png" />
           </Link>
         </div>
-        {!username ?
+        {username ?
           <ul>
             <div className="dropdown">
               <button className="auth-button dropbtn">

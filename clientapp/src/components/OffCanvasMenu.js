@@ -1,7 +1,7 @@
 const OffCanvasMenu = ({ content, isOpen, onClose }) => {
-  let canvasWidth = "0";
+  let right;
   if (isOpen) {
-    canvasWidth = window.innerWidth < 500 ? "100%" : "500px";
+    right = isOpen ? "0px" : "-510px"
   }
 
   const overlayBackgroundColor = isOpen
@@ -11,7 +11,7 @@ const OffCanvasMenu = ({ content, isOpen, onClose }) => {
 
   return (
     <div>
-      <div id="mySidenav" className="sidenav" style={{ width: canvasWidth }}>
+      <div id="mySidenav" className="sidenav" style={{ right: right }}>
         {content}
       </div>
       <div
