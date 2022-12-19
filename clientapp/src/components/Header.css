@@ -60,11 +60,15 @@ nav ul {
   display: block;
 }
 
-.dropbtn {
+.drop-btn {
   vertical-align: middle;
   display: flex;
   justify-content: space-between;
   gap: 10px;
+}
+
+.dropdown .dropdown-content {
+  width: 385px;
 }
 
 @media screen and (max-width: 450px) {

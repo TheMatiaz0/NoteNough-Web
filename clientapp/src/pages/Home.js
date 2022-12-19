@@ -87,9 +87,6 @@ const Home = () => {
   async function fetchNotes() {
     try {
       const response = await fetch(ROOT_NOTES_URL);
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
       return await response.json();
     } catch (e) {
       console.error(e);
@@ -110,9 +107,6 @@ const Home = () => {
     try {
       const url = `${ROOT_AUTHENTICATION_URL}/user`;
       const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
       const content = await response.json();
       setEmail(content.email);
     }
@@ -120,7 +114,7 @@ const Home = () => {
       setEmail("");
       console.error(e);
     }
-    fetchNotesFromDatabase();
+    return fetchNotesFromDatabase();
   }
 
   const logoutUser = async () => {
@@ -130,7 +124,7 @@ const Home = () => {
         "Content-type": FETCH_CONTENT_TYPE,
       },
     });
-    fetchUser();
+    return fetchUser();
   }
 
   const deleteAccount = async () => {
@@ -140,21 +134,20 @@ const Home = () => {
         "Content-type": FETCH_CONTENT_TYPE,
       },
     });
-    fetchUser();
+    return fetchUser();
   }
 
 
   useEffect(() => {
     fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addNote = (text) => {
-    addNoteToDatabase(text);
+    return addNoteToDatabase(text);
   };
 
   const removeNote = (key) => {
-    deleteNoteFromDatabase(key);
+    return deleteNoteFromDatabase(key);
   };
 
   const editNote = (key, newText) => {
@@ -162,7 +155,7 @@ const Home = () => {
     const newNotes = [...notes];
     const specificNote = newNotes[specificIndex];
     if (newText !== specificNote.text) {
-      editNoteFromDatabase(specificNote, newText);
+      return editNoteFromDatabase(specificNote, newText);
     }
   };
 
@@ -189,7 +182,7 @@ const Home = () => {
     <div>
       <div className="app-container">
         <div id="main" style={{ marginRight: contentMarginRight }}>
-          <Header username={email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={logoutUser} onDeleteAccountClick={deleteAccount} />
+          <Header showNavigation={true} username={email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={logoutUser} />
           <Search handleSearchText={setSearchText} />
           <NotesList
             notes={notes.filter(filterText)}

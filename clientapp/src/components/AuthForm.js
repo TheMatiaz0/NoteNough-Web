@@ -100,7 +100,6 @@ const AuthForm = ({
             type="text"
             placeholder="Enter your email"
             autoComplete="email"
-            name="Enter your email to log in"
             onChange={handleChangeEmail}
             value={email}
             required
@@ -113,7 +112,6 @@ const AuthForm = ({
             type={isShowingPassword ? "text" : "password"}
             placeholder="Enter your password"
             autoComplete="current-password"
-            name="Enter your password to log in"
             onChange={handleChangePassword}
             value={password}
             required
@@ -131,7 +129,7 @@ const AuthForm = ({
         <div className="password-tips">
           {canForgotPassword ? (
             <p>
-              🟡 Remember that your password contains at least{" "}
+              Remember that your password contains at least{" "}
               <b>8 characters</b>.
             </p>
           ) : (
