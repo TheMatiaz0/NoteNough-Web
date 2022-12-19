@@ -22,17 +22,12 @@ namespace NoteNough.NET.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> PostRegister(LoginDTO loginDTO)
+        public async Task<ActionResult> PostRegister(LoginDTO loginDto)
         {
-            if (_dbContext.SavedUsers == null)
-            {
-                return Problem("Entity set 'AppDBContext.Notes' is null.");
-            }
-
             var hashedUser = new User
             {
-                Email = loginDTO.Email, 
-                Password = HashPassword(loginDTO.Password) 
+                Email = loginDto.Email, 
+                Password = HashPassword(loginDto.Password) 
             };
 
             if (UserExists(hashedUser.Email))
@@ -43,36 +38,26 @@ namespace NoteNough.NET.Controllers
             _dbContext.SavedUsers.Add(hashedUser);
             await _dbContext.SaveChangesAsync();
 
-            var loginResult = PostLogin(loginDTO);
+            var loginResult = PostLogin(loginDto);
 
             return loginResult;
         }
 
         [HttpPost("login")]
         [ActionName("login")]
-        public ActionResult PostLogin(LoginDTO loginDTO)
+        public ActionResult PostLogin(LoginDTO loginDto)
         {
-            if (_dbContext.SavedUsers == null)
-            {
-                return Problem("Entity set 'AppDBContext.Notes' is null.");
-            }
-
-            var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Email == loginDTO.Email);
+            var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Email == loginDto.Email);
             string credentialsError = "Invalid credentials!";
             if (existingUser == null)
             {
                 return BadRequest(credentialsError);
             }
 
-            if (Verify(loginDTO.Password, existingUser.Password))
+            if (Verify(loginDto.Password, existingUser.Password))
             {
                 var jwt = _jwtService.Generate(existingUser.Id);
-                if (jwt == null)
-                {
-                    return Unauthorized();
-                }
-
-                var cookieExpiration = loginDTO.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddMinutes(15);
+                var cookieExpiration = loginDto.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddMinutes(15);
                 Response.Cookies.Append(Program.JWTConfig.CookieHeader, jwt, new CookieOptions
                 {
                     Expires = cookieExpiration,
@@ -103,7 +88,7 @@ namespace NoteNough.NET.Controllers
         [Authorize]
         public ActionResult PostLogout()
         {
-            var user = User as ClaimsPrincipal;
+            var user = User;
             var identity = user.Identity as ClaimsIdentity;
 
             Response.Cookies.Delete(Program.JWTConfig.CookieHeader);
@@ -120,11 +105,6 @@ namespace NoteNough.NET.Controllers
         [Authorize]
         public async Task<ActionResult> DeleteUser()
         {
-            if (_dbContext.SavedUsers == null)
-            {
-                return NotFound();
-            }
-
             var user = GetCurrentUser();
             if (user == null)
             {

@@ -23,11 +23,6 @@ namespace NoteNough.NET.Controllers
         [HttpGet]
         public ActionResult GetNotes()
         {
-            if (_context.SavedNotes == null)
-            {
-                return NotFound();
-            }
-
             int userId = GetLoggedInUserId();
             var notes = GetUserNotes(userId);
             return Ok(notes);
@@ -46,13 +41,8 @@ namespace NoteNough.NET.Controllers
         // POST: api/Notes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Note>> PostNote(NoteDTO noteDTO)
+        public async Task<ActionResult<Note>> PostNote(NoteDTO noteDto)
         {
-            if (_context.SavedNotes == null)
-            {
-                return Problem("Entity set 'AppDBContext.Notes' is null.");
-            }
-
             int userId = GetLoggedInUserId();
             var user = _context.SavedUsers.Find(userId);
             if (user == null)
@@ -62,7 +52,7 @@ namespace NoteNough.NET.Controllers
 
             var note = new Note 
             {
-                Text = noteDTO.Text,
+                Text = noteDto.Text,
                 User = user,
                 UserId = userId,
                 Created = DateTime.UtcNow
@@ -70,10 +60,10 @@ namespace NoteNough.NET.Controllers
 
             _context.SavedNotes.Add(note);
             await _context.SaveChangesAsync();
-            noteDTO.Created = note.Created;
-            noteDTO.Key = note.Key;
+            noteDto.Created = note.Created;
+            noteDto.Key = note.Key;
 
-            return CreatedAtAction("GetNote", new { id = noteDTO.Key}, noteDTO);
+            return CreatedAtAction("GetNote", new { id = noteDto.Key}, noteDto);
         }
 
         // GET: api/Notes/5
@@ -99,7 +89,7 @@ namespace NoteNough.NET.Controllers
         // PUT: api/Notes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutNote(int id, NoteDTO noteDTO)
+        public async Task<ActionResult> PutNote(int id, NoteDTO noteDto)
         {
             int userId = GetLoggedInUserId();
             var existingNote = _context.SavedNotes.Find(id);
@@ -113,8 +103,8 @@ namespace NoteNough.NET.Controllers
                 return NotFound();
             }
 
-            existingNote.Text = noteDTO.Text;
-            existingNote.Updated = noteDTO.Updated = DateTime.UtcNow;
+            existingNote.Text = noteDto.Text;
+            existingNote.Updated = noteDto.Updated = DateTime.UtcNow;
 
             _context.Entry(existingNote).State = EntityState.Modified;
 
@@ -134,7 +124,7 @@ namespace NoteNough.NET.Controllers
                 }
             }
 
-            return Ok(noteDTO);
+            return Ok(noteDto);
         }
 
         private bool NoteExists(int id)
@@ -146,11 +136,6 @@ namespace NoteNough.NET.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteNote(int id)
         {
-            if (_context.SavedNotes == null)
-            {
-                return NotFound();
-            }
-
             int userId = GetLoggedInUserId();
             var note = GetUserNotes(userId).FirstOrDefault(x => x.Key == id);
             if (note == null)
