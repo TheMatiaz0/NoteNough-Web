@@ -1,7 +1,6 @@
 import "./Header.css";
 import React from "react";
 import { Link } from "react-router-dom";
-import { MdArrowDropDownCircle, MdOutlineManageAccounts, MdLogout, MdLogin, MdHowToVote } from "react-icons/md";
 import NavigationButtons from "./NavigationButtons";
 
 const Header = ({ username, showNavigation, onLoginClick, onSignUpClick, onLogoutClick }) => {

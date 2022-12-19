@@ -30,10 +30,14 @@ const Home = () => {
   ];
 
   const parseNoteDates = (parsedNotes) => {
-    return parsedNotes.map((val) => {
+    return parsedNotes.map((note) => {
+      let originDate = note.created;
+      if (note.updated !== null && note.updated > note.created) {
+        originDate = note.updated;
+      }
       return {
-        ...val,
-        date: new Date(val.created),
+        ...note,
+        date: new Date(originDate),
       };
     });
   };
