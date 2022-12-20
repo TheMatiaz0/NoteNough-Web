@@ -1,6 +1,6 @@
 ﻿namespace NoteNough.NET.Data
 {
-    public class JWTConfigurationData
+    public class JwtConfigurationData
     {
         public const string Header = "JWT";
 

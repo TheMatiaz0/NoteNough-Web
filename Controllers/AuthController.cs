@@ -12,17 +12,17 @@ namespace NoteNough.NET.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly AppDBContext _dbContext;
+        private readonly AppDbContext _dbContext;
         private readonly JwtService _jwtService;
 
-        public AuthController(AppDBContext context, JwtService jwtService)
+        public AuthController(AppDbContext context, JwtService jwtService)
         {
             _dbContext = context;
             _jwtService = jwtService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> PostRegister(LoginDTO loginDto)
+        public async Task<ActionResult> PostRegister(LoginDto loginDto)
         {
             var hashedUser = new User
             {
@@ -45,7 +45,7 @@ namespace NoteNough.NET.Controllers
 
         [HttpPost("login")]
         [ActionName("login")]
-        public ActionResult PostLogin(LoginDTO loginDto)
+        public ActionResult PostLogin(LoginDto loginDto)
         {
             var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Email == loginDto.Email);
             string credentialsError = "Invalid credentials!";

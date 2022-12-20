@@ -2,7 +2,7 @@
 
 namespace NoteNough.NET.Models
 {
-    public class NoteDTO
+    public class NoteDto
     {
         [Key]
         public int Key { get; set; }

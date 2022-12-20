@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NoteNough.NET.Models
 {
-    public class LoginDTO : IValidatableObject
+    public class LoginDto : IValidatableObject
     {
         [Required]
         public string Email { get; set; } = string.Empty;

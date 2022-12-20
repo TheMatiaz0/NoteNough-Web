@@ -12,9 +12,9 @@ namespace NoteNough.NET.Controllers
     [ApiController]
     public class NotesController : ControllerBase
     {
-        private readonly AppDBContext _context;
+        private readonly AppDbContext _context;
 
-        public NotesController(AppDBContext context)
+        public NotesController(AppDbContext context)
         {
             _context = context;
         }
@@ -41,7 +41,7 @@ namespace NoteNough.NET.Controllers
         // POST: api/Notes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Note>> PostNote(NoteDTO noteDto)
+        public async Task<ActionResult<Note>> PostNote(NoteDto noteDto)
         {
             int userId = GetLoggedInUserId();
             var user = _context.SavedUsers.Find(userId);
@@ -70,11 +70,6 @@ namespace NoteNough.NET.Controllers
         [HttpGet("{id}")]
         public ActionResult GetNote(int id)
         {
-            if (_context.SavedNotes == null)
-            {
-                return NotFound();
-            }
-
             int userId = GetLoggedInUserId();
             var note = GetUserNotes(userId).FirstOrDefault(x => x.Key == id);
 
@@ -89,7 +84,7 @@ namespace NoteNough.NET.Controllers
         // PUT: api/Notes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutNote(int id, NoteDTO noteDto)
+        public async Task<ActionResult> PutNote(int id, NoteDto noteDto)
         {
             int userId = GetLoggedInUserId();
             var existingNote = _context.SavedNotes.Find(id);

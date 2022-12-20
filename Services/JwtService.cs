@@ -23,7 +23,7 @@ namespace NoteNough.NET.Services
         public JwtSecurityToken Verify(string jwt)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(Program.JWTConfig.SecurityKey);
+            byte[] key = Encoding.UTF8.GetBytes(Program.JWTConfig.SecurityKey);
 
             tokenHandler.ValidateToken(jwt, new TokenValidationParameters
             {
@@ -34,7 +34,7 @@ namespace NoteNough.NET.Services
                 ValidateAudience = true,
                 ValidIssuer = Program.JWTConfig.Issuer,
                 ValidAudience = Program.JWTConfig.Audience,
-            }, out SecurityToken validatedToken);
+            }, out var validatedToken);
 
             return (JwtSecurityToken)validatedToken;
         }
