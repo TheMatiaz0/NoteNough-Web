@@ -142,8 +142,8 @@ const Home = () => {
   }
 
 
-  useEffect(async () => {
-    await fetchUser();
+  useEffect(() => {
+    fetchUser();
   }, []);
 
   const addNote = (text) => {
