@@ -1,15 +1,16 @@
 import NotesList from "../components/NotesList";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { nanoid } from "nanoid";
 import Search from "../components/Search";
 import Header from "../components/Header";
 import OffCanvasMenu from "../components/OffCanvasMenu";
 import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
+import { fetchUser, logoutUser } from "../services/AuthenticationHandler";
 
 const Home = () => {
   const ROOT_NOTES_URL = `${process.env.REACT_APP_ROOT_URL}/api/notes`;
-  const ROOT_AUTHENTICATION_URL = `${process.env.REACT_APP_ROOT_URL}/api/auth`;
+
   const defaultNotes = [
     {
       key: nanoid(),
@@ -106,45 +107,6 @@ const Home = () => {
     }
   };
 
-  const fetchUser = async () => {
-    try {
-      const url = `${ROOT_AUTHENTICATION_URL}/user`;
-      const response = await fetch(url);
-      const content = await response.json();
-      setEmail(content.email);
-    }
-    catch (e) {
-      setEmail("");
-      console.error(e);
-    }
-    return fetchNotesFromDatabase();
-  }
-
-  const logoutUser = async () => {
-    await fetch(`${ROOT_AUTHENTICATION_URL}/logout`, {
-      method: "POST",
-      headers: {
-        "Content-type": process.env.REACT_APP_FETCH_TYPE,
-      },
-    });
-    return fetchUser();
-  }
-
-  const deleteAccount = async () => {
-    await fetch(`${ROOT_AUTHENTICATION_URL}/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-type": process.env.REACT_APP_FETCH_TYPE,
-      },
-    });
-    return fetchUser();
-  }
-
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
   const addNote = (text) => {
     return addNoteToDatabase(text);
   };
@@ -167,8 +129,6 @@ const Home = () => {
 
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isSigningUp, setIsSigningUp] = useState(false);
-
-  const [email, setEmail] = useState("");
 
   const toggleLogin = () => {
     setIsSigningUp(false);
