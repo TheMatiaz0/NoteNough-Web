@@ -3,8 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import AccountSettings from "./pages/AccountSettings";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-const ROOT_URL = window.location.href;
-
 const App = () => {
   return (
     <div>

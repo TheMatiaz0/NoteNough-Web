@@ -8,9 +8,8 @@ import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
 
 const Home = () => {
-  const ROOT_NOTES_URL = `http://${window.location.hostname}:8080/api/Notes`;
-  const ROOT_AUTHENTICATION_URL = `http://${window.location.hostname}:8080/api/auth`;
-  const FETCH_CONTENT_TYPE = "application/json; charset=UTF-8";
+  const ROOT_NOTES_URL = `${process.env.REACT_APP_ROOT_URL}/api/notes`;
+  const ROOT_AUTHENTICATION_URL = `${process.env.REACT_APP_ROOT_URL}/api/auth`;
   const defaultNotes = [
     {
       key: nanoid(),
@@ -55,7 +54,7 @@ const Home = () => {
         text: text,
       }),
       headers: {
-        "Content-type": FETCH_CONTENT_TYPE,
+        "Content-type": process.env.REACT_APP_FETCH_TYPE,
       },
     });
     let data = await response.json();
@@ -79,7 +78,7 @@ const Home = () => {
         text: updatedText,
       }),
       headers: {
-        "Content-type": FETCH_CONTENT_TYPE,
+        "Content-type": process.env.REACT_APP_FETCH_TYPE,
       },
     });
     let data = await response.json();
@@ -125,7 +124,7 @@ const Home = () => {
     await fetch(`${ROOT_AUTHENTICATION_URL}/logout`, {
       method: "POST",
       headers: {
-        "Content-type": FETCH_CONTENT_TYPE,
+        "Content-type": process.env.REACT_APP_FETCH_TYPE,
       },
     });
     return fetchUser();
@@ -135,7 +134,7 @@ const Home = () => {
     await fetch(`${ROOT_AUTHENTICATION_URL}/delete`, {
       method: "DELETE",
       headers: {
-        "Content-type": FETCH_CONTENT_TYPE,
+        "Content-type": process.env.REACT_APP_FETCH_TYPE,
       },
     });
     return fetchUser();
