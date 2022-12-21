@@ -1,9 +1,9 @@
-﻿import React from "react";
+import React from "react";
 import Header from "../components/Header";
-import {RiPencilFill} from "react-icons/ri";
+import { RiPencilFill } from "react-icons/ri";
 import LogOutButton from "../components/LogOutButton";
 
-const AccountSettings = ({ }) => {
+const AccountSettings = () => {
     return (
         <div className="app-container ">
             <Header />

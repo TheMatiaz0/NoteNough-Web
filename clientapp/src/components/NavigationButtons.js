@@ -1,9 +1,9 @@
-﻿import "./Search.css";
+import "./Search.css";
 import React from "react";
-import {MdArrowDropDownCircle, MdHowToVote, MdLogin, MdOutlineManageAccounts} from "react-icons/md";
-import {Link} from "react-router-dom";
+import { MdArrowDropDownCircle, MdHowToVote, MdOutlineManageAccounts } from "react-icons/md";
+import { Link } from "react-router-dom";
 import LogOutButton from "./LogOutButton";
-import {ImEnter} from "react-icons/im";
+import { ImEnter } from "react-icons/im";
 
 const NavigationButtons = ({ username, onLogoutClick, onLoginClick, onSignUpClick}) => {
     return (

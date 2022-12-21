@@ -1,5 +1,5 @@
 ﻿
-const ROOT_AUTHENTICATION_URL = `http://${window.location.hostname}:8080/api/auth`;
+const ROOT_AUTHENTICATION_URL = `${process.env.REACT_APP_ROOT_URL}/api/auth`;
 
 const AuthenticationHandler = ({ }) => {
     
