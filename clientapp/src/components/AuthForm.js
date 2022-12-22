@@ -2,6 +2,7 @@ import {MdInfoOutline, MdLockOutline, MdOutlineMail} from "react-icons/md";
 import {IoMdEye, IoMdEyeOff} from "react-icons/io";
 import {useState} from "react";
 import SwitchFormButton from "./SwitchFormButton";
+import {authorize} from "../services/AuthenticationHandler";
 
 const AuthForm = ({
   canForgotPassword,
@@ -24,29 +25,14 @@ const AuthForm = ({
 
   const [isRememberPassword, setRememberPassword] = useState(defaultRememberPassword);
   
-  const authorize = async() => {
-    const urlName = canForgotPassword ? "login" : "register";
-    const credentialsType = canForgotPassword ? "include" : "same-origin";
-    return await fetch(`http://localhost:8080/api/auth/${urlName}`, {
-      method: 'POST',
-      credentials: credentialsType,
-      headers:
-          {
-            'Content-Type': 'application/json'
-          },
-      body: JSON.stringify(
-          {
-            email: email,
-            password: password,
-            rememberMe: isRememberPassword
-          }),
-    });
-  }
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const authData = {email: email, password: password, isRememberPassword: isRememberPassword}
     
-    if (authorize().ok) {
+    if (authorize({isLoggingIn: canForgotPassword, authData}).ok) {
       setPassword("");
       setEmail("");
       setRememberPassword(defaultRememberPassword);

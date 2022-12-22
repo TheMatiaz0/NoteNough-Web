@@ -2,19 +2,24 @@ import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import AccountSettings from "./pages/AccountSettings";
 import ProtectedRoute from "./components/ProtectedRoute";
+import {createContext} from "react";
+import { user } from "./services/AuthenticationHandler";
+
+const UserContext = createContext(user);
 
 const App = () => {
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/account" element={
-                <ProtectedRoute isAllowed={false}>
-                    <AccountSettings />
-                </ProtectedRoute>
+        <UserContext.Provider value={user}>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/account" element={
+                    <ProtectedRoute isAllowed={false}>
+                        <AccountSettings />
+                    </ProtectedRoute>
             }
-        />
-      </Routes>
+            />
+      </Routes></UserContext.Provider>
     </div>
   );
 };
