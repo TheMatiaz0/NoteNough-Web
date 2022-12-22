@@ -2,12 +2,19 @@ import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import AccountSettings from "./pages/AccountSettings";
 import ProtectedRoute from "./components/ProtectedRoute";
-import {createContext} from "react";
-import { user } from "./services/AuthenticationHandler";
+import {createContext, useEffect, useState} from "react";
+import {fetchUser} from "./services/AuthenticationHandler";
 
-const UserContext = createContext(user);
+const UserContext = createContext({});
 
 const App = () => {
+    const [user, setUser] = useState({});
+
+    // write timer to fetch user in loop every X seconds
+    useEffect(() => {
+        fetchUser();
+    }, []);
+    
   return (
     <div>
         <UserContext.Provider value={user}>

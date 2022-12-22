@@ -1,5 +1,5 @@
 import NotesList from "../components/NotesList";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { nanoid } from "nanoid";
 import Search from "../components/Search";
 import Header from "../components/Header";
@@ -106,6 +106,11 @@ const Home = () => {
       setNotes(defaultNotes);
     }
   };
+  
+  useEffect(() => {
+    fetchNotesFromDatabase();
+  }, []);
+
 
   const addNote = (text) => {
     return addNoteToDatabase(text);
@@ -145,7 +150,7 @@ const Home = () => {
     <div>
       <div className="app-container">
         <div id="main" style={{ marginRight: contentMarginRight }}>
-          <Header showNavigation={true} username={email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={logoutUser} />
+          <Header showNavigation={true} username={this.context} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={logoutUser} />
           <Search handleSearchText={setSearchText} />
           <NotesList
             notes={notes.filter(filterText)}

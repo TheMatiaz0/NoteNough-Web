@@ -1,18 +1,9 @@
-﻿import {useEffect, useState} from "react";
-
-
-const ROOT_AUTHENTICATION_URL = `${process.env.REACT_APP_ROOT_URL}/api/auth`;
-
-export const [user, setUser] = useState({});
-
-// write timer to fetch user in loop every X seconds
-useEffect(() => {
-    fetchUser();
-}, []);
+﻿const ROOT_AUTHENTICATION_URL = `${process.env.REACT_APP_ROOT_URL}/api/auth`;
 
 export const authorize = async({isLoggingIn, email, password, isRememberPassword}) => {
     const urlName = isLoggingIn ? "login" : "register";
     const credentialsType = isLoggingIn ? "include" : "same-origin";
+    
     return await fetch(`${ROOT_AUTHENTICATION_URL}/${urlName}`, {
         method: 'POST',
         credentials: credentialsType,
@@ -40,7 +31,7 @@ export const fetchUser = async () => {
         console.error(e);
     }
     // ???
-    return fetchNotesFromDatabase();
+    // return fetchNotesFromDatabase();
 }
 
 export const logoutUser = async () => {
