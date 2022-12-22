@@ -2,7 +2,6 @@ import {MdInfoOutline, MdLockOutline, MdOutlineMail} from "react-icons/md";
 import {IoMdEye, IoMdEyeOff} from "react-icons/io";
 import {useState} from "react";
 import SwitchFormButton from "./SwitchFormButton";
-import {authorize} from "../services/AuthenticationHandler";
 
 const AuthForm = ({
   canForgotPassword,
@@ -25,14 +24,12 @@ const AuthForm = ({
 
   const [isRememberPassword, setRememberPassword] = useState(defaultRememberPassword);
   
-  
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const authData = {email: email, password: password, isRememberPassword: isRememberPassword}
     
-    if (authorize({isLoggingIn: canForgotPassword, authData}).ok) {
+    if (handleOnSubmit({isLoggingIn: canForgotPassword, authData}).ok) {
       setPassword("");
       setEmail("");
       setRememberPassword(defaultRememberPassword);

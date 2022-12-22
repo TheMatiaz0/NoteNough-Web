@@ -12,6 +12,8 @@ namespace NoteNough.NET.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private const string CredentialsError = "Invalid credentials!";
+        
         private readonly AppDbContext _dbContext;
         private readonly JwtService _jwtService;
 
@@ -48,10 +50,9 @@ namespace NoteNough.NET.Controllers
         public ActionResult PostLogin(LoginDto loginDto)
         {
             var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Email == loginDto.Email);
-            string credentialsError = "Invalid credentials!";
             if (existingUser == null)
             {
-                return BadRequest(credentialsError);
+                return BadRequest(CredentialsError);
             }
 
             if (Verify(loginDto.Password, existingUser.Password))
@@ -72,7 +73,7 @@ namespace NoteNough.NET.Controllers
             }
             else
             {
-                return BadRequest(credentialsError);
+                return BadRequest(CredentialsError);
             }
         }
 

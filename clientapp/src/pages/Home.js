@@ -4,10 +4,11 @@ import { nanoid } from "nanoid";
 import Search from "../components/Search";
 import Header from "../components/Header";
 import OffCanvasMenu from "../components/OffCanvasMenu";
-import LoginForm from "../components/LoginForm";
+import AuthForm from "../components/AuthForm";
 import SignUpForm from "../components/SignUpForm";
+import LoginForm from "../components/LoginForm";
 
-const Home = ({user, onAuthorize}) => {
+const Home = ({user, onAuthorize, onLogout}) => {
   const ROOT_NOTES_URL = `${process.env.REACT_APP_ROOT_URL}/api/notes`;
 
   const defaultNotes = [
@@ -149,7 +150,7 @@ const Home = ({user, onAuthorize}) => {
     <div>
       <div className="app-container">
         <div id="main" style={{ marginRight: contentMarginRight }}>
-          <Header showNavigation={true} username={this.context} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={logoutUser} />
+          <Header showNavigation={true} username={user.email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={onLogout} />
           <Search handleSearchText={setSearchText} />
           <NotesList
             notes={notes.filter(filterText)}
@@ -160,8 +161,8 @@ const Home = ({user, onAuthorize}) => {
           />
         </div>
       </div>
-      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} handleOnSubmit={fetchUser} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
-      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} handleOnSubmit={fetchUser} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
+      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
+      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
     </div>
   );
 };

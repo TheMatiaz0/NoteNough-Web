@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 const App = () => {
     const ROOT_AUTHENTICATION_URL = `${process.env.REACT_APP_ROOT_URL}/api/auth`;
     
-    const [user, setUser] = useState(User);
+    const [user, setUser] = useState({});
     
     // write timer to fetch user in loop every X seconds
     useEffect(() => {
@@ -18,7 +18,7 @@ const App = () => {
         const urlName = isLoggingIn ? "login" : "register";
         const credentialsType = isLoggingIn ? "include" : "same-origin";
 
-        const response = await fetch(`${ROOT_AUTHENTICATION_URL}/${urlName}`, {
+        return await fetch(`${ROOT_AUTHENTICATION_URL}/${urlName}`, {
             method: 'POST',
             credentials: credentialsType,
             headers: {
@@ -71,7 +71,7 @@ const App = () => {
   return (
     <div>
         <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home onAuthorize={authorize} user={user} onLogout={logoutUser} />} />
             <Route path="/account" element={
                     <ProtectedRoute isAllowed={!!user}>
                         <AccountSettings />

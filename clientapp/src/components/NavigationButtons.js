@@ -12,7 +12,7 @@ const NavigationButtons = ({ username, onLogoutClick, onLoginClick, onSignUpClic
         <ul>
             <div className="dropdown">
                 <button className="auth-button drop-btn">
-                    mateusz.kusionowicz@protonmail.com<MdArrowDropDownCircle size="1.2em" />
+                    {username}<MdArrowDropDownCircle size="1.2em" />
                 </button>
                 <div className="dropdown-content auth-button">
                     <Link to="/account"  className={`auth-button login-btn`}><MdOutlineManageAccounts className="arrow-break" size="1em" />Account settings</Link>
