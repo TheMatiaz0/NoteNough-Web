@@ -6,9 +6,8 @@ import Header from "../components/Header";
 import OffCanvasMenu from "../components/OffCanvasMenu";
 import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
-import { fetchUser, logoutUser } from "../services/AuthenticationHandler";
 
-const Home = () => {
+const Home = ({user, onAuthorize}) => {
   const ROOT_NOTES_URL = `${process.env.REACT_APP_ROOT_URL}/api/notes`;
 
   const defaultNotes = [
