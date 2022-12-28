@@ -4,7 +4,6 @@ import { nanoid } from "nanoid";
 import Search from "../components/Search";
 import Header from "../components/Header";
 import OffCanvasMenu from "../components/OffCanvasMenu";
-import AuthForm from "../components/AuthForm";
 import SignUpForm from "../components/SignUpForm";
 import LoginForm from "../components/LoginForm";
 
@@ -161,8 +160,8 @@ const Home = ({user, onAuthorize, onLogout}) => {
           />
         </div>
       </div>
-      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
-      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
+      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} user={user.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
+      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} user={user.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
     </div>
   );
 };
