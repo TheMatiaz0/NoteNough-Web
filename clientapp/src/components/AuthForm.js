@@ -26,15 +26,12 @@ const AuthForm = ({
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const authData = {email: email, password: password, isRememberPassword: isRememberPassword}
     
-    if (handleOnSubmit({isLoggingIn: canForgotPassword, authData}).ok) {
+    const result = await handleOnSubmit({isLoggingIn: canForgotPassword, email: email, password: password, isRememberPassword: isRememberPassword});
+    if (result) {
       setPassword("");
       setEmail("");
       setRememberPassword(defaultRememberPassword);
-
-      handleOnSubmit();
 
       onClose();
     }

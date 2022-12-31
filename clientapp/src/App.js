@@ -18,7 +18,7 @@ const App = () => {
         const urlName = isLoggingIn ? "login" : "register";
         const credentialsType = isLoggingIn ? "include" : "same-origin";
 
-        return await fetch(`${ROOT_AUTHENTICATION_URL}/${urlName}`, {
+        const response = await fetch(`${ROOT_AUTHENTICATION_URL}/${urlName}`, {
             method: 'POST',
             credentials: credentialsType,
             headers: {
@@ -31,6 +31,8 @@ const App = () => {
                     rememberMe: isRememberPassword
                 }),
         });
+        
+        return response.ok;
     }
 
     const fetchUser = async () => {
