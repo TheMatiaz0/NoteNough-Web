@@ -1,34 +1,34 @@
 import React from "react";
 import Header from "../components/Header";
-import { RiPencilFill } from "react-icons/ri";
 import LogOutButton from "../components/LogOutButton";
+import { Link } from "react-router-dom";
+import EmailInputField from "../components/EmailInputField";
+import PasswordInputField from "../components/PasswordInputField";
 
 const AccountSettings = () => {
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+    };
+
     return (
         <div className="app-container ">
             <Header />
             <div className="form">
-                <LogOutButton/>
-                <h1>Account settings</h1>
+                <Link to="/" className="auth-button login-btn">Go Back</Link>
+                <LogOutButton />
+                <h1>Account Settings</h1>
                 <div>
-                    <input
-                        type="text"
-                        autoComplete="email"
-                        required
-                        maxLength="64"
-                        value="TheMatiaz0@protonmail.com"
-                    />
-                    <RiPencilFill className="auth-icon" />
-                </div>
-                <div>
-                    <input
-                        type="text"
-                        autoComplete="password"
-                        required
-                        maxLength="64"
-                        value="******"
-                    />
-                    <RiPencilFill className="auth-icon" />
+                    <h2>Change Email</h2>
+                    <form action="#" onSubmit={handleSubmit}>
+                        <EmailInputField placeholder="New email" />
+                        <PasswordInputField placeholder="Current password" />
+                    </form>
+                    <h2>Change Password</h2>
+                    <form action="#" onSubmit={handleSubmit}>
+                        <PasswordInputField placeholder="New password" />
+                        <PasswordInputField placeholder="Current password" />
+                    </form>
                 </div>
             </div>
         </div>

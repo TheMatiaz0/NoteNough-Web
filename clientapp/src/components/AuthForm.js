@@ -1,7 +1,7 @@
-import {MdInfoOutline, MdLockOutline, MdOutlineMail} from "react-icons/md";
-import {IoMdEye, IoMdEyeOff} from "react-icons/io";
-import {useState} from "react";
+import { useState } from "react";
 import SwitchFormButton from "./SwitchFormButton";
+import EmailInputField from "./EmailInputField";
+import PasswordInputField from "./PasswordInputField";
 
 const AuthForm = ({
   canForgotPassword,
@@ -13,21 +13,16 @@ const AuthForm = ({
   onSignUpClick
 }) => {
   const defaultRememberPassword = true;
-  const [isShowingPassword, setShowingPassword] = useState(false);
-  const toggleShowPassword = () => {
-    setShowingPassword((prevState) => !prevState);
-  };
-  const ShowPasswordIcon = isShowingPassword ? IoMdEyeOff : IoMdEye;
 
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
   const [isRememberPassword, setRememberPassword] = useState(defaultRememberPassword);
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const result = await handleOnSubmit({isLoggingIn: canForgotPassword, email: email, password: password, isRememberPassword: isRememberPassword});
+
+    const result = await handleOnSubmit({ isLoggingIn: canForgotPassword, email: email, password: password, isRememberPassword: isRememberPassword });
     if (result) {
       setPassword("");
       setEmail("");
@@ -47,13 +42,6 @@ const AuthForm = ({
 
   const toggleRememberPassword = () => {
     setRememberPassword((prevState) => !prevState);
-  };
-
-  const [isCapsLocked, setCapsLocked] = useState(false);
-  const [isNumLocked, setNumLocked] = useState(false);
-  const getSpecialKeysWarning = (event) => {
-    setCapsLocked(event.getModifierState("CapsLock"));
-    setNumLocked(event.getModifierState("NumLock"));
   };
 
   return (
@@ -77,62 +65,8 @@ const AuthForm = ({
         </span>
       </div>
       <form action="#" onSubmit={handleSubmit}>
-        <div className="input-field">
-          <input
-            type="text"
-            placeholder="Enter your email"
-            autoComplete="email"
-            onChange={handleChangeEmail}
-            value={email}
-            required
-            maxLength="64"
-          />
-          <MdOutlineMail className="auth-icon" />
-        </div>
-        <div className="input-field">
-          <input
-            type={isShowingPassword ? "text" : "password"}
-            placeholder="Enter your password"
-            autoComplete="current-password"
-            onChange={handleChangePassword}
-            value={password}
-            required
-            onKeyUp={getSpecialKeysWarning}
-            onClick={getSpecialKeysWarning}
-            maxLength="64"
-            minLength="8"
-          />
-          <MdLockOutline className="auth-icon" />
-          <ShowPasswordIcon
-            onClick={toggleShowPassword}
-            className="auth-icon right-icon btn-icon"
-          />
-        </div>
-        <div className="password-tips">
-          {canForgotPassword ? (
-            <p>
-              Remember that your password contains at least{" "}
-              <b>8 characters</b>.
-            </p>
-          ) : (
-            <p>
-              {password.length > 8 ? `✔️` : `❌`} - Password should have at least <b>8 characters</b>
-              .
-            </p>
-          )}
-          {isCapsLocked && (
-            <p>
-              <MdInfoOutline size="1.2em" />
-              Caps Lock is on
-            </p>
-          )}
-          {isNumLocked && (
-            <p>
-              <MdInfoOutline size="1.2em" />
-              Num Lock is on
-            </p>
-          )}
-        </div>
+        <EmailInputField email={email} handleChangeEmail={handleChangeEmail} placeholder="Enter your email" />
+        <PasswordInputField password={password} handleChangePassword={handleChangePassword} placeholder="Enter your password" canForgotPassword={canForgotPassword} />
         <div className="form-bottom">
           <div className="input-checkbox">
             <label className="text">
