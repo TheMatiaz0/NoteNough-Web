@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 
 const App = () => {
     const ROOT_AUTHENTICATION_URL = `${process.env.REACT_APP_ROOT_URL}/api/auth`;
-
     const [user, setUser] = useState(null);
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
 
     // write timer to fetch user in loop every X seconds
     useEffect(() => {
@@ -31,7 +31,7 @@ const App = () => {
                     rememberMe: isRememberPassword
                 }),
         });
-
+        fetchUser();
         return response.ok;
     }
 
@@ -41,39 +41,54 @@ const App = () => {
             const response = await fetch(url);
             const content = await response.json();
             setUser({ email: content.email });
+            setUserLoggedIn(true);
         }
         catch (e) {
             setUser(null);
+            setUserLoggedIn(false);
         }
     }
 
+    const changeEmail = async ({ newEmail, currentPassword }) => {
+    }
+
+    const changePassword = async ({ currentPassword, newPassword }) => {
+
+    }
+
     const logoutUser = async () => {
-        await fetch(`${ROOT_AUTHENTICATION_URL}/logout`, {
+        const response = await fetch(`${ROOT_AUTHENTICATION_URL}/logout`, {
             method: "POST",
             headers: {
                 "Content-type": process.env.REACT_APP_FETCH_TYPE,
             },
         });
-        return fetchUser();
+        fetchUser();
+        return response.ok;
     }
 
-    const deleteAccount = async () => {
-        await fetch(`${ROOT_AUTHENTICATION_URL}/delete`, {
+    const deleteAccount = async (password) => {
+        const response = await fetch(`${ROOT_AUTHENTICATION_URL}/delete`, {
             method: "DELETE",
             headers: {
                 "Content-type": process.env.REACT_APP_FETCH_TYPE,
             },
+            body: JSON.stringify(
+                {
+                    password: password
+                }),
         });
-        return fetchUser();
+        fetchUser();
+        return response.ok;
     }
 
     return (
         <div>
             <Routes>
-                <Route path="/" element={<Home onAuthorize={authorize} user={user} onLogout={logoutUser} />} />
+                <Route path="/" element={<Home onAuthorize={authorize} user={user} onLogout={logoutUser} userLoggedIn={userLoggedIn} />} />
                 <Route path="/account" element={
                     <ProtectedRoute isAllowed={!!user}>
-                        <AccountSettings />
+                        <AccountSettings submitEmailChange={changeEmail} submitPasswordChange={changePassword} submitAccountDelete={deleteAccount} />
                     </ProtectedRoute>
                 }
                 />

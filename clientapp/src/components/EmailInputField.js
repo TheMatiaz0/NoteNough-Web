@@ -1,10 +1,5 @@
 import React from "react";
-import Header from "./Header";
-import LogOutButton from "./LogOutButton";
-import { Link } from "react-router-dom";
-
-import { MdInfoOutline, MdLockOutline, MdOutlineMail } from "react-icons/md";
-import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { MdOutlineMail } from "react-icons/md";
 
 const EmailInputField = ({ email, handleChangeEmail, placeholder }) => {
   return (

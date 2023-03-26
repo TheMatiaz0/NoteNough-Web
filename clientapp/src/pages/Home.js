@@ -7,7 +7,7 @@ import OffCanvasMenu from "../components/OffCanvasMenu";
 import SignUpForm from "../components/SignUpForm";
 import LoginForm from "../components/LoginForm";
 
-const Home = ({ user, onAuthorize, onLogout }) => {
+const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   const ROOT_NOTES_URL = `${process.env.REACT_APP_ROOT_URL}/api/notes`;
   const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
 
@@ -119,13 +119,15 @@ const Home = ({ user, onAuthorize, onLogout }) => {
   };
 
   useEffect(() => {
-    if (user) {
-      fetchNotesFromDatabase();
-    }
-    else {
+    if (!user) {
       localStorage.setItem(LOCAL_STORAGE_DATA_NAME, JSON.stringify(notes));
     }
-  }, [notes]);
+  }, []);
+
+  useEffect(() => {
+    fetchNotesFromDatabase();
+  }, [userLoggedIn]
+  );
 
 
   const addNote = (text) => {

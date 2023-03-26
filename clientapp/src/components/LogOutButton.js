@@ -1,6 +1,6 @@
 import "./Header.css";
 import React from "react";
-import {ImExit} from "react-icons/im";
+import { ImExit } from "react-icons/im";
 
 const LogOutButton = ({ onClick }) => {
     return (
