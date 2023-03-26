@@ -2,19 +2,19 @@ import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import AccountSettings from "./pages/AccountSettings";
 import ProtectedRoute from "./components/ProtectedRoute";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 const App = () => {
     const ROOT_AUTHENTICATION_URL = `${process.env.REACT_APP_ROOT_URL}/api/auth`;
-    
-    const [user, setUser] = useState({});
-    
+
+    const [user, setUser] = useState(null);
+
     // write timer to fetch user in loop every X seconds
     useEffect(() => {
         fetchUser();
     }, []);
 
-    const authorize = async({isLoggingIn, email, password, isRememberPassword}) => {
+    const authorize = async ({ isLoggingIn, email, password, isRememberPassword }) => {
         const urlName = isLoggingIn ? "login" : "register";
         const credentialsType = isLoggingIn ? "include" : "same-origin";
 
@@ -31,7 +31,7 @@ const App = () => {
                     rememberMe: isRememberPassword
                 }),
         });
-        
+
         return response.ok;
     }
 
@@ -40,14 +40,11 @@ const App = () => {
             const url = `${ROOT_AUTHENTICATION_URL}/user`;
             const response = await fetch(url);
             const content = await response.json();
-            setUser({email: content.email});
+            setUser({ email: content.email });
         }
         catch (e) {
-            setUser({});
-            console.error(e);
+            setUser(null);
         }
-        // ???
-        // return fetchNotesFromDatabase();
     }
 
     const logoutUser = async () => {
@@ -69,20 +66,20 @@ const App = () => {
         });
         return fetchUser();
     }
-    
-  return (
-    <div>
-        <Routes>
-            <Route path="/" element={<Home onAuthorize={authorize} user={user} onLogout={logoutUser} />} />
-            <Route path="/account" element={
+
+    return (
+        <div>
+            <Routes>
+                <Route path="/" element={<Home onAuthorize={authorize} user={user} onLogout={logoutUser} />} />
+                <Route path="/account" element={
                     <ProtectedRoute isAllowed={!!user}>
                         <AccountSettings />
                     </ProtectedRoute>
-            }
-            />
-      </Routes>
-    </div>
-  );
+                }
+                />
+            </Routes>
+        </div>
+    );
 };
 
 export default App;

@@ -1,32 +1,17 @@
 import NotesList from "../components/NotesList";
-import {useEffect, useState} from "react";
 import { nanoid } from "nanoid";
+import { useEffect, useState } from "react";
 import Search from "../components/Search";
 import Header from "../components/Header";
 import OffCanvasMenu from "../components/OffCanvasMenu";
 import SignUpForm from "../components/SignUpForm";
 import LoginForm from "../components/LoginForm";
 
-const Home = ({user, onAuthorize, onLogout}) => {
+const Home = ({ user, onAuthorize, onLogout }) => {
   const ROOT_NOTES_URL = `${process.env.REACT_APP_ROOT_URL}/api/notes`;
+  const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
 
-  const defaultNotes = [
-    {
-      key: nanoid(),
-      text: "This is an example note",
-      date: new Date(2022, 7, 24, 10, 9, 5, 10),
-    },
-    {
-      key: nanoid(),
-      text: "This is an example note 2",
-      date: new Date(2023, 10, 1, 10, 9, 5, 10),
-    },
-    {
-      key: nanoid(),
-      text: "This is an example note 3",
-      date: new Date(2024, 10, 1, 10, 9, 5, 10),
-    },
-  ];
+  const defaultNotes = [];
 
   const parseNoteDates = (parsedNotes) => {
     return parsedNotes.map((note) => {
@@ -42,6 +27,15 @@ const Home = ({user, onAuthorize, onLogout}) => {
   };
 
   const [notes, setNotes] = useState(() => {
+    if (!user) {
+      const localStorageNotes = localStorage.getItem(LOCAL_STORAGE_DATA_NAME);
+      const parsedNotes = JSON.parse(localStorageNotes);
+      if (parsedNotes) {
+        return parsedNotes.map(val => {
+          return { ...val, date: new Date(val.date) };
+        });
+      }
+    }
     return defaultNotes;
   });
 
@@ -64,12 +58,24 @@ const Home = ({user, onAuthorize, onLogout}) => {
     ]);
   };
 
+  const addNoteToLocalStorage = (text) => {
+    setNotes([...notes, {
+      key: nanoid(),
+      text: text,
+      date: new Date()
+    }]);
+  }
+
   const deleteNoteFromDatabase = async (id) => {
     await fetch(`${ROOT_NOTES_URL}/${id}`, {
       method: "DELETE",
     });
     setNotes([...notes].filter((i) => i.key !== id));
   };
+
+  const deleteNoteFromLocalStorage = (id) => {
+    setNotes([...notes].filter((i) => i.key !== id));
+  }
 
   const editNoteFromDatabase = async (note, updatedText) => {
     let response = await fetch(`${ROOT_NOTES_URL}/${note.key}`, {
@@ -86,6 +92,12 @@ const Home = ({user, onAuthorize, onLogout}) => {
     note.date = new Date(data.updated);
     setNotes([...notes]);
   };
+
+  const editNoteFromLocalStorage = (note, updatedText) => {
+    note.text = updatedText;
+    note.date = new Date(new Date());
+    setNotes([...notes]);
+  }
 
   async function fetchNotes() {
     try {
@@ -105,18 +117,33 @@ const Home = ({user, onAuthorize, onLogout}) => {
       setNotes(defaultNotes);
     }
   };
-  
+
   useEffect(() => {
-    fetchNotesFromDatabase();
-  }, []);
+    if (user) {
+      fetchNotesFromDatabase();
+    }
+    else {
+      localStorage.setItem(LOCAL_STORAGE_DATA_NAME, JSON.stringify(notes));
+    }
+  }, [notes]);
 
 
   const addNote = (text) => {
-    return addNoteToDatabase(text);
+    if (user) {
+      return addNoteToDatabase(text);
+    }
+    else {
+      return addNoteToLocalStorage(text);
+    }
   };
 
   const removeNote = (key) => {
-    return deleteNoteFromDatabase(key);
+    if (user) {
+      return deleteNoteFromDatabase(key);
+    }
+    else {
+      deleteNoteFromLocalStorage(key);
+    }
   };
 
   const editNote = (key, newText) => {
@@ -124,7 +151,12 @@ const Home = ({user, onAuthorize, onLogout}) => {
     const newNotes = [...notes];
     const specificNote = newNotes[specificIndex];
     if (newText !== specificNote.text) {
-      return editNoteFromDatabase(specificNote, newText);
+      if (user) {
+        return editNoteFromDatabase(specificNote, newText);
+      }
+      else {
+        editNoteFromLocalStorage(specificNote, newText);
+      }
     }
   };
 
@@ -149,7 +181,7 @@ const Home = ({user, onAuthorize, onLogout}) => {
     <div>
       <div className="app-container">
         <div id="main" style={{ marginRight: contentMarginRight }}>
-          <Header showNavigation={true} username={user.email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={onLogout} />
+          <Header showNavigation={true} username={user?.email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={onLogout} />
           <Search handleSearchText={setSearchText} />
           <NotesList
             notes={notes.filter(filterText)}
@@ -160,8 +192,8 @@ const Home = ({user, onAuthorize, onLogout}) => {
           />
         </div>
       </div>
-      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} user={user.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
-      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} user={user.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
+      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
+      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
     </div>
   );
 };
