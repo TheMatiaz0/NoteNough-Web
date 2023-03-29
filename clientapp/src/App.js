@@ -67,7 +67,7 @@ const App = () => {
         return response.ok;
     }
 
-    const deleteAccount = async (password) => {
+    const deleteAccount = async ({ currentPassword }) => {
         const response = await fetch(`${ROOT_AUTHENTICATION_URL}/delete`, {
             method: "DELETE",
             headers: {
@@ -75,7 +75,7 @@ const App = () => {
             },
             body: JSON.stringify(
                 {
-                    password: password
+                    password: currentPassword
                 }),
         });
         fetchUser();
