@@ -257,4 +257,8 @@ select:-webkit-autofill:focus {
   color: rgb(151, 151, 151);
 }
 
-
+.center {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}

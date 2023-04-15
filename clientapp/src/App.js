@@ -87,9 +87,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home onAuthorize={authorize} user={user} onLogout={logoutUser} userLoggedIn={userLoggedIn} />} />
                 <Route path="/account" element={
-                    <ProtectedRoute isAllowed={!!user}>
-                        <AccountSettings submitEmailChange={changeEmail} submitPasswordChange={changePassword} submitAccountDelete={deleteAccount} />
-                    </ProtectedRoute>
+                    <AccountSettings submitEmailChange={changeEmail} submitPasswordChange={changePassword} submitAccountDelete={deleteAccount} />
                 }
                 />
             </Routes>

@@ -8,7 +8,7 @@ import { ImEnter } from "react-icons/im";
 const NavigationButtons = ({ username, onLogoutClick, onLoginClick, onSignUpClick }) => {
     return (
         <div>
-            {username ?
+            {!username ?
                 <ul>
                     <div className="dropdown">
                         <button className="auth-button drop-btn">
