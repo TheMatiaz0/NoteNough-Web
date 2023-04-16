@@ -7,6 +7,7 @@ import CollapsibleFormHeader from "../components/CollapsibleFormHeader";
 import ChangeEmailForm from "../components/ChangeEmailForm";
 import ChangePasswordForm from "../components/ChangePasswordForm";
 import DeleteAccountForm from "../components/DeleteAccountForm";
+import "../components/Header.css";
 import "./AccountSettings.css";
 
 const AccountSettings = (submitEmailChangeAsync, submitPasswordChange, submitAccountDelete) => {
