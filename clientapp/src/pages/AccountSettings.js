@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import Header from "../components/Header";
 import LogOutButton from "../components/LogOutButton";
 import { Link } from "react-router-dom";
@@ -9,6 +10,12 @@ import DeleteAccountForm from "../components/DeleteAccountForm";
 import "./AccountSettings.css";
 
 const AccountSettings = (submitEmailChangeAsync, submitPasswordChange, submitAccountDelete) => {
+    const [selected, setSelected] = useState(null);
+
+    const toggle = id => () => setSelected(
+        selected => selected === id ? null : id,
+    );
+
     return (
         <div className="app-container">
             <Header />
@@ -18,9 +25,9 @@ const AccountSettings = (submitEmailChangeAsync, submitPasswordChange, submitAcc
                 <h1>Account Settings</h1>
                 <div>
                     <ul className="accordion-menu">
-                        <CollapsibleFormHeader text="Change Email" content={<ChangeEmailForm onSubmitEmailAsync={submitEmailChangeAsync} />} />
-                        <CollapsibleFormHeader text="Change Password" content={<ChangePasswordForm onSubmitPasswordChangeAsync={submitPasswordChange} />} />
-                        <CollapsibleFormHeader text="Delete Account" content={<DeleteAccountForm onSubmitDeleteAccountAsync={submitAccountDelete} />} />
+                        <CollapsibleFormHeader onClick={toggle(0)} isSelected={selected === 0} text="Change Email" content={<ChangeEmailForm onSubmitEmailAsync={submitEmailChangeAsync} />} />
+                        <CollapsibleFormHeader onClick={toggle(1)} isSelected={selected === 1} text="Change Password" content={<ChangePasswordForm onSubmitPasswordChangeAsync={submitPasswordChange} />} />
+                        <CollapsibleFormHeader onClick={toggle(2)} isSelected={selected === 2} text="Delete Account" content={<DeleteAccountForm onSubmitDeleteAccountAsync={submitAccountDelete} />} />
                     </ul>
                 </div>
             </div>
