@@ -46,7 +46,7 @@ const PasswordInputField = ({ password, handleChangePassword, placeholder, canFo
                     </p>
                 ) : (
                     <p>
-                        {password.length > 8 ? `✔️` : `❌`} - Password should have at least <b>8 characters</b>
+                        {password.length >= 8 ? `✔️` : `❌`} - Password should have at least <b>8 characters</b>
                         .
                     </p>
                 )}

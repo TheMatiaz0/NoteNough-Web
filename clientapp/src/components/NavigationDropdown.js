@@ -1,11 +1,13 @@
 import "./Search.css";
 import React from "react";
-import { MdArrowDropDownCircle, MdHowToVote, MdOutlineManageAccounts } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { MdArrowDropDownCircle, MdHowToVote } from "react-icons/md";
 import LogOutButton from "./LogOutButton";
 import { ImEnter } from "react-icons/im";
+import { MdManageAccounts } from "react-icons/md";
+import { Link } from "react-router-dom";
+import "./Header.css"
 
-const NavigationButtons = ({ username, onLogoutClick, onLoginClick, onSignUpClick }) => {
+const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpClick }) => {
     return (
         <div>
             {!username ?
@@ -15,7 +17,9 @@ const NavigationButtons = ({ username, onLogoutClick, onLoginClick, onSignUpClic
                             {username}<MdArrowDropDownCircle size="1.2em" />
                         </button>
                         <div className="dropdown-content auth-button">
-                            <Link to="/account" className={`auth-button login-btn`}><MdOutlineManageAccounts className="arrow-break" size="1em" />Account Settings</Link>
+                            <Link className="auth-button login-btn" to="/account">
+                                <MdManageAccounts className="arrow-break" size="1em" />Account Settings
+                            </Link>
                             <LogOutButton onClick={onLogoutClick} />
                         </div>
                     </div>
@@ -38,4 +42,4 @@ const NavigationButtons = ({ username, onLogoutClick, onLoginClick, onSignUpClic
     );
 };
 
-export default NavigationButtons;
+export default NavigationDropdown;

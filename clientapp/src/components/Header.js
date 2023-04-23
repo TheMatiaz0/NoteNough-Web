@@ -1,7 +1,7 @@
 import "./Header.css";
 import React from "react";
 import { Link } from "react-router-dom";
-import NavigationButtons from "./NavigationButtons";
+import NavigationDropdown from "./NavigationDropdown";
 
 const Header = ({ username, showNavigation, onLoginClick, onSignUpClick, onLogoutClick }) => {
   const rootRoute = "/";
@@ -13,7 +13,7 @@ const Header = ({ username, showNavigation, onLoginClick, onSignUpClick, onLogou
             <img alt="NoteNough's logo inside header" src="logo.png" />
           </Link>
         </div>
-        {showNavigation ? <NavigationButtons username={username} onLoginClick={onLoginClick} onSignUpClick={onSignUpClick} onLogoutClick={onLogoutClick} /> : null}
+        {showNavigation ? <NavigationDropdown username={username} onLoginClick={onLoginClick} onSignUpClick={onSignUpClick} onLogoutClick={onLogoutClick} /> : null}
       </nav>
     </header>
   );

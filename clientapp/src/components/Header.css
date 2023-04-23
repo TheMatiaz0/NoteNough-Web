@@ -67,10 +67,6 @@ nav ul {
   gap: 10px;
 }
 
-.dropdown .dropdown-content {
-  width: 385px;
-}
-
 @media screen and (max-width: 450px) {
   nav {
     flex-direction: column;
