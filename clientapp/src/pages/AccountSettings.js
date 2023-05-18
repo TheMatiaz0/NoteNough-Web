@@ -14,9 +14,9 @@ import { MdKeyboardBackspace } from "react-icons/md";
 const AccountSettings = (submitEmailChangeAsync, submitPasswordChange, submitAccountDelete) => {
     const [selected, setSelected] = useState(null);
 
-    const toggle = id => () => setSelected(
-        selected => selected === id ? null : id,
-    );
+    const toggle = id => () => {
+        setSelected(selected => selected === id ? null : id);
+    };
 
     return (
         <div className="app-container">
@@ -32,7 +32,9 @@ const AccountSettings = (submitEmailChangeAsync, submitPasswordChange, submitAcc
                         <CollapsibleFormHeader onClick={toggle(1)} isSelected={selected === 1} text="Change Password" content={<ChangePasswordForm onSubmitPasswordChangeAsync={submitPasswordChange} />} />
                         <CollapsibleFormHeader onClick={toggle(2)} isSelected={selected === 2} text="Delete Account" content={<DeleteAccountForm onSubmitDeleteAccountAsync={submitAccountDelete} />} />
                     </ul>
-                    <LogOutButton />
+                    <div className="button-wrapper">
+                        <LogOutButton />
+                    </div>
                 </div>
             </div>
         </div>

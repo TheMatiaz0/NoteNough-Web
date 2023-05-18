@@ -26,3 +26,10 @@
   .form {
     margin-top: 65px;
   }
+
+  .button-wrapper {
+    border-top: 2px solid black;
+    padding-top: 15px;
+    display: flex;
+    justify-content: right;
+  }
