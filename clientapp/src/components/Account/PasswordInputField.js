@@ -5,16 +5,16 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const PasswordInputField = ({ password, handleChangePassword, placeholder, canForgotPassword }) => {
     const [isShowingPassword, setShowingPassword] = useState(false);
+    const [isCapsLocked, setCapsLocked] = useState(false);
+
+    const ShowPasswordIcon = isShowingPassword ? IoMdEyeOff : IoMdEye;
+
     const toggleShowPassword = () => {
         setShowingPassword((prevState) => !prevState);
     };
-    const ShowPasswordIcon = isShowingPassword ? IoMdEyeOff : IoMdEye;
 
-    const [isCapsLocked, setCapsLocked] = useState(false);
-    const [isNumLocked, setNumLocked] = useState(false);
     const getSpecialKeysWarning = (event) => {
         setCapsLocked(event.getModifierState("CapsLock"));
-        setNumLocked(event.getModifierState("NumLock"));
     };
 
     return (
@@ -54,12 +54,6 @@ const PasswordInputField = ({ password, handleChangePassword, placeholder, canFo
                     <p className="center">
                         <MdInfoOutline size="1.2em" />
                         Caps Lock is on
-                    </p>
-                )}
-                {isNumLocked && (
-                    <p className="center">
-                        <MdInfoOutline size="1.2em" />
-                        Num Lock is on
                     </p>
                 )}
             </div>
