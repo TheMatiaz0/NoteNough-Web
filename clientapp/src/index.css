@@ -262,3 +262,11 @@ select:-webkit-autofill:focus {
   align-items: center;
   gap: 0.2em;
 }
+
+.disclaimer {
+  font-size: 16px;
+}
+
+input[type=checkbox] {
+  transform: scale(1.2);
+}

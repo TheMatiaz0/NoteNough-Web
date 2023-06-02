@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpClick }) => {
     return (
         <div>
-            {username ?
+            {!username ?
                 <ul>
                     <div className="dropdown">
                         <button className="auth-button drop-btn">

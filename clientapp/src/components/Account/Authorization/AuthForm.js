@@ -69,13 +69,13 @@ const AuthForm = ({
         <PasswordInputField password={password} handleChangePassword={handleChangePassword} placeholder="Enter your password" canForgotPassword={canForgotPassword} />
         <div className="form-bottom">
           <div className="input-checkbox">
-            <label className="text">
+            <label className="text center">
               <input
                 onClick={toggleRememberPassword}
                 type="checkbox"
                 defaultChecked={isRememberPassword}
               />
-              {rememberPasswordText}
+              <span className="disclaimer">{rememberPasswordText}</span>
             </label>
           </div>
           {canForgotPassword && (
