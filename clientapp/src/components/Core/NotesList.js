@@ -16,7 +16,7 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
         setEditedNote(false);
     }
 
-    const constructNote = (note, handleRemoveNote, handleEditNote) => 
+    const constructNote = (note, handleRemoveNote, handleEditNote) =>
         note === editedNote ? <InputNote key={note.key} defaultText={note.text} handleAddNote={(newText) => updateNote(note, newText)} /> : (<Note
             key={note.key}
             id={note.key}
@@ -26,9 +26,9 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
             handleEditNote={() => handleEditNote(note)}
         />);
 
-    const sortByNewest = (array) => 
-        array.sort((a,b) => {
-            return new Date(a.date) - 
+    const sortByNewest = (array) =>
+        array.sort((a, b) => {
+            return new Date(a.date) -
                 new Date(b.date)
         }).reverse();
 

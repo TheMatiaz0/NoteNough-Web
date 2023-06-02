@@ -1,12 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import Header from "../components/Header";
-import LogOutButton from "../components/LogOutButton";
+import LogOutButton from "../components/Account/LogOutButton";
 import { Link } from "react-router-dom";
-import CollapsibleFormHeader from "../components/CollapsibleFormHeader";
-import ChangeEmailForm from "../components/ChangeEmailForm";
-import ChangePasswordForm from "../components/ChangePasswordForm";
-import DeleteAccountForm from "../components/DeleteAccountForm";
+import CollapsibleFormHeader from "../components/Account/Settings/CollapsibleFormHeader";
+import ChangeEmailForm from "../components/Account/Settings/ChangeEmailForm";
+import ChangePasswordForm from "../components/Account/Settings/ChangePasswordForm";
+import DeleteAccountForm from "../components/Account/Settings/DeleteAccountForm";
 import "../components/Header.css";
 import "./AccountSettings.css";
 import { MdKeyboardBackspace } from "react-icons/md";

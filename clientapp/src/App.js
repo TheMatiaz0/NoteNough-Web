@@ -1,7 +1,7 @@
 import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import AccountSettings from "./pages/AccountSettings";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/Account/ProtectedRoute.js";
 import { useEffect, useState } from "react";
 
 const App = () => {

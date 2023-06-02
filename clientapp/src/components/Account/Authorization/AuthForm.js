@@ -1,7 +1,7 @@
 import { useState } from "react";
-import SwitchFormButton from "./SwitchFormButton";
-import EmailInputField from "./EmailInputField";
-import PasswordInputField from "./PasswordInputField";
+import SwitchFormButton from "../SwitchFormButton";
+import EmailInputField from "../EmailInputField";
+import PasswordInputField from "../PasswordInputField";
 
 const AuthForm = ({
   canForgotPassword,

@@ -1,16 +1,16 @@
-import "./Search.css";
+import "../Core/Search.css";
+import "../Header.css"
 import React from "react";
 import { MdArrowDropDownCircle, MdHowToVote } from "react-icons/md";
 import LogOutButton from "./LogOutButton";
 import { ImEnter } from "react-icons/im";
 import { MdManageAccounts } from "react-icons/md";
 import { Link } from "react-router-dom";
-import "./Header.css"
 
 const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpClick }) => {
     return (
         <div>
-            {!username ?
+            {username ?
                 <ul>
                     <div className="dropdown">
                         <button className="auth-button drop-btn">

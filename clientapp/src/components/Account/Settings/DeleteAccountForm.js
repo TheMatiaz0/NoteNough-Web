@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import PasswordInputField from "../components/PasswordInputField";
+import PasswordInputField from "../PasswordInputField";
 
 const DeleteAccountForm = ({ onSubmitDeleteAccountAsync }) => {
     const [currentPassword, setCurrentPassword] = useState("");

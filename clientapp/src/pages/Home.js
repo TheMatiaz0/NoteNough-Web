@@ -1,11 +1,11 @@
-import NotesList from "../components/NotesList";
+import NotesList from "../components/Core/NotesList";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
-import Search from "../components/Search";
+import Search from "../components/Core/Search";
 import Header from "../components/Header";
-import OffCanvasMenu from "../components/OffCanvasMenu";
-import SignUpForm from "../components/SignUpForm";
-import LoginForm from "../components/LoginForm";
+import OffCanvasMenu from "../components/Account/OffCanvasMenu";
+import SignUpForm from "../components/Account/Authorization/SignUpForm";
+import LoginForm from "../components/Account/Authorization/LoginForm";
 
 const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   const ROOT_NOTES_URL = `${process.env.REACT_APP_ROOT_URL}/api/notes`;

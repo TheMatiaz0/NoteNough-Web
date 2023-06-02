@@ -1,7 +1,7 @@
 import "./Header.css";
 import React from "react";
 import { Link } from "react-router-dom";
-import NavigationDropdown from "./NavigationDropdown";
+import NavigationDropdown from "./Account/NavigationDropdown";
 
 const Header = ({ username, showNavigation, onLoginClick, onSignUpClick, onLogoutClick }) => {
   const rootRoute = "/";
