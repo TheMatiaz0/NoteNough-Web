@@ -9,9 +9,9 @@ import { Link } from "react-router-dom";
 
 const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpClick }) => {
     return (
-        <div>
-            {!username ?
-                <ul>
+        <div className="button">
+            {username ?
+                <div>
                     <div className="dropdown">
                         <button className="auth-button drop-btn">
                             {username}<MdArrowDropDownCircle size="1.2em" />
@@ -23,8 +23,8 @@ const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpCli
                             <LogOutButton onClick={onLogoutClick} />
                         </div>
                     </div>
-                </ul> :
-                <ul>
+                </div> :
+                <div>
                     <button
                         onClick={onLoginClick}
                         className={`auth-button login-btn`}
@@ -37,7 +37,7 @@ const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpCli
                     >
                         <MdHowToVote size="1em" /> | Sign up
                     </button>
-                </ul>}
+                </div>}
         </div>
     );
 };

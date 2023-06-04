@@ -1,17 +1,22 @@
 .logo img {
-  position: absolute;
-  max-width: 210px;
+  max-width: 260px;
   height: auto;
-  display: inline-block;
-  vertical-align: middle;
+  margin-bottom: 10px;
 }
 
-nav {
-  position: relative;
-  margin-bottom: 30px;
+.button {
   display: flex;
-  justify-content: space-between;
-  flex-direction: row;
+  gap: 0.5em;
+}
+
+header {
+  text-align: center;
+  display: flex;
+  align-content: center;
+  vertical-align: middle;
+  margin: auto;
+  justify-content: center;
+  margin-bottom: 30px;
 }
 
 nav a {
@@ -19,12 +24,6 @@ nav a {
   text-decoration: none;
   display: inline-block;
   vertical-align: middle;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
 }
 
 .auth-button,
@@ -38,9 +37,6 @@ nav ul {
   color: var(--color-additional-3);
   cursor: pointer;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
-  align-content: space-between;
 }
 
 .auth-button:hover {
@@ -65,12 +61,4 @@ nav ul {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-}
-
-@media screen and (max-width: 450px) {
-  nav {
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 3rem;
-  }
 }

@@ -10,7 +10,7 @@ const Header = ({ username, showNavigation, onLoginClick, onSignUpClick, onLogou
       <nav>
         <div className="logo">
           <Link to={rootRoute}>
-            <img alt="NoteNough's logo inside header" src="logo.svg" />
+            <img alt="NoteNough logo" src="logo.svg" />
           </Link>
         </div>
         {showNavigation ? <NavigationDropdown username={username} onLoginClick={onLoginClick} onSignUpClick={onSignUpClick} onLogoutClick={onLogoutClick} /> : null}
