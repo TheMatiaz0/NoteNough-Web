@@ -29,13 +29,14 @@ const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpCli
                         onClick={onLoginClick}
                         className={`auth-button login-btn`}
                     >
-                        <ImEnter size="1em" /> | Log in
+                        <span className="center"><ImEnter size="1em" /> | Log in</span>
                     </button>
                     <button
                         onClick={onSignUpClick}
                         className={`auth-button signup-btn`}
                     >
-                        <MdHowToVote size="1em" /> | Sign up
+                        <span className="center"><MdHowToVote size="1em" /> | Sign up</span>
+
                     </button>
                 </div>}
         </div>

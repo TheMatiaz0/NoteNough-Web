@@ -1,12 +1,7 @@
 .logo img {
-  max-width: 260px;
+  max-width: 255px;
   height: auto;
   margin-bottom: 10px;
-}
-
-.button {
-  display: flex;
-  gap: 0.5em;
 }
 
 header {
@@ -37,6 +32,12 @@ nav a {
   color: var(--color-additional-3);
   cursor: pointer;
   white-space: nowrap;
+}
+
+.button-content {
+  vertical-align: middle;
+  display: flex;
+  justify-content: space-between;
 }
 
 .auth-button:hover {
