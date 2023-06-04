@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpClick }) => {
     return (
-        <div className="button">
+        <div>
             {username ?
                 <div>
                     <div className="dropdown">
@@ -18,7 +18,7 @@ const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpCli
                         </button>
                         <div className="dropdown-content auth-button">
                             <Link className="auth-button login-btn" to="/account">
-                                <MdManageAccounts className="arrow-break" size="1em" />Account Settings
+                                <span className="center"><MdManageAccounts className="arrow-break" size="1em" />Account Settings</span>
                             </Link>
                             <LogOutButton onClick={onLogoutClick} />
                         </div>
