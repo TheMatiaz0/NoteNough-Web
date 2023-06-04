@@ -178,20 +178,22 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
     setIsSigningUp((prevState) => !prevState);
   }
 
-  const contentMarginRight = (isLoggingIn || isSigningUp) ? "100px" : "0";
+  const contentMarginRight = (isLoggingIn || isSigningUp) ? "margin-right-active" : "margin-right-deactive";
   return (
     <div>
       <div className="app-container">
-        <div id="main" style={{ marginRight: contentMarginRight }}>
+        <div id="main" className={contentMarginRight}>
           <Header showNavigation={true} username={user?.email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={onLogout} />
-          <Search handleSearchText={setSearchText} />
-          <NotesList
-            notes={notes.filter(filterText)}
-            searchText={searchText}
-            handleAddNote={addNote}
-            handleRemoveNote={removeNote}
-            handleEditNote={editNote}
-          />
+          <main>
+            <Search handleSearchText={setSearchText} />
+            <NotesList
+              notes={notes.filter(filterText)}
+              searchText={searchText}
+              handleAddNote={addNote}
+              handleRemoveNote={removeNote}
+              handleEditNote={editNote}
+            />
+          </main>
         </div>
       </div>
       <OffCanvasMenu content={<LoginForm onClose={toggleLogin} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />

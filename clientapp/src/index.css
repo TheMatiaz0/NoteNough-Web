@@ -274,3 +274,43 @@ input[type=checkbox] {
 .accordion {
   color: black;
 }
+
+.margin-right-active {
+  margin-right: 100px;
+}
+
+.margin-right-deactive {
+  margin-right: 0px;
+}
+
+.overlay-active {
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: all;
+}
+
+.overlay-deactive {
+  background-color: rgba(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+@media screen and (max-width: 450px) { 
+  main {
+    margin: 20px;
+  }
+
+  .sidenav {
+    width: 100vw;
+  }
+
+  .margin-right-active {
+    margin-right: 0px;
+  }
+
+  .overlay-active {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  #main {
+    transition: margin-right 0.1s;
+  }  
+}

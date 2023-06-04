@@ -1,13 +1,10 @@
 const OffCanvasMenu = ({ content, isOpen, onClose }) => {
   let right;
-  if (isOpen) {
-    right = isOpen ? "0px" : "-510px"
-  }
+  let overlayType;
 
-  const overlayBackgroundColor = isOpen
-    ? "rgba(0, 0, 0, 0.4)"
-    : "rgba(0, 0, 0, 0)";
-  const overlayPointerEvents = isOpen ? "all" : "none";
+  right = isOpen ? "0px" : "-510px"
+
+  overlayType = isOpen ? "overlay-active" : "overlay-deactive"
 
   return (
     <div>
@@ -15,11 +12,7 @@ const OffCanvasMenu = ({ content, isOpen, onClose }) => {
         {content}
       </div>
       <div
-        className="overlay"
-        style={{
-          backgroundColor: overlayBackgroundColor,
-          pointerEvents: overlayPointerEvents,
-        }}
+        className={`overlay ${overlayType}`}
         onClick={onClose}
       ></div>
     </div>
