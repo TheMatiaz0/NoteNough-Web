@@ -270,3 +270,7 @@ select:-webkit-autofill:focus {
 input[type=checkbox] {
   transform: scale(1.2);
 }
+
+.accordion {
+  color: black;
+}
