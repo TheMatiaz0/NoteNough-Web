@@ -33,10 +33,10 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
         }).reverse();
 
     return (
-        <main className="notes-list">
+        <article className="notes-list">
             {searchText.length <= 0 && <InputNote handleAddNote={handleAddNote} />}
             {sortByNewest(notes).map(((note) => constructNote(note, handleRemoveNote, enterEditNoteMode)))}
-        </main>
+        </article>
     );
 };
 

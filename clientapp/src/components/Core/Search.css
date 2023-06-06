@@ -23,6 +23,6 @@
 }
 
 .search ::placeholder {
-  color: var(--color-additional);
+  color: gray;
   font-family: "Karla", sans-serif;
 }
