@@ -2,7 +2,7 @@
 # NoteNough
 *When your notes are not **note enough**!*
 
-This is a fullstack web development project, showcasing possibilities with C# and React.
+This is a fullstack web development notes app, showcasing possibilities with ASP.NET (C#) and React.
 
 ## Features
 - Able to register and login an account along with secured Stay logged in option (JWT).
