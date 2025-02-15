@@ -43,6 +43,27 @@ Tada! 🎉 The website should be working locally for you.
 
 It starts with Guest Mode, so you can either add notes locally (through Cookies) or register an account and add notes to your PostgreSQL database.
 
+## 🛢️ Database Access
+The project includes **PostgreSQL** as the main database and **pgAdmin** as a database management tool.
+
+### 📌 Placeholder PostgreSQL Access
+- **Host:** `localhost`
+- **Port:** `5432`
+- **Database Name:** `notenoughdb`
+- **Username:** `admin`
+- **Password:** `root1234`
+
+### 📌 Placeholder pgAdmin Access
+- **Host:** `localhost`
+- **Port:** `5050`
+- **Email:** `admin@admin.com`
+- **Password:** `root1234`
+
+You can connect to PostgreSQL using any SQL client (e.g., **DBeaver, TablePlus, or psql**):
+```sh
+psql -h localhost -p 5432 -U admin -d notenoughdb
+```
+
 ## 📁 Project Structure  
 
 The project is structured as a **full-stack ASP.NET Core & React application**, following best practices for maintainability and scalability.  
@@ -74,6 +95,3 @@ The project is structured as a **full-stack ASP.NET Core & React application**, 
 
 ---
 **Enjoy taking notes with NoteNough! 📝🚀**
-
-
-![NoteNough header](clientapp/public/logo.png)
