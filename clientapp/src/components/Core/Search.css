@@ -7,19 +7,26 @@
   margin: 0 0 1.5rem;
   color: var(--color-additional);
   font-size: 1.25rem;
+  outline: 1px solid gray;
+  transition: outline 0.1s ease;
 }
 
 .search input {
   border: none;
   background-color: var(--color-additional-2);
   font-family: var(--primary-font-name);
-  font-size: 1rem;
+  font-size: 1.3rem;
   width: 100%;
   height: 30px;
+  margin-left: 10px;
 }
 
 .search input:focus {
   outline: none;
+}
+
+.search:focus-within {
+  outline: 5px solid gray;
 }
 
 .search ::placeholder {

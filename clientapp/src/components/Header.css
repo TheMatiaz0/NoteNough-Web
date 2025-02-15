@@ -1,5 +1,5 @@
 .logo img {
-  max-width: 255px;
+  max-width: 280px;
   height: auto;
   margin-bottom: 20px;
 }
@@ -25,7 +25,7 @@ nav a {
 .auth-button:link,
 .auth-button:visited {
   font-family: var(--primary-font-name);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   border: 2px solid var(--color-additional-3);
   padding: 10px 15px;
   background-color: var(--color-btn-background);
