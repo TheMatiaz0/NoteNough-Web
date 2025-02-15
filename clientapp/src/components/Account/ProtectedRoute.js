@@ -1,13 +1,12 @@
-import "../Header.css";
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
-const ProtectedRoute = ({ isAllowed, redirectPath = '/', children }) => {
-    if (!isAllowed) {
-        return <Link to={redirectPath} replace />;
+const ProtectedRoute = ({ userLoggedIn, redirectPath = '/', children }) => {
+    if (!userLoggedIn) {
+        return <Navigate to={redirectPath} replace />;
     }
 
-    return children;
+    return children ? children : <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -3,7 +3,7 @@ import { MdAddCircle } from "react-icons/md";
 
 const InputNote = ({ handleAddNote, defaultText = "" }) => {
   const [noteText, setNoteText] = useState(defaultText);
-  const maxCharSize = 200;
+  const maxCharSize = 100;
 
   const handleChange = (event) => {
     setNoteText(event.target.value);
