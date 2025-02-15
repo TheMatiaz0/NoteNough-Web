@@ -41,7 +41,7 @@ https://localhost:8080
 
 Tada! 🎉 The website should be working locally for you.
 
-It starts with no account mode, so you can either add notes locally (cookies) or register an account and add notes to your database.
+It starts with Guest Mode, so you can either add notes locally (through Cookies) or register an account and add notes to your PostgreSQL database.
 
 ## 📁 Project Structure  
 
@@ -73,7 +73,7 @@ The project is structured as a **full-stack ASP.NET Core & React application**, 
 - **[`.editorconfig`](.editorconfig) & [`.gitignore`](.gitignore)** - Defines coding standards and excludes unnecessary files from version control.  
 
 ---
-Enjoy taking notes with NoteNough! 📝🚀
----
+**Enjoy taking notes with NoteNough! 📝🚀**
+
 
 ![NoteNough header](clientapp/public/logo.png)

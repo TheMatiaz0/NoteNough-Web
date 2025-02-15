@@ -32,6 +32,7 @@ nav a {
   color: var(--color-additional-3);
   cursor: pointer;
   white-space: nowrap;
+  margin: 0px 5px
 }
 
 .button-content {
