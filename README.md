@@ -76,7 +76,6 @@ The project is structured as a **full-stack ASP.NET Core & React application**, 
 - [**`Data/`**](Data/) - Manages database operations using **Entity Framework Core** (PostgreSQL).  
 - [**`Migrations/`**](Migrations/) - Stores **database migration** files for versioning changes in the database schema.  
 - **[`Program.cs`](Program.cs)** - The **main entry point** of the ASP.NET Core backend.  
-- **[`NoteNough.NET.sln`](NoteNough.NET.sln)** - The **main entry point** to edit C# code.
 
 ### 🎨 **Frontend (React)**  
 
@@ -90,8 +89,7 @@ The project is structured as a **full-stack ASP.NET Core & React application**, 
 ### ⚙️ **Configuration & Infrastructure**  
 
 - [**`Properties/`**](Properties/) - Contains ASP.NET Core project settings.  
-- **[`appsettings.json`](appsettings.json) & [`appsettings.Development.json`](appsettings.Development.json)** - Stores environment-specific configurations (e.g., **JWT authentication, database connections**).  
-- **[`.editorconfig`](.editorconfig) & [`.gitignore`](.gitignore)** - Defines coding standards and excludes unnecessary files from version control.  
+- **[`appsettings.json`](appsettings.json) & [`appsettings.Development.json`](appsettings.Development.json)** - Stores environment-specific configurations (e.g., **JWT authentication, database connections**).
 
 ---
 **Enjoy taking notes with NoteNough! 📝🚀**
