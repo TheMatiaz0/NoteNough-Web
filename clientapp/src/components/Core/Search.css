@@ -7,8 +7,8 @@
   margin: 0 0 1.5rem;
   color: var(--color-additional);
   font-size: 1.25rem;
-  outline: 1px solid gray;
-  transition: outline 0.1s ease;
+  outline: 0.5px solid gray;
+  transition: outline 0.05s ease;
 }
 
 .search input {
@@ -26,7 +26,7 @@
 }
 
 .search:focus-within {
-  outline: 5px solid gray;
+  outline: 4px solid gray;
 }
 
 .search ::placeholder {

@@ -44,6 +44,11 @@ textarea:focus {
 .note.new {
   background-color: var(--color-secondary);
   border: 1.5px solid var(--color-primary);
+  transition: outline 0.045s ease; 
+}
+
+.note.new:focus-within {
+  outline: 3px solid gray;
 }
 
 .fade {
