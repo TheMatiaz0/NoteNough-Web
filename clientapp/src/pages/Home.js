@@ -162,6 +162,10 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
     }
   };
 
+  const reorderNotes = (reorderedNotes) => {
+    setNotes(reorderedNotes);
+  }
+
   const filterText = (note) =>
     note.text.toLowerCase().includes(searchText.toLowerCase());
 
@@ -192,6 +196,7 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
               handleAddNote={addNote}
               handleRemoveNote={removeNote}
               handleEditNote={editNote}
+              handleReorderNotes={reorderNotes}
             />
           </main>
         </div>
