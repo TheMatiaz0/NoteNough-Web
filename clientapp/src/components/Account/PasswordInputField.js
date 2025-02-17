@@ -38,7 +38,7 @@ const PasswordInputField = ({ password, handleChangePassword, placeholder, canFo
                     className="auth-icon right-icon btn-icon"
                 />
             </div>
-            <div className="password-tips">
+            <div className="password-tips disclaimer">
                 {canForgotPassword ? (
                     <p>
                         Make sure that your password contains at least{" "}

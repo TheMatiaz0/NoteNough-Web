@@ -1,10 +1,6 @@
 const OffCanvasMenu = ({ content, isOpen, onClose }) => {
-  let right;
-  let overlayType;
-
-  right = isOpen ? "0px" : "-510px"
-
-  overlayType = isOpen ? "overlay-active" : "overlay-deactive"
+  const right = isOpen ? "0px" : "-600px";
+  const overlayType = isOpen ? "overlay-active" : "overlay-deactive";
 
   return (
     <div>

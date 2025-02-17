@@ -2,10 +2,12 @@ import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from "@dnd-kit/sortable";
 
 const SortableNote = ({note, handleRemoveNote, enterEditNoteMode, constructNote}) => {
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({id: note.key});
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({id: note.key});
+
     const style = {
         transform: CSS.Transform.toString(transform),
-        transition
+        transition: transition,
+        opacity: isDragging ? 0.8 : 1
     };
 
     return (

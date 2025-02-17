@@ -13,19 +13,6 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
 
   const defaultNotes = [];
 
-  const parseNoteDates = (parsedNotes) => {
-    return parsedNotes.map((note) => {
-      let originDate = note.created;
-      if (note.updated !== null && note.updated > note.created) {
-        originDate = note.updated;
-      }
-      return {
-        ...note,
-        date: new Date(originDate),
-      };
-    });
-  };
-
   const [notes, setNotes] = useState(() => {
     if (!user) {
       const localStorageNotes = localStorage.getItem(LOCAL_STORAGE_DATA_NAME);
@@ -40,6 +27,19 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   });
 
   const [searchText, setSearchText] = useState("");
+
+  const parseNoteDates = (parsedNotes) => {
+    return parsedNotes.map((note) => {
+      let originDate = note.created;
+      if (note.updated !== null && note.updated > note.created) {
+        originDate = note.updated;
+      }
+      return {
+        ...note,
+        date: new Date(originDate),
+      };
+    });
+  };
 
   const addNoteToDatabase = async (text) => {
     let response = await fetch(ROOT_NOTES_URL, {
