@@ -2,30 +2,17 @@ import "./NotesList.css";
 import Note from './Note';
 import InputNote from './InputNote';
 import { useState } from 'react';
-import { arrayMove, rectSortingStrategy, rectSwappingStrategy, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { arrayMove, rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { CSS } from '@dnd-kit/utilities';
-
-
-const SortableNote = ({note, handleRemoveNote, enterEditNoteMode, constructNote}) => {
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({id: note.key});
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition
-    };
-
-    return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            {constructNote(note, handleRemoveNote, enterEditNoteMode)}
-        </div>
-    )
-}
+import SortableNote from "./SortableNote";
 
 const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleEditNote, handleReorderNotes }) => {
     const [editedNote, setEditedNote] = useState({});
 
     const sensors = useSensors(
-        useSensor(PointerSensor),
+        useSensor(PointerSensor, {
+            activationConstraint: { distance: 5 }
+        }),
         useSensor(KeyboardSensor)
     );
 

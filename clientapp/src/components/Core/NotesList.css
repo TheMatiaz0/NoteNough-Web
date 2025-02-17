@@ -21,6 +21,12 @@
   min-height: 170px;
   flex-direction: column;
   justify-content: space-between;
+  transition: transform 0.2 ease;
+  cursor: grab;
+}
+
+.note:active {
+  cursor: grabbing;
 }
 
 textarea {
@@ -45,6 +51,7 @@ textarea:focus {
   background-color: var(--color-secondary);
   border: 1.5px solid var(--color-primary);
   transition: outline 0.045s ease; 
+  cursor: text;
 }
 
 .note.new:focus-within {
