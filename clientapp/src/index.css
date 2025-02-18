@@ -233,6 +233,7 @@ select:-webkit-autofill:focus {
 .button input {
   background-color: #111;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .button input:hover {
@@ -271,7 +272,7 @@ select:-webkit-autofill:focus {
 }
 
 input[type=checkbox] {
-  transform: scale(1.4);
+  transform: scale(1.5);
 }
 
 .accordion {
