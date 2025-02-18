@@ -33,3 +33,10 @@
   color: gray;
   font-family: "Karla", sans-serif;
 }
+
+.sort-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  cursor: #333;
+}

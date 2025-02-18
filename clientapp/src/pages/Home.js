@@ -13,6 +13,11 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
 
   const defaultNotes = [];
 
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [isSortedByNewest, setIsSortedByNewest] = useState(true);
+
   const [notes, setNotes] = useState(() => {
     if (!user) {
       const localStorageNotes = localStorage.getItem(LOCAL_STORAGE_DATA_NAME);
@@ -25,8 +30,6 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
     }
     return defaultNotes;
   });
-
-  const [searchText, setSearchText] = useState("");
 
   const parseNoteDates = (parsedNotes) => {
     return parsedNotes.map((note) => {
@@ -131,7 +134,6 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   }, [userLoggedIn]
   );
 
-
   const addNote = (text) => {
     if (user) {
       return addNoteToDatabase(text);
@@ -168,8 +170,9 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
     setNotes(reorderedNotes);
   }
 
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [isSigningUp, setIsSigningUp] = useState(false);
+  const toggleSortOrder = () => {
+    setIsSortedByNewest((prev) => !prev);
+  }
 
   const toggleLogin = () => {
     setIsSigningUp(false);
@@ -188,7 +191,7 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
         <div id="main" className={contentMarginRight}>
           <Header showNavigation={true} username={user?.email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={onLogout} />
           <main>
-            <Search handleSearchText={setSearchText} />
+            <Search handleSearchText={setSearchText} toggleSortOrder={toggleSortOrder} isSortedByNewest={isSortedByNewest} />
             <NotesList
               notes={notes}
               searchText={searchText}
@@ -196,6 +199,7 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
               handleRemoveNote={removeNote}
               handleEditNote={editNote}
               handleReorderNotes={reorderNotes}
+              isSortedByNewest={isSortedByNewest}
             />
           </main>
         </div>

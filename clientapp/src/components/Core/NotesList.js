@@ -1,13 +1,14 @@
 import "./NotesList.css";
 import Note from './Note';
 import InputNote from './InputNote';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { arrayMove, rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import SortableNote from "./SortableNote";
 
-const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleEditNote, handleReorderNotes }) => {
+const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleEditNote, handleReorderNotes, isSortedByNewest }) => {
     const [editedNote, setEditedNote] = useState({});
+    const [sortedNotes, setSortedNotes] = useState([...notes]);
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -37,6 +38,15 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
         />
     );
 
+    useEffect(() => {
+        const sorted = [...notes].sort((a, b) =>
+            isSortedByNewest
+                ? new Date(b.date) - new Date(a.date)
+                : new Date(a.date) - new Date(b.date)
+        );
+        handleReorderNotes(sorted);
+    }, [isSortedByNewest]);
+
     const filteredNotes = searchText
     ? notes.filter((note) => note.text.toLowerCase().includes(searchText.toLowerCase()))
     : notes;
@@ -54,12 +64,6 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
             handleReorderNotes(reorderedNotes);
         }
     };
-
-    const sortByNewest = (array) =>
-        array.sort((a, b) => {
-            return new Date(a.date) -
-                new Date(b.date)
-        }).reverse();
 
     return (
         <article className="notes-list">
