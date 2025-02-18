@@ -60,6 +60,24 @@ The project includes **PostgreSQL** as the main database and **pgAdmin** as a da
 
 Info: If you change database settings, remember to remove `./postgres-data` folder locally.
 
+## 🐛 Debugging
+
+### React (Frontend)
+#### 1️⃣ Navigate to ./clientapp folder:
+```sh   
+cd NoteNough-Web
+cd clientapp  
+```
+#### 2️⃣ Start React server:
+```sh   
+npm start
+```
+
+Now, go to `http://localhost:3000` and voila! Live changes are happening as you edit project files inside clientapp folder.
+
+### ASP.NET (Backend)
+You can use software like Postman to test API. Here's template JSON file containing all possible use cases for this app: [NoteNough_postman_template.json](NoteNough_postman_template.json) 
+
 ## 📁 Project Structure  
 
 The project is structured as a **full-stack ASP.NET Core & React application**, following best practices for maintainability and scalability.  
