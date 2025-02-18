@@ -62,11 +62,11 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   };
 
   const addNoteToLocalStorage = (text) => {
-    setNotes([...notes, {
+    setNotes([{
       key: nanoid(),
       text: text,
       date: new Date()
-    }]);
+    }, ...notes]);
   }
 
   const deleteNoteFromDatabase = async (id) => {
