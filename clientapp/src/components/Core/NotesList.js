@@ -37,13 +37,20 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
         />
     );
 
+    const filteredNotes = searchText
+    ? notes.filter((note) => note.text.toLowerCase().includes(searchText.toLowerCase()))
+    : notes;
+
     const handleDragEnd = (event) => {
         const { active, over } = event;
+        if (!over) {
+            return;
+        }
         if (active.id !== over.id) {
             const oldIndex = notes.findIndex((note) => note.key === active.id);
             const newIndex = notes.findIndex((note) => note.key === over.id);
 
-            const reorderedNotes = arrayMove(notes, oldIndex, newIndex);
+            const reorderedNotes = arrayMove([...notes], oldIndex, newIndex);
             handleReorderNotes(reorderedNotes);
         }
     };
@@ -58,8 +65,8 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
         <article className="notes-list">
             {searchText.length <= 0 && <InputNote handleAddNote={handleAddNote} />}
             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                <SortableContext items={notes.map((note) => note.key)} strategy={rectSortingStrategy} >
-                    {notes.map((note) => (
+                <SortableContext items={filteredNotes.map((note) => note.key)} strategy={rectSortingStrategy} >
+                    {filteredNotes.map((note) => (
                         <SortableNote 
                             key={note.key}
                             note={note} 

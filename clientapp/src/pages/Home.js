@@ -168,9 +168,6 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
     setNotes(reorderedNotes);
   }
 
-  const filterText = (note) =>
-    note.text.toLowerCase().includes(searchText.toLowerCase());
-
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isSigningUp, setIsSigningUp] = useState(false);
 
@@ -193,7 +190,7 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
           <main>
             <Search handleSearchText={setSearchText} />
             <NotesList
-              notes={notes.filter(filterText)}
+              notes={notes}
               searchText={searchText}
               handleAddNote={addNote}
               handleRemoveNote={removeNote}
