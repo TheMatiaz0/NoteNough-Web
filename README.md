@@ -37,7 +37,7 @@ docker compose up
 
 ### 3️⃣ Access the App
 Once setup is complete, open your browser and visit:
-https://localhost:8080
+http://localhost:8080
 
 Tada! 🎉 The website should be working locally for you.
 
@@ -54,7 +54,7 @@ The project includes **PostgreSQL** as the main database and **pgAdmin** as a da
 - **Password:** `root1234`
 
 ### 📌 Placeholder pgAdmin Access
-- **Url:** https://localhost:5050
+- **Url:** http://localhost:5050
 - **Email:** `admin@admin.com`
 - **Password:** `root1234`
 
@@ -73,7 +73,7 @@ cd clientapp
 npm start
 ```
 
-Now, go to `http://localhost:3000` and voila! Live changes are happening as you edit project files inside clientapp folder.
+Now, go to http://localhost:3000 and voila! Live changes are happening as you edit project files inside clientapp folder.
 
 ### ASP.NET (Backend)
 You can use software like Postman to test API. Here's template JSON file containing all possible use cases for this app: [NoteNough_postman_template.json](NoteNough_postman_template.json) 
