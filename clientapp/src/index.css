@@ -275,9 +275,6 @@ select:-webkit-autofill:focus {
 }
 
 .center {
-  display: flex;
-  align-items: center;
-  gap: 0.2em;
 }
 
 .disclaimer {

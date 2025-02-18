@@ -26,23 +26,26 @@ nav a {
 .auth-button:visited {
   font-family: var(--primary-font-name);
   font-size: 1.3rem;
-  border: 2px solid var(--color-additional-3);
-  padding: 10px 15px;
-  background-color: var(--color-btn-background);
+  border: none;
+  padding: 0;
+  background: none;
   color: var(--color-additional-3);
   cursor: pointer;
   white-space: nowrap;
-  margin: 0px 5px
+  margin: 0px 5px;
+  justify-content: center;
+  align-items: center;
 }
 
 .button-content {
   vertical-align: middle;
   display: flex;
   justify-content: space-between;
+  gap: 6px;
+  align-items: center;
 }
 
 .auth-button:hover {
-  border: 2px solid var(--color-primary);
   color: var(--color-primary);
 }
 
@@ -67,5 +70,6 @@ nav a {
 .drop-btn {
   display: flex;
   vertical-align: middle;
+  align-items: center;
   gap: 6px;
 }

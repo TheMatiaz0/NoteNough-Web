@@ -1,9 +1,8 @@
 import "../Core/Search.css";
 import "../Header.css"
 import React from "react";
-import { MdArrowDropDownCircle, MdHowToVote } from "react-icons/md";
 import LogOutButton from "./LogOutButton";
-import { ImEnter } from "react-icons/im";
+import { IoIosArrowDown } from "react-icons/io";
 import { MdManageAccounts } from "react-icons/md";
 import { Link } from "react-router-dom";
 
@@ -13,8 +12,11 @@ const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpCli
             {username ?
                 <div>
                     <div className="dropdown">
-                        <button className="auth-button drop-btn">
-                            {username}<MdArrowDropDownCircle size="1.2em" />
+                        <button className="auth-button">
+                            <div className="button-content">
+                                <span>{username}</span>
+                                <IoIosArrowDown size="0.8em" />
+                            </div>
                         </button>
                         <div className="dropdown-content auth-button">
                             <Link className="auth-button login-btn" to="/account">
@@ -24,18 +26,18 @@ const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpCli
                         </div>
                     </div>
                 </div> :
-                <div>
+                <div className="center">
                     <button
                         onClick={onLoginClick}
-                        className={`auth-button login-btn`}
+                        className={`auth-button login-btn center`}
                     >
-                        <span className="center"><ImEnter size="1em" /> | Log in</span>
+                        <span>Log in</span>
                     </button>
                     <button
                         onClick={onSignUpClick}
-                        className={`auth-button signup-btn`}
+                        className={`auth-button signup-btn center`}
                     >
-                        <span className="center"><MdHowToVote size="1em" /> | Sign up</span>
+                        <span>Sign up</span>
 
                     </button>
                 </div>}
