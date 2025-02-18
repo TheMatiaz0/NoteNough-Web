@@ -69,7 +69,7 @@ namespace NoteNough.NET.Controllers
                     IsEssential = true,
                 });
 
-                return Ok();
+                return NoContent();
             }
             else
             {
@@ -99,7 +99,7 @@ namespace NoteNough.NET.Controllers
                 identity?.RemoveClaim(claim);
             }
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete("delete")]
@@ -115,7 +115,7 @@ namespace NoteNough.NET.Controllers
             _dbContext.SavedUsers.Remove(user);
             await _dbContext.SaveChangesAsync();
 
-            return Ok();
+            return NoContent();
         }
 
         private bool UserExists(string email)

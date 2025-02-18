@@ -141,7 +141,7 @@ namespace NoteNough.NET.Controllers
             _context.SavedNotes.Remove(note);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return NoContent();
         }
     }
 }

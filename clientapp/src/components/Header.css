@@ -63,3 +63,9 @@ nav a {
   display: flex;
   flex-direction: column;
 }
+
+.drop-btn {
+  display: flex;
+  vertical-align: middle;
+  gap: 6px;
+}
