@@ -122,10 +122,12 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
     if (!user) {
       localStorage.setItem(LOCAL_STORAGE_DATA_NAME, JSON.stringify(notes));
     }
-  }, []);
+  }, [notes]);
 
   useEffect(() => {
-    fetchNotesFromDatabase();
+    if (user) {
+      fetchNotesFromDatabase();
+    }
   }, [userLoggedIn]
   );
 

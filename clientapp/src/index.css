@@ -186,7 +186,8 @@ select:-webkit-autofill:focus {
 
 /* Checkbox and remember me */
 .form .form-bottom {
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -214,6 +215,7 @@ select:-webkit-autofill:focus {
 .form-header {
   display: flex;
   justify-content: space-between;
+  margin-top: 32px;
 }
 
 .close {
