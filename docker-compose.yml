@@ -6,7 +6,6 @@
     environment:
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "root1234"
-      POSTGRES_DB: "notenoughdb"
     ports:
       - "5432:5432"
     expose:
@@ -32,7 +31,7 @@
     build:
       context: .
     environment:
-      - ConnectionStrings__Postgres_Db=Server=db;Database=notenoughdb;Port=5432;Username=admin;Password=root1234
+      - ConnectionStrings__Postgres_Db=Server=db;Database=postgres;Port=5432;Username=admin;Password=root1234
     ports:
       - "8080:80"
     expose:
