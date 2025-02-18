@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { MdInfoOutline, MdLockOutline } from "react-icons/md";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { BsCapslockFill } from "react-icons/bs"
 
 const PasswordInputField = ({ password, handleChangePassword, placeholder, canForgotPassword }) => {
     const [isShowingPassword, setShowingPassword] = useState(false);
@@ -33,27 +34,26 @@ const PasswordInputField = ({ password, handleChangePassword, placeholder, canFo
                     minLength="8"
                 />
                 <MdLockOutline className="auth-icon" />
-                <ShowPasswordIcon
-                    onClick={toggleShowPassword}
-                    className="auth-icon right-icon btn-icon"
-                />
+                <div className="icon-container">
+                    <ShowPasswordIcon
+                        title="Show password"
+                        onClick={toggleShowPassword}
+                        className="btn-icon"
+                    />
+                    {isCapsLocked && <BsCapslockFill title="Caps Lock is ON" size="0.8em"/>}
+                </div>
+
             </div>
-            <div className="password-tips disclaimer form-bottom">
+            <div className="disclaimer form-bottom">
                 {canForgotPassword ? (
                     <p>
                         Make sure that your password contains at least{" "}
                         <b>8 characters</b>.
                     </p>
                 ) : (
-                    <p>
+                    <p className="password-tips">
                         {password.length >= 8 ? `✔️` : `❌`} Password should have at least <b>8 characters</b>
                         .
-                    </p>
-                )}
-                {isCapsLocked && (
-                    <p className="center">
-                        <MdInfoOutline size="1.2em" />
-                        Caps Lock is on
                     </p>
                 )}
             </div>

@@ -71,6 +71,7 @@ const AuthForm = ({
           <div className="input-checkbox">
             <label className="text center">
               <input
+                title="Ensures that you will be logged in after closing this website"
                 onClick={toggleRememberPassword}
                 type="checkbox"
                 defaultChecked={isRememberPassword}

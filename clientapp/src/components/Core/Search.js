@@ -17,7 +17,7 @@ const Search = ({ handleSearchText, toggleSortOrder, isSortedByNewest }) => {
         type="text"
         placeholder="What do you want to find?"
       />
-      <button onClick={handleSortClick} className="sort-button" tabIndex="-1">
+      <button title="Sorting by date" onClick={handleSortClick} className="sort-button" tabIndex="-1">
         {isSortedByNewest ? <FaSortAmountDown size="2em" /> : <FaSortAmountUp size="2em" />}
       </button>
     </section>
