@@ -1,9 +1,8 @@
 import "../Core/Search.css";
 import "../Header.css"
 import React from "react";
-import LogOutButton from "./LogOutButton";
+import NavigationButton from "./NavigationButton";
 import { IoIosArrowDown } from "react-icons/io";
-import { MdManageAccounts } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpClick }) => {
@@ -20,9 +19,9 @@ const NavigationDropdown = ({ username, onLogoutClick, onLoginClick, onSignUpCli
                         </button>
                         <div className="dropdown-content auth-button">
                             <Link className="auth-button login-btn" to="/account">
-                                <span className="center"><MdManageAccounts className="arrow-break" size="1em" />Account Settings</span>
+                                <NavigationButton text="Account Settings" />
                             </Link>
-                            <LogOutButton onClick={onLogoutClick} />
+                            <NavigationButton onClick={onLogoutClick} text="Log Out" />
                         </div>
                     </div>
                 </div> :

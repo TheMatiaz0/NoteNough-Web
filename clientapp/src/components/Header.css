@@ -73,3 +73,9 @@ nav a {
   align-items: center;
   gap: 6px;
 }
+
+.login-btn {
+  align-items: center;
+  vertical-align: middle;
+  padding: 10px 10px;
+}

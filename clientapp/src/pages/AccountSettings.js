@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import Header from "../components/Header";
-import LogOutButton from "../components/Account/LogOutButton";
 import { Link } from "react-router-dom";
 import CollapsibleFormHeader from "../components/Account/Settings/CollapsibleFormHeader";
 import ChangeEmailForm from "../components/Account/Settings/ChangeEmailForm";
@@ -10,8 +9,9 @@ import DeleteAccountForm from "../components/Account/Settings/DeleteAccountForm"
 import "../components/Header.css";
 import "./AccountSettings.css";
 import { MdKeyboardBackspace } from "react-icons/md";
+import NavigationButton from "../components/Account/NavigationButton";
 
-const AccountSettings = (submitEmailChangeAsync, submitPasswordChange, submitAccountDelete) => {
+const AccountSettings = (submitEmailChangeAsync, submitPasswordChange, submitAccountDelete, onLogoutClick) => {
     const [selected, setSelected] = useState(null);
 
     const toggle = id => () => {
@@ -33,7 +33,7 @@ const AccountSettings = (submitEmailChangeAsync, submitPasswordChange, submitAcc
                         <CollapsibleFormHeader onClick={toggle(2)} isSelected={selected === 2} text="Delete Account" content={<DeleteAccountForm onSubmitDeleteAccountAsync={submitAccountDelete} />} />
                     </ul>
                     <div className="button-wrapper">
-                        <LogOutButton />
+                        <NavigationButton onClick={onLogoutClick} />
                     </div>
                 </div>
             </div>
