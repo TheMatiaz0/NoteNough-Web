@@ -12,11 +12,7 @@ namespace NoteNough.NET.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
-    {
-        private const string CredentialsError = "Incorrect password.";
-        private const string UserDoesNotExistError = "User does not exist.";
-        private const string UserAlreadyExistsError = "Email is already in use.";
-        
+    {      
         private readonly AppDbContext _dbContext;
         private readonly JwtService _jwtService;
         private readonly AppConfigurationData _appConfigurationData;
@@ -39,7 +35,7 @@ namespace NoteNough.NET.Controllers
 
             if (UserExists(hashedUser.Email))
             {
-                return BadRequest(UserAlreadyExistsError);
+                return BadRequest(ErrorStatus.UserAlreadyExistsError);
             }
 
             _dbContext.SavedUsers.Add(hashedUser);
@@ -57,7 +53,7 @@ namespace NoteNough.NET.Controllers
             var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Email == loginDto.Email);
             if (existingUser == null)
             {
-                return NotFound(UserDoesNotExistError);
+                return NotFound(ErrorStatus.UserDoesNotExistError);
             }
 
             if (Verify(loginDto.Password, existingUser.Password))
@@ -81,7 +77,7 @@ namespace NoteNough.NET.Controllers
             }
             else
             {
-                return BadRequest(CredentialsError);
+                return BadRequest(ErrorStatus.CredentialsError);
             }
         }
 
@@ -117,12 +113,12 @@ namespace NoteNough.NET.Controllers
             var user = GetCurrentUser();
             if (user == null)
             {
-                return NotFound(UserDoesNotExistError);
+                return NotFound(ErrorStatus.UserDoesNotExistError);
             }
 
             if (!Verify(deleteUserDto.CurrentPassword, user.Password))
             {
-                return BadRequest(CredentialsError);
+                return BadRequest(ErrorStatus.CredentialsError);
             }
 
             _dbContext.SavedUsers.Remove(user);
@@ -138,19 +134,19 @@ namespace NoteNough.NET.Controllers
             var user = GetCurrentUser();
             if (user == null)
             {
-                return NotFound(UserDoesNotExistError);
+                return NotFound(ErrorStatus.UserDoesNotExistError);
             }
 
             if (!Verify(updateUserDto.CurrentPassword, user.Password))
             {
-                return BadRequest(CredentialsError);
+                return BadRequest(ErrorStatus.CredentialsError);
             }
 
             if (!string.IsNullOrEmpty(updateUserDto.NewEmail))
             {
                 if (UserExists(updateUserDto.NewEmail))
                 {
-                    return BadRequest(UserAlreadyExistsError);
+                    return BadRequest(ErrorStatus.UserAlreadyExistsError);
                 }
                 user.Email = updateUserDto.NewEmail;
             }

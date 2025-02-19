@@ -47,7 +47,7 @@ namespace NoteNough.NET.Controllers
             var user = _context.SavedUsers.Find(userId);
             if (user == null)
             {
-                return NotFound();
+                return NotFound(ErrorStatus.UserDoesNotExistError);
             }
 
             var note = new Note 
@@ -63,7 +63,7 @@ namespace NoteNough.NET.Controllers
             noteDto.Created = note.Created;
             noteDto.Key = note.Key;
 
-            return CreatedAtAction("GetNote", new { id = noteDto.Key}, noteDto);
+            return CreatedAtAction(nameof(GetNote), new { id = noteDto.Key}, noteDto);
         }
 
         // GET: api/Notes/5
@@ -75,7 +75,7 @@ namespace NoteNough.NET.Controllers
 
             if (note == null)
             {
-                return NotFound();
+                return NotFound(ErrorStatus.NoteDoesNotExistError);
             }
 
             return Ok(note);
@@ -88,14 +88,9 @@ namespace NoteNough.NET.Controllers
         {
             int userId = GetLoggedInUserId();
             var existingNote = _context.SavedNotes.Find(id);
-            if (existingNote == null)
+            if (existingNote == null || existingNote.UserId != userId)
             {
-                return NotFound();
-            }
-
-            if (existingNote.UserId != userId)
-            {
-                return NotFound();
+                return NotFound(ErrorStatus.NoteDoesNotExistError);
             }
 
             existingNote.Text = noteDto.Text;
@@ -111,7 +106,7 @@ namespace NoteNough.NET.Controllers
             {
                 if (!NoteExists(id))
                 {
-                    return NotFound();
+                    return NotFound(ErrorStatus.NoteDoesNotExistError);
                 }
                 else
                 {
@@ -135,7 +130,7 @@ namespace NoteNough.NET.Controllers
             var note = GetUserNotes(userId).FirstOrDefault(x => x.Key == id);
             if (note == null)
             {
-                return NotFound();
+                return NotFound(ErrorStatus.NoteDoesNotExistError);
             }
 
             _context.SavedNotes.Remove(note);
