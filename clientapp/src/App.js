@@ -9,7 +9,6 @@ const App = () => {
     const [user, setUser] = useState(null);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
 
-    // write timer to fetch user in loop every X seconds
     useEffect(() => {
         fetchUser();
     }, []);
@@ -50,10 +49,35 @@ const App = () => {
     }
 
     const changeEmail = async ({ newEmail, currentPassword }) => {
+        const response = await fetch(`${ROOT_AUTHENTICATION_URL}/update`, {
+            method: "PUT",
+            body: JSON.stringify({
+                currentPassword: currentPassword,
+                newEmail: newEmail
+            }),
+            headers: {
+                "Content-type": process.env.REACT_APP_FETCH_TYPE,
+            },
+        });
+
+        fetchUser();
+        return response.ok;
     }
 
     const changePassword = async ({ currentPassword, newPassword }) => {
+        const response = await fetch(`${ROOT_AUTHENTICATION_URL}/update`, {
+            method: "PUT",
+            body: JSON.stringify({
+                currentPassword: currentPassword,
+                newPassword: newPassword
+            }),
+            headers: {
+              "Content-type": process.env.REACT_APP_FETCH_TYPE,
+            },
+        });
 
+        fetchUser();  
+        return response.ok;
     }
 
     const logoutUser = async () => {
@@ -74,9 +98,9 @@ const App = () => {
                 "Content-type": process.env.REACT_APP_FETCH_TYPE,
             },
             body: JSON.stringify(
-                {
-                    password: currentPassword
-                }),
+            {
+                currentPassword: currentPassword
+            }),
         });
         fetchUser();
         return response.ok;

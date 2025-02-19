@@ -155,6 +155,8 @@ namespace NoteNough.NET.Controllers
             }
 
             await _dbContext.SaveChangesAsync();
+            PostLogout();
+
             return NoContent();
         }
 
