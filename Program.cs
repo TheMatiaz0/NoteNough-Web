@@ -24,7 +24,7 @@ namespace NoteNough.NET
                 options.AddPolicy(name: myAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("http://localhost:8080", "http://localhost", "https://localhost", "https://localhost:8080", "http://localhost:3000", "https://localhost:3000")
+                                      policy.WithOrigins(JWTConfig.Issuer, JWTConfig.Audience)
                                       .AllowAnyMethod()
                                       .AllowAnyHeader()
                                       .AllowCredentials();
