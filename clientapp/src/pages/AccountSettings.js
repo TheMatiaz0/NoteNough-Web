@@ -11,7 +11,7 @@ import "./AccountSettings.css";
 import { MdKeyboardBackspace } from "react-icons/md";
 import NavigationButton from "../components/Account/NavigationButton";
 
-const AccountSettings = (submitEmailChangeAsync, submitPasswordChange, submitAccountDelete, onLogoutClick) => {
+const AccountSettings = ({submitEmailChangeAsync, submitPasswordChange, submitAccountDelete, onLogoutClick}) => {
     const [selected, setSelected] = useState(null);
 
     const toggle = id => () => {
