@@ -25,7 +25,7 @@ nav a {
 .auth-button:link,
 .auth-button:visited {
   font-family: var(--primary-font-name);
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   border: none;
   padding: 0;
   background: none;
@@ -78,4 +78,12 @@ nav a {
   align-items: center;
   vertical-align: middle;
   padding: 10px 10px;
+}
+
+.login-container {
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  align-items: center;
 }
