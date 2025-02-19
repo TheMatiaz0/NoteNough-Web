@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using NoteNough.NET.Data;
 using NoteNough.NET.Models;
 using NoteNough.NET.Services;
@@ -18,11 +19,13 @@ namespace NoteNough.NET.Controllers
         
         private readonly AppDbContext _dbContext;
         private readonly JwtService _jwtService;
+        private readonly AppConfigurationData _appConfigurationData;
 
-        public AuthController(AppDbContext context, JwtService jwtService)
+        public AuthController(AppDbContext context, JwtService jwtService, IOptionsSnapshot<AppConfigurationData> appData)
         {
             _dbContext = context;
             _jwtService = jwtService;
+            _appConfigurationData = appData.Value;
         }
 
         [HttpPost("register")]
@@ -60,11 +63,14 @@ namespace NoteNough.NET.Controllers
             if (Verify(loginDto.Password, existingUser.Password))
             {
                 var jwt = _jwtService.Generate(existingUser.Id);
-                var cookieExpiration = loginDto.RememberMe ? DateTimeOffset.UtcNow.AddDays(30) : DateTimeOffset.UtcNow.AddMinutes(15);
+                var expirationTime = loginDto.RememberMe ? 
+                    DateTimeOffset.UtcNow.Add(_appConfigurationData.SessionTimeWithCookie) 
+                    : DateTimeOffset.UtcNow.Add(_appConfigurationData.SessionTimeWithoutCookie);
+
                 Response.Cookies.Append(Program.JWTConfig.CookieHeader, jwt, new CookieOptions
                 {
-                    Expires = cookieExpiration,
-                    Domain = "localhost",
+                    Expires = expirationTime,
+                    Domain = Program.JWTConfig.Audience,
                     HttpOnly = true,
                     Secure = false,
                     SameSite = SameSiteMode.Lax,

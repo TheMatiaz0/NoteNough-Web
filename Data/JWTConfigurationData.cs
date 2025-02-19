@@ -8,5 +8,6 @@
         public string Issuer { get; set; }
         public string Audience { get; set; }
         public string CookieHeader { get; set; }
+        public TimeSpan ExpirationTime { get; set; }
     }
 }

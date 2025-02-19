@@ -15,7 +15,11 @@ namespace NoteNough.NET.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString())
             };
-            var token = new JwtSecurityToken(Program.JWTConfig.Issuer, Program.JWTConfig.Audience, claims, expires: DateTime.Now.AddMinutes(15), signingCredentials: credentials);
+            var token = new JwtSecurityToken(Program.JWTConfig.Issuer, 
+                Program.JWTConfig.Audience, 
+                claims, 
+                expires: DateTime.UtcNow.Add(Program.JWTConfig.ExpirationTime), 
+                signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
