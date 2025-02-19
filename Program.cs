@@ -56,7 +56,9 @@ namespace NoteNough.NET
             });
             builder.Services.AddAuthorization();
             builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db")));
-            builder.Services.AddDataProtection().PersistKeysToDbContext<AppDbContext>();
+            builder.Services.AddDataProtection()
+                .PersistKeysToDbContext<AppDbContext>()
+                .SetApplicationName("NoteNough");
 
             builder.Services.AddControllers();
             builder.Services.AddScoped<JwtService>();

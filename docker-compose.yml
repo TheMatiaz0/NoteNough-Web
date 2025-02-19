@@ -4,8 +4,10 @@
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_USER: "admin"
-      POSTGRES_PASSWORD: "root1234"
+      POSTGRES_USER: ${POSTGRES_USER:-admin} # Warning: Placeholder value, use .env file when deploying to server
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-root1234} # Warning: Placeholder value, use .env file when deploying to server
+    env_file:
+      - .env
     ports:
       - "5432:5432"
     expose:
@@ -18,8 +20,10 @@
     image: dpage/pgadmin4
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
-      PGADMIN_DEFAULT_PASSWORD: "root1234"
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@admin.com} # Warning: Placeholder value, use .env file when deploying to server
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-root1234} # Warning: Placeholder value, use .env file when deploying to server
+    env_file:
+      - .env
     ports:
       - "5050:80"
     depends_on:
@@ -33,7 +37,10 @@
     environment:
       - ASPNETCORE_URLS=http://+:80
       - DOTNET_USE_POLLING_FILE_WATCHER=1
-      - ConnectionStrings__Postgres_Db=Server=db;Database=postgres;Port=5432;Username=admin;Password=root1234
+      - ConnectionStrings__Postgres_Db=Server=db;Database=postgres;Port=5432;Timeout=30;CommandTimeout=60;Username=${POSTGRES_USER:-admin};Password=${POSTGRES_PASSWORD:-root1234} # Warning: Username and Password have placeholder value
+      - JWT__SecurityKey=YourLocalDevelopmentKeyHere # Warning: Placeholder value
+    env_file:
+      - .env # Remember to create .env file with above placeholder values when you are deploying to server
     ports:
       - "8080:80"
     expose:
