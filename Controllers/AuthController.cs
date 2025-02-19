@@ -12,7 +12,9 @@ namespace NoteNough.NET.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private const string CredentialsError = "Invalid credentials!";
+        private const string CredentialsError = "Incorrect password.";
+        private const string UserDoesNotExistError = "User does not exist.";
+        private const string UserAlreadyExistsError = "Email is already in use.";
         
         private readonly AppDbContext _dbContext;
         private readonly JwtService _jwtService;
@@ -34,7 +36,7 @@ namespace NoteNough.NET.Controllers
 
             if (UserExists(hashedUser.Email))
             {
-                return BadRequest("User with that email already exists!");
+                return BadRequest(UserAlreadyExistsError);
             }
 
             _dbContext.SavedUsers.Add(hashedUser);
@@ -52,7 +54,7 @@ namespace NoteNough.NET.Controllers
             var existingUser = _dbContext.SavedUsers.FirstOrDefault(u => u.Email == loginDto.Email);
             if (existingUser == null)
             {
-                return BadRequest(CredentialsError);
+                return NotFound(UserDoesNotExistError);
             }
 
             if (Verify(loginDto.Password, existingUser.Password))
@@ -104,17 +106,55 @@ namespace NoteNough.NET.Controllers
 
         [HttpDelete("delete")]
         [Authorize]
-        public async Task<ActionResult> DeleteUser()
+        public async Task<ActionResult> DeleteUser([FromBody] DeleteUserDto deleteUserDto)
         {
             var user = GetCurrentUser();
             if (user == null)
             {
-                return NotFound();
+                return NotFound(UserDoesNotExistError);
+            }
+
+            if (!Verify(deleteUserDto.CurrentPassword, user.Password))
+            {
+                return BadRequest(CredentialsError);
             }
 
             _dbContext.SavedUsers.Remove(user);
             await _dbContext.SaveChangesAsync();
 
+            return NoContent();
+        }
+
+        [HttpPut("update")]
+        [Authorize]
+        public async Task<ActionResult> UpdateUser([FromBody] UpdateUserDto updateUserDto)
+        {
+            var user = GetCurrentUser();
+            if (user == null)
+            {
+                return NotFound(UserDoesNotExistError);
+            }
+
+            if (!Verify(updateUserDto.CurrentPassword, user.Password))
+            {
+                return BadRequest(CredentialsError);
+            }
+
+            if (!string.IsNullOrEmpty(updateUserDto.NewEmail))
+            {
+                if (UserExists(updateUserDto.NewEmail))
+                {
+                    return BadRequest(UserAlreadyExistsError);
+                }
+                user.Email = updateUserDto.NewEmail;
+            }
+
+            if (!string.IsNullOrEmpty(updateUserDto.NewPassword))
+            {
+                user.Password = HashPassword(updateUserDto.NewPassword);
+            }
+
+            await _dbContext.SaveChangesAsync();
             return NoContent();
         }
 

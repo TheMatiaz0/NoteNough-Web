@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace NoteNough.NET.Models
@@ -17,9 +16,14 @@ namespace NoteNough.NET.Models
         // Replacement of RequiredAttribute that doesn't work properly with JsonIgnore
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrEmpty(Password))
+            if (!string.IsNullOrEmpty(Email) && !new EmailAddressAttribute().IsValid(Email))
             {
-                yield return new ValidationResult("The password cannot be empty!", new[] { nameof(Password) });
+                yield return new ValidationResult("Invalid email format.", new[] { nameof(Email) });
+            }
+
+            if (!string.IsNullOrEmpty(Password) && Password.Length < 8)
+            {
+                yield return new ValidationResult("New password must be at least 8 characters long.", new[] { nameof(Password) });
             }
         }
     }

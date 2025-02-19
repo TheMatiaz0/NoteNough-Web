@@ -2,16 +2,30 @@
 
 namespace NoteNough.NET.Models
 {
-    public class NoteDto
+    public class NoteDto : IValidatableObject
     {
         [Key]
         public int Key { get; set; }
 
         [Required]
-        [MaxLength(200)]
+        [MinLength(1)]
+        [MaxLength(100)]
         public string Text { get; set; } = string.Empty;
 
+        [Required]
         public DateTime Created { get; set; }
+
         public DateTime? Updated { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Updated.HasValue && Updated < Created)
+            {
+                yield return new ValidationResult(
+                    "Updated date cannot be earlier than Created date!",
+                    new[] { nameof(Updated) }
+                );
+            }
+        }
     }
 }
