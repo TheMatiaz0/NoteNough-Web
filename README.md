@@ -18,6 +18,7 @@ NoteNough is a **self-hosted full-stack web application** for managing notes, bu
 | **React** | Frontend UI framework |  
 | **PostgreSQL** | Database for storing notes |  
 | **Docker** | Containerized deployment |  
+| **Postman** | Testing API |  
 | **Figma** | UI/UX prototyping |  
 
 ## 🚀 Getting Started  

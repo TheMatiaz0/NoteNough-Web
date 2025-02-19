@@ -31,10 +31,14 @@
     build:
       context: .
     environment:
+      - ASPNETCORE_URLS=http://+:80
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
       - ConnectionStrings__Postgres_Db=Server=db;Database=postgres;Port=5432;Username=admin;Password=root1234
     ports:
       - "8080:80"
     expose:
-    - "8080"
+      - "8080"
     depends_on:
       - db
+    volumes:
+      - ./data-protection-keys:/root/.aspnet/DataProtection-Keys

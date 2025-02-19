@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -54,8 +55,10 @@ namespace NoteNough.NET
                 };
             });
             builder.Services.AddAuthorization();
-            builder.Services.AddControllers();
             builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db")));
+            builder.Services.AddDataProtection().PersistKeysToDbContext<AppDbContext>();
+
+            builder.Services.AddControllers();
             builder.Services.AddScoped<JwtService>();
 
             var app = builder.Build();
@@ -69,6 +72,8 @@ namespace NoteNough.NET
                     spa.Options.DevServerPort = 3000;
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 });
+
+                app.UseHttpsRedirection();
             }
             else
             {
@@ -77,7 +82,6 @@ namespace NoteNough.NET
             }
 
             app.UseRouting();
-            app.UseHttpsRedirection();
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();

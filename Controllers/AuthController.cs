@@ -125,7 +125,7 @@ namespace NoteNough.NET.Controllers
 
         private User? GetCurrentUser()
         {
-            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
             var user = _dbContext.SavedUsers.Find(userId);
             return user;
         }

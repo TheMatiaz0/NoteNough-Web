@@ -30,7 +30,7 @@ namespace NoteNough.NET.Controllers
 
         private int GetLoggedInUserId()
         {
-            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
         }
 
         private IEnumerable<Note> GetUserNotes(int userId)
