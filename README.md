@@ -16,10 +16,10 @@ NoteNough is a **self-hosted full-stack web application** for managing notes, bu
 |-------------|------------|  
 | **ASP.NET Core (C#)** | Backend API & authentication |  
 | **React** | Frontend UI framework |  
-| **PostgreSQL** | Database for storing notes |  
+| **PostgreSQL** | Database |  
 | **Docker** | Containerized deployment |  
-| **Postman** | Testing API |  
-| **Figma** | UI/UX prototyping |  
+| **Postman** | Backend API tests |  
+| **Figma** | UI/UX design |  
 
 ## 🚀 Getting Started  
 Before starting, ensure you have **Docker** installed on your machine.  
@@ -59,7 +59,12 @@ The project includes **PostgreSQL** as the main database and **pgAdmin** as a da
 - **Email:** `admin@admin.com`
 - **Password:** `root1234`
 
-Info: If you change database settings, remember to remove `./postgres-data` folder locally.
+---
+**⚠️ Warning: Deploying to server with placeholder values is highly not advised. If you want to change them create .env file with your custom data. See [.env.example](.env.example) for example.**
+
+**🚨 Disclaimer: I do not take responsibility for security of this application. It's used only for training/portfolio purposes.**
+
+📌 Info: If you change database settings, remember to remove `./postgres-data` folder locally.
 
 ## 🐛 Debugging
 
