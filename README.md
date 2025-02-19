@@ -40,9 +40,9 @@ docker compose up
 Once setup is complete, open your browser and visit:
 http://localhost:8080
 
-Tada! 🎉 The website should be working locally for you.
+Tada! 🎉 The website should be working locally!
 
-It starts with Guest Mode, so you can either add notes locally (through Cookies) or register an account and add notes to your PostgreSQL database.
+It starts with Guest Mode, so you can either add notes locally (through Cookies) or sign up and add notes to database.
 
 ## 🛢️ Database Access
 The project includes **PostgreSQL** as the main database and **pgAdmin** as a database management tool.
