@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoteNough.NET.Data;
 using NoteNough.NET.Models;
+using NoteNough.NET.Services;
 using System.Security.Claims;
 
 namespace NoteNough.NET.Controllers
@@ -13,10 +14,12 @@ namespace NoteNough.NET.Controllers
     public class NotesController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly NoteValidator _validator;
 
-        public NotesController(AppDbContext context)
+        public NotesController(AppDbContext context, NoteValidator validator)
         {
             _context = context;
+            _validator = validator;
         }
 
         // GET: api/Notes
@@ -43,6 +46,12 @@ namespace NoteNough.NET.Controllers
         [HttpPost]
         public async Task<ActionResult<Note>> PostNote(NoteDto noteDto)
         {
+            var result = _validator.Validate(noteDto);
+            if (result.Any())
+            {
+                return BadRequest(result);
+            }
+
             int userId = GetLoggedInUserId();
             var user = _context.SavedUsers.Find(userId);
             if (user == null)
@@ -86,6 +95,12 @@ namespace NoteNough.NET.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> PutNote(int id, NoteDto noteDto)
         {
+            var result = _validator.Validate(noteDto);
+            if (result.Any())
+            {
+                return BadRequest(result);
+            }
+
             int userId = GetLoggedInUserId();
             var existingNote = _context.SavedNotes.Find(id);
             if (existingNote == null || existingNote.UserId != userId)

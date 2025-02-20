@@ -8,8 +8,6 @@ namespace NoteNough.NET.Models
         public int Key { get; set; }
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
         public string Text { get; set; } = string.Empty;
 
         [Required]

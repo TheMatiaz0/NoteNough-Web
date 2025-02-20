@@ -60,8 +60,13 @@ namespace NoteNough.NET
                 .PersistKeysToDbContext<AppDbContext>()
                 .SetApplicationName("NoteNough");
 
+            builder.Services.Configure<AppConfigurationData>(
+                builder.Configuration.GetSection(AppConfigurationData.Header));
+
             builder.Services.AddControllers();
-            builder.Services.AddScoped<JwtService>();
+            builder.Services.AddScoped<JwtService>()
+                            .AddScoped<UserValidator>()
+                            .AddScoped<NoteValidator>();
 
             var app = builder.Build();
             app.UseCors(myAllowSpecificOrigins);
