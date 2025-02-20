@@ -11,20 +11,19 @@ namespace NoteNough.NET
 {
     public class Program
     {
-        public static JwtConfigurationData JWTConfig { get; private set; } = new();
-
         public static void Main(string[] args)
         {
             var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
             var builder = WebApplication.CreateBuilder(args);
-            builder.Configuration.GetSection(JwtConfigurationData.Header).Bind(JWTConfig);
+            var jwtConfigSection = builder.Configuration.GetSection(JwtConfigurationData.Header);
+            var jwtConfig = jwtConfigSection.Get<JwtConfigurationData>();
 
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: myAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins(JWTConfig.Issuer, JWTConfig.Audience)
+                                      policy.WithOrigins(jwtConfig.Issuer, jwtConfig.Audience)
                                       .AllowAnyMethod()
                                       .AllowAnyHeader()
                                       .AllowCredentials();
@@ -41,15 +40,15 @@ namespace NoteNough.NET
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = JWTConfig.Issuer,
-                    ValidAudience = JWTConfig.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTConfig.SecurityKey))
+                    ValidIssuer = jwtConfig.Issuer,
+                    ValidAudience = jwtConfig.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecurityKey))
                 };
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>
                     {
-                        context.Token = context.Request.Cookies[JWTConfig.CookieHeader];
+                        context.Token = context.Request.Cookies[jwtConfig.CookieHeader];
                         return Task.CompletedTask;
                     }
                 };
@@ -62,6 +61,7 @@ namespace NoteNough.NET
 
             builder.Services.Configure<AppConfigurationData>(
                 builder.Configuration.GetSection(AppConfigurationData.Header));
+            builder.Services.Configure<JwtConfigurationData>(jwtConfigSection);
 
             builder.Services.AddControllers();
             builder.Services.AddScoped<JwtService>()

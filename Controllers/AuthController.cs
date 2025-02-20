@@ -15,17 +15,20 @@ namespace NoteNough.NET.Controllers
     {      
         private readonly AppDbContext _dbContext;
         private readonly JwtService _jwtService;
-        private readonly AppConfigurationData _appConfigurationData;
+        private readonly AppConfigurationData _appConfig;
+        private readonly JwtConfigurationData _jwtConfig;
         private readonly UserValidator _validator;
 
-        public AuthController(AppDbContext context, 
-            JwtService jwtService, 
-            IOptionsSnapshot<AppConfigurationData> appData,
+        public AuthController(AppDbContext context,
+            JwtService jwtService,
+            IOptionsSnapshot<AppConfigurationData> appConfig,
+            IOptionsSnapshot<JwtConfigurationData> jwtConfig,
             UserValidator validator)
         {
             _dbContext = context;
             _jwtService = jwtService;
-            _appConfigurationData = appData.Value;
+            _appConfig = appConfig.Value;
+            _jwtConfig = jwtConfig.Value;
             _validator = validator;
         }
 
@@ -87,13 +90,13 @@ namespace NoteNough.NET.Controllers
         {
             var jwt = _jwtService.Generate(user.Id);
             var expirationTime = loginDto.RememberMe ?
-                DateTimeOffset.UtcNow.Add(_appConfigurationData.SessionTimeWithCookie)
-                : DateTimeOffset.UtcNow.Add(_appConfigurationData.SessionTimeWithoutCookie);
+                DateTimeOffset.UtcNow.Add(_appConfig.SessionTimeWithCookie)
+                : DateTimeOffset.UtcNow.Add(_appConfig.SessionTimeWithoutCookie);
 
-            Response.Cookies.Append(Program.JWTConfig.CookieHeader, jwt, new CookieOptions
+            Response.Cookies.Append(_jwtConfig.CookieHeader, jwt, new CookieOptions
             {
                 Expires = expirationTime,
-                Domain = Program.JWTConfig.Audience,
+                Domain = _jwtConfig.Audience,
                 HttpOnly = true,
                 Secure = false,
                 SameSite = SameSiteMode.Lax,
@@ -116,7 +119,7 @@ namespace NoteNough.NET.Controllers
             var user = User;
             var identity = user.Identity as ClaimsIdentity;
 
-            Response.Cookies.Delete(Program.JWTConfig.CookieHeader);
+            Response.Cookies.Delete(_jwtConfig.CookieHeader);
             var currentClaims = user.Claims.ToArray();
             foreach (var claim in currentClaims)
             {
