@@ -38,7 +38,9 @@
       - ASPNETCORE_URLS=http://+:80
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - ConnectionStrings__Postgres_Db=Server=db;Database=postgres;Port=5432;Timeout=30;CommandTimeout=60;Username=${POSTGRES_USER:-admin};Password=${POSTGRES_PASSWORD:-root1234} # Warning: Username and Password have placeholder value
-      - JWT__SecurityKey=YourLocalDevelopmentKeyHere # Warning: Placeholder value
+      - JWT__SecurityKey=${JWT_SECURITY_KEY:-YourLocalDevelopmentKeyHere} # Warning: Placeholder value
+      - JWT__Issuer=${APP_URL:-http://localhost:8080}
+      - JWT__Audience=${DOMAIN_URL:-localhost:8080}
     env_file:
       - .env # Remember to create .env file with above placeholder values when you are deploying to server
     ports:
