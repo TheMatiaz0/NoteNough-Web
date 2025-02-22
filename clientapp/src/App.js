@@ -29,7 +29,7 @@ const App = () => {
                     rememberMe: isRememberPassword
                 }),
         });
-        
+
         await fetchUser();
         return response.ok;
     }

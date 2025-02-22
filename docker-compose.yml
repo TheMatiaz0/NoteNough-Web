@@ -3,6 +3,7 @@
     container_name: postgres
     image: postgres:latest
     restart: always
+    profiles: ["default", "backend"]
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-admin} # Warning: Placeholder value, use .env file when deploying to server
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-root1234} # Warning: Placeholder value, use .env file when deploying to server
@@ -25,6 +26,7 @@
     container_name: pgadmin
     image: dpage/pgadmin4
     restart: always
+    profiles: ["default", "backend"]
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@admin.com} # Warning: Placeholder value, use .env file when deploying to server
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-root1234} # Warning: Placeholder value, use .env file when deploying to server
@@ -40,6 +42,7 @@
   api:
     build:
       context: .
+    profiles: ["default", "backend"]
     environment:
       - ASPNETCORE_URLS=http://+:80
       - DOTNET_USE_POLLING_FILE_WATCHER=1
@@ -64,14 +67,11 @@
     build:
       context: ./clientapp
       dockerfile: Dockerfile
-    environment:
-      - REACT_APP_BACKEND_ENABLED=${USE_BACKEND:-true}
+    profiles: ["default", "frontend"]
     ports:
       - "3000:80"
     expose:
       - "3000"
-    depends_on:
-      - api
     volumes:
       - ./clientapp:/app
       - /app/node_modules

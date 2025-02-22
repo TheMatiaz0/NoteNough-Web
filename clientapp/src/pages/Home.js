@@ -10,6 +10,7 @@ import LoginForm from "../components/Account/Authorization/LoginForm";
 const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   const ROOT_NOTES_URL = `${process.env.REACT_APP_ROOT_URL}/api/notes`;
   const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
+  const backendEnabled = process.env.REACT_APP_BACKEND_ENABLED === "true";
 
   const defaultNotes = [];
 
@@ -198,7 +199,7 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
     <div>
       <div className="app-container">
         <div id="main" className={contentMarginRight}>
-          <Header showNavigation={true} username={user?.email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={onLogout} />
+          <Header showNavigation={backendEnabled} username={user?.email} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} onLogoutClick={onLogout} />
           <main>
             <Search handleSearchText={setSearchText} toggleSortOrder={toggleSortOrder} isSortedByNewest={isSortedByNewest} />
             <NotesList
