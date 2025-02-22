@@ -1,5 +1,5 @@
 import Home from "./pages/Home";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import AccountSettings from "./pages/AccountSettings";
 import ProtectedRoute from "./components/Account/ProtectedRoute.js";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ const App = () => {
 
     useEffect(() => {
         fetchUser();
-    }, []);
+    }, [userLoggedIn]);
 
     const authorize = async ({ isLoggingIn, email, password, isRememberPassword }) => {
         const urlName = isLoggingIn ? "login" : "register";
@@ -128,7 +128,7 @@ const App = () => {
                     </ProtectedRoute>
                 }
                 />
-                <Route path="*" element={<Navigate replace to="/"/>}/>
+                <Route path="*" element={<Navigate to="/"/>}/>
             </Routes>
         </div>
     );

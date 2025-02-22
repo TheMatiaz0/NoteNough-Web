@@ -15,6 +15,11 @@ RUN npm run build
 
 # Use Nginx for serving the frontend
 FROM nginx:alpine
+
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy build files
 COPY --from=build /app/build /usr/share/nginx/html
 
 EXPOSE 80

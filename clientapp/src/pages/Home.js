@@ -19,10 +19,6 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   const [searchText, setSearchText] = useState("");
   const [isSortedByNewest, setIsSortedByNewest] = useState(true);
 
-  const [notes, setNotes] = useState(() => {
-    return getLocalNotes();
-  });
-
   const getLocalNotes = () => {
     if (!user) {
       const localStorageNotes = localStorage.getItem(LOCAL_STORAGE_DATA_NAME);
@@ -35,6 +31,10 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
     }
     return defaultNotes;
   }
+
+  const [notes, setNotes] = useState(() => {
+    return getLocalNotes();
+  });
 
   const parseNoteDates = (parsedNotes) => {
     return parsedNotes.map((note) => {
