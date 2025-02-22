@@ -1,4 +1,4 @@
-const OffCanvasMenu = ({ content, isOpen, onClose }) => {
+const SidePopupMenu = ({ content, isOpen, onClose }) => {
   const right = isOpen ? "0px" : "-600px";
   const overlayType = isOpen ? "overlay-active" : "overlay-deactive";
 
@@ -15,4 +15,4 @@ const OffCanvasMenu = ({ content, isOpen, onClose }) => {
   );
 };
 
-export default OffCanvasMenu;
+export default SidePopupMenu;

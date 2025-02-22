@@ -2,8 +2,8 @@ import NotesList from "../components/Core/NotesList";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import Search from "../components/Core/Search";
-import Header from "../components/Header";
-import OffCanvasMenu from "../components/Account/OffCanvasMenu";
+import Header from "../components/Header/Header";
+import SidePopupMenu from "../components/Form/SidePopupMenu";
 import SignUpForm from "../components/Account/Authorization/SignUpForm";
 import LoginForm from "../components/Account/Authorization/LoginForm";
 
@@ -221,8 +221,8 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
           </main>
         </div>
       </div>
-      <OffCanvasMenu content={<LoginForm onClose={toggleLogin} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
-      <OffCanvasMenu content={<SignUpForm onClose={toggleSignUp} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
+      <SidePopupMenu content={<LoginForm onClose={toggleLogin} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
+      <SidePopupMenu content={<SignUpForm onClose={toggleSignUp} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
     </div>
   );
 };

@@ -33,7 +33,6 @@ nav a {
   cursor: pointer;
   white-space: nowrap;
   margin: 0px 5px;
-  justify-content: center;
   align-items: center;
 }
 
@@ -86,4 +85,12 @@ nav a {
   justify-content: center;
   gap: 6px;
   align-items: center;
+}
+
+.back-btn {
+  display: flex;
+  justify-content: flex-start;
+  vertical-align: middle;
+  align-items: center;
+  font-size: 1.6rem !important;
 }

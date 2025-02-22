@@ -1,7 +1,7 @@
 import Home from "./pages/Home";
 import { Route, Routes, Navigate } from "react-router-dom";
 import AccountSettings from "./pages/AccountSettings";
-import ProtectedRoute from "./components/Account/ProtectedRoute.js";
+import ProtectedRoute from "./components/Router/ProtectedRoute.js";
 import { useEffect, useState } from "react";
 
 const App = () => {
@@ -123,7 +123,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home onAuthorize={authorize} user={user} onLogout={logoutUser} userLoggedIn={userLoggedIn} />} />
                 <Route path="/account" element={
-                    <ProtectedRoute userLoggedIn={userLoggedIn}>
+                    <ProtectedRoute userLoggedIn={true}>
                         <AccountSettings submitEmailChange={changeEmail} submitPasswordChange={changePassword} submitAccountDelete={deleteAccount} onLogout={logoutUser} />
                     </ProtectedRoute>
                 }

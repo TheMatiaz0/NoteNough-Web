@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import PasswordInputField from "../PasswordInputField";
-import EmailInputField from "../EmailInputField";
+import PasswordInputField from "../InputField/PasswordInputField";
+import EmailInputField from "../InputField/EmailInputField";
 
 const ChangeEmailForm = ({ onSubmitEmailAsync }) => {
     const [newEmail, setNewEmail] = useState("");
