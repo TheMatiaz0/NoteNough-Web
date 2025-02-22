@@ -20,6 +20,10 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   const [isSortedByNewest, setIsSortedByNewest] = useState(true);
 
   const [notes, setNotes] = useState(() => {
+    return getLocalNotes();
+  });
+
+  const getLocalNotes = () => {
     if (!user) {
       const localStorageNotes = localStorage.getItem(LOCAL_STORAGE_DATA_NAME);
       const parsedNotes = JSON.parse(localStorageNotes);
@@ -30,7 +34,7 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
       }
     }
     return defaultNotes;
-  });
+  }
 
   const parseNoteDates = (parsedNotes) => {
     return parsedNotes.map((note) => {
@@ -140,6 +144,9 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   useEffect(() => {
     if (user) {
       fetchNotesFromDatabase();
+    }
+    else {
+      setNotes(getLocalNotes());
     }
   }, [userLoggedIn]
   );

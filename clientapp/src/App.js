@@ -60,7 +60,7 @@ const App = () => {
             credentials: "include",
             body: JSON.stringify({
                 currentPassword: currentPassword,
-                newEmail: newEmail
+                email: newEmail
             }),
             headers: {
                 "Content-Type": process.env.REACT_APP_FETCH_TYPE,
@@ -77,7 +77,7 @@ const App = () => {
             credentials: "include",
             body: JSON.stringify({
                 currentPassword: currentPassword,
-                newPassword: newPassword
+                password: newPassword
             }),
             headers: {
               "Content-Type": process.env.REACT_APP_FETCH_TYPE,
@@ -128,6 +128,7 @@ const App = () => {
                     </ProtectedRoute>
                 }
                 />
+                <Route path="*" element={<Navigate replace to="/"/>}/>
             </Routes>
         </div>
     );

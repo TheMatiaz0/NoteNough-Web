@@ -11,7 +11,7 @@ import "./AccountSettings.css";
 import { MdKeyboardBackspace } from "react-icons/md";
 import NavigationButton from "../components/Account/NavigationButton";
 
-const AccountSettings = ({submitEmailChangeAsync, submitPasswordChange, submitAccountDelete, onLogoutClick}) => {
+const AccountSettings = ({submitEmailChange, submitPasswordChange, submitAccountDelete, onLogoutClick}) => {
     const [selected, setSelected] = useState(null);
 
     const toggle = id => () => {
@@ -28,7 +28,7 @@ const AccountSettings = ({submitEmailChangeAsync, submitPasswordChange, submitAc
                 <h1>Account Settings</h1>
                 <div>
                     <ul className="accordion-menu">
-                        <CollapsibleFormHeader onClick={toggle(0)} isSelected={selected === 0} text="Change Email" content={<ChangeEmailForm onSubmitEmailAsync={submitEmailChangeAsync} />} />
+                        <CollapsibleFormHeader onClick={toggle(0)} isSelected={selected === 0} text="Change Email" content={<ChangeEmailForm onSubmitEmailAsync={submitEmailChange} />} />
                         <CollapsibleFormHeader onClick={toggle(1)} isSelected={selected === 1} text="Change Password" content={<ChangePasswordForm onSubmitPasswordChangeAsync={submitPasswordChange} />} />
                         <CollapsibleFormHeader onClick={toggle(2)} isSelected={selected === 2} text="Delete Account" content={<DeleteAccountForm onSubmitDeleteAccountAsync={submitAccountDelete} />} />
                     </ul>
