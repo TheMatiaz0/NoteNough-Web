@@ -6,7 +6,7 @@ import CollapsibleFormHeader from "../components/Header/CollapsibleFormHeader";
 import ChangeEmailForm from "../components/Account/Settings/ChangeEmailForm";
 import ChangePasswordForm from "../components/Account/Settings/ChangePasswordForm";
 import DeleteAccountForm from "../components/Account/Settings/DeleteAccountForm";
-import "../components/Header.css";
+import "../components/Header/Header.css"
 import "./AccountSettings.css";
 import { MdKeyboardBackspace } from "react-icons/md";
 import NavigationButton from "../components/Header/NavigationButton";

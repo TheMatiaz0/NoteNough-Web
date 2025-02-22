@@ -1,5 +1,5 @@
 import "../Core/Search.css";
-import "../Header.css"
+import "./Header.css"
 import React from "react";
 import NavigationButton from "./NavigationButton";
 import { IoIosArrowDown } from "react-icons/io";
