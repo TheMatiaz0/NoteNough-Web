@@ -47,11 +47,12 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   const addNoteToDatabase = async (text) => {
     let response = await fetch(ROOT_NOTES_URL, {
       method: "POST",
+      credentials: "include",
       body: JSON.stringify({
         text: text,
       }),
       headers: {
-        "Content-type": process.env.REACT_APP_FETCH_TYPE,
+        "Content-Type": process.env.REACT_APP_FETCH_TYPE,
       },
     });
     let data = await response.json();
@@ -72,6 +73,7 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   const deleteNoteFromDatabase = async (id) => {
     await fetch(`${ROOT_NOTES_URL}/${id}`, {
       method: "DELETE",
+      credentials: "include",
     });
     setNotes([...notes].filter((i) => i.key !== id));
   };
@@ -83,11 +85,12 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
   const editNoteFromDatabase = async (note, updatedText) => {
     let response = await fetch(`${ROOT_NOTES_URL}/${note.key}`, {
       method: "PUT",
+      credentials: "include",
       body: JSON.stringify({
         text: updatedText,
       }),
       headers: {
-        "Content-type": process.env.REACT_APP_FETCH_TYPE,
+        "Content-Type": process.env.REACT_APP_FETCH_TYPE,
       },
     });
     let data = await response.json();
@@ -104,7 +107,13 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
 
   async function fetchNotes() {
     try {
-      const response = await fetch(ROOT_NOTES_URL);
+      const response = await fetch(ROOT_NOTES_URL, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": process.env.REACT_APP_FETCH_TYPE,
+        }
+      });
       return await response.json();
     } catch (e) {
       console.error(e);

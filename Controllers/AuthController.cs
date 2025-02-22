@@ -96,7 +96,7 @@ namespace NoteNough.NET.Controllers
             Response.Cookies.Append(_jwtConfig.CookieHeader, jwt, new CookieOptions
             {
                 Expires = expirationTime,
-                Domain = _jwtConfig.Audience,
+                Domain = "localhost",
                 HttpOnly = true,
                 Secure = false,
                 SameSite = SameSiteMode.Lax,

@@ -15,11 +15,10 @@ const App = () => {
 
     const authorize = async ({ isLoggingIn, email, password, isRememberPassword }) => {
         const urlName = isLoggingIn ? "login" : "register";
-        const credentialsType = isLoggingIn ? "include" : "same-origin";
 
         const response = await fetch(`${ROOT_AUTHENTICATION_URL}/${urlName}`, {
             method: 'POST',
-            credentials: credentialsType,
+            credentials: "include",
             headers: {
                 'Content-Type': process.env.REACT_APP_FETCH_TYPE,
             },
@@ -30,14 +29,21 @@ const App = () => {
                     rememberMe: isRememberPassword
                 }),
         });
-        fetchUser();
+        
+        await fetchUser();
         return response.ok;
     }
 
     const fetchUser = async () => {
         try {
             const url = `${ROOT_AUTHENTICATION_URL}/user`;
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                method: 'GET',
+                credentials: "include",
+                headers: {
+                    'Content-Type': process.env.REACT_APP_FETCH_TYPE,
+                }
+            });
             const content = await response.json();
             setUser({ email: content.email });
             setUserLoggedIn(true);
@@ -51,58 +57,64 @@ const App = () => {
     const changeEmail = async ({ newEmail, currentPassword }) => {
         const response = await fetch(`${ROOT_AUTHENTICATION_URL}/update`, {
             method: "PUT",
+            credentials: "include",
             body: JSON.stringify({
                 currentPassword: currentPassword,
                 newEmail: newEmail
             }),
             headers: {
-                "Content-type": process.env.REACT_APP_FETCH_TYPE,
+                "Content-Type": process.env.REACT_APP_FETCH_TYPE,
             },
         });
 
-        fetchUser();
+        await fetchUser();
         return response.ok;
     }
 
     const changePassword = async ({ currentPassword, newPassword }) => {
         const response = await fetch(`${ROOT_AUTHENTICATION_URL}/update`, {
             method: "PUT",
+            credentials: "include",
             body: JSON.stringify({
                 currentPassword: currentPassword,
                 newPassword: newPassword
             }),
             headers: {
-              "Content-type": process.env.REACT_APP_FETCH_TYPE,
+              "Content-Type": process.env.REACT_APP_FETCH_TYPE,
             },
         });
 
-        fetchUser();  
+        await fetchUser();  
         return response.ok;
     }
 
     const logoutUser = async () => {
         const response = await fetch(`${ROOT_AUTHENTICATION_URL}/logout`, {
             method: "POST",
+            credentials: "include",
             headers: {
-                "Content-type": process.env.REACT_APP_FETCH_TYPE,
+                "Content-Type": process.env.REACT_APP_FETCH_TYPE,
             },
         });
-        fetchUser();
+
+        await fetchUser();
         return response.ok;
     }
 
     const deleteAccount = async ({ currentPassword }) => {
         const response = await fetch(`${ROOT_AUTHENTICATION_URL}/delete`, {
             method: "DELETE",
+            credentials: "include",
             headers: {
-                "Content-type": process.env.REACT_APP_FETCH_TYPE,
+                "Content-Type": process.env.REACT_APP_FETCH_TYPE,
             },
             body: JSON.stringify(
             {
                 currentPassword: currentPassword
             }),
         });
-        fetchUser();
+
+        await fetchUser();
         return response.ok;
     }
 
