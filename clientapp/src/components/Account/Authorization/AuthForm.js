@@ -73,7 +73,7 @@ const AuthForm = ({
           <div className="input-checkbox">
             <label className="text center">
               <input
-                title="Ensures that you will be logged in after closing this website"
+                title="Ensures that you will be logged in after closing website"
                 onClick={toggleRememberPassword}
                 type="checkbox"
                 defaultChecked={isRememberPassword}
@@ -81,11 +81,6 @@ const AuthForm = ({
               <span className="disclaimer">{rememberPasswordText}</span>
             </label>
           </div>
-          {canForgotPassword && (
-            <a href="/reset-password" className="text">
-              Forgot password?
-            </a>
-          )}
         </div>
         <div className="input-field button dark-bg">
           <input type="submit" value={buttonText} />
