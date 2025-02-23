@@ -41,7 +41,7 @@ textarea:focus {
 
 .note-text {
   font-family: var(--secondary-font-name);
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   line-height: 1.5;
   max-height: 102px;
 

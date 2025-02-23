@@ -7,7 +7,7 @@ const InputNote = ({ handleAddNote, defaultText = "" }) => {
   const [lineLimitReached, setLineLimitReached] = useState(false);
 
   const MAX_LINES = 3;
-  const LINE_HEIGHT = 32;
+  const LINE_HEIGHT = 30;
 
   const handleChange = (event) => {
     const input = event.target.value;
