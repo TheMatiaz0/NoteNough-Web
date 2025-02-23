@@ -73,11 +73,20 @@ textarea:focus {
 }
 
 .note-footer {
-  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 1.5px 0px 1.5px;
+  align-items: center;
+  vertical-align: middle;
+  font-size: 1.1rem;
+}
+
+.container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  font-size: 1.2rem;
+  vertical-align: middle;
+  height: 100%;
 }
 
 .vl {

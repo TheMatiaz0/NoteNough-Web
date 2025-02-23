@@ -47,15 +47,18 @@ const InputNote = ({ handleAddNote, defaultText = "" }) => {
       ></textarea>
       <div className="note-footer">
         <small className="remaining remain-color">
-          {lineLimitReached && <span className="error-text">⚠️ Max 3 lines allowed.</span>}
+          {lineLimitReached && 
+          <span className="error-text">⚠️ Max 3 lines allowed.</span>}
         </small>
-        <div className="vl"></div>
-        <MdAddCircle
-          title="Add a new note"
-          size="2em"
-          className="regular-button"
-          onClick={handleSubmit}
-        />
+        <div className="container">
+          <div className="vl"></div>
+          <MdAddCircle
+            title="Add a new note"
+            size="2em"
+            className="regular-button"
+            onClick={handleSubmit}
+          />
+          </div>
       </div>
     </div>
   );

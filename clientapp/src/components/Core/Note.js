@@ -13,7 +13,6 @@ const Note = ({ id, text, date, handleRemoveNote, handleEditNote }) => {
         >
           {date.toLocaleString()}
         </small>
-        <div className="vl"></div>
         <div>
           <MdEdit
             title="Edit the note"
