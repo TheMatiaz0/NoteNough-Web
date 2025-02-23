@@ -7,7 +7,7 @@ import SidePopupMenu from "../components/Form/SidePopupMenu";
 import SignUpForm from "../components/Account/Authorization/SignUpForm";
 import LoginForm from "../components/Account/Authorization/LoginForm";
 
-const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
+const Home = ({ user, onAuthorize, onLogout, userLoggedIn, isLoading }) => {
   const ROOT_NOTES_URL = `${process.env.REACT_APP_ROOT_URL}/api/notes`;
   const LOCAL_STORAGE_DATA_NAME = "NoteNough-app-data";
   const backendEnabled = process.env.REACT_APP_BACKEND_ENABLED === "true";
@@ -221,8 +221,8 @@ const Home = ({ user, onAuthorize, onLogout, userLoggedIn }) => {
           </main>
         </div>
       </div>
-      <SidePopupMenu content={<LoginForm onClose={toggleLogin} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isLoggingIn} onClose={toggleLogin} />
-      <SidePopupMenu content={<SignUpForm onClose={toggleSignUp} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />} isOpen={isSigningUp} onClose={toggleSignUp} />
+      <SidePopupMenu content={<LoginForm onClose={toggleLogin} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} isLoading={isLoading} />} isOpen={isLoggingIn} onClose={toggleLogin} isLoading={isLoading} />
+      <SidePopupMenu content={<SignUpForm onClose={toggleSignUp} user={user?.email} handleOnSubmit={onAuthorize} onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} isLoading={isLoading} />} isOpen={isSigningUp} onClose={toggleSignUp} isLoading={isLoading} />
     </div>
   );
 };

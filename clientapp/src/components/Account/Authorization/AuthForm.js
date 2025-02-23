@@ -2,6 +2,7 @@ import { useState } from "react";
 import SwitchFormButton from "../../Form/SwitchFormButton";
 import EmailInputField from "../InputField/EmailInputField";
 import PasswordInputField from "../InputField/PasswordInputField";
+import HorizontalLoadingSpinner from "../../Loading/HorizontalLoadingSpinner";
 
 const AuthForm = ({
   canForgotPassword,
@@ -10,7 +11,8 @@ const AuthForm = ({
   onClose,
   handleOnSubmit,
   onLoginClick,
-  onSignUpClick
+  onSignUpClick,
+  isLoading
 }) => {
   const defaultRememberPassword = true;
 
@@ -88,6 +90,7 @@ const AuthForm = ({
         <div className="input-field button">
           <input type="submit" value={buttonText} />
         </div>
+        {isLoading && <HorizontalLoadingSpinner />}
       </form>
     </div>
   );

@@ -1,4 +1,6 @@
-const SidePopupMenu = ({ content, isOpen, onClose }) => {
+import "../../index.css";
+
+const SidePopupMenu = ({ content, isOpen, onClose, isLoading }) => {
   const right = isOpen ? "0px" : "-600px";
   const overlayType = isOpen ? "overlay-active" : "overlay-deactive";
 
@@ -8,7 +10,7 @@ const SidePopupMenu = ({ content, isOpen, onClose }) => {
         {content}
       </div>
       <div
-        className={`overlay ${overlayType}`}
+        className={`overlay ${overlayType} ${isLoading ? "waiting" : ""}`}
         onClick={onClose}
       ></div>
     </div>
