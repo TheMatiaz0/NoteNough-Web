@@ -2,9 +2,14 @@
 # NoteNough
 *When your notes are not **note enough**!*
 
+![notenough_full](./Media/notenough_full.png)
+
 NoteNough is a **self-hosted full-stack web application** for managing notes, built with **ASP.NET (C#) and React**. It provides a seamless, secure, and user-friendly experience, whether you’re using an account or just taking quick notes locally.
 
+![full_crud](./Media/full_crud.gif)
+
 ## ✨ Features
+![user](./Media/user.gif)
 - ✅ User Authentication – Register/Login with JWT authentication, including a Stay Logged In option.
 - ✅ Guest Mode – No account required! Notes are saved locally in cookies.
 - ✅ Full CRUD Operations – Create, read, update, and delete notes from the database.
