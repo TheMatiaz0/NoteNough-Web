@@ -8,20 +8,27 @@ import SortableNote from "./SortableNote";
 
 const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleEditNote, handleReorderNotes, isSortedByNewest }) => {
     const [editedNote, setEditedNote] = useState({});
-    const MIN_DISTANCE_TO_DND = 5;
+    const POINTER_MIN_DISTANCE = 5;
+    const MOBILE_DELAY = 60;
+    const MOBILE_TOLERANCE = 8;
 
     const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-
-    const sensors = useSensors(
-        useSensor(isTouchDevice ? TouchSensor : PointerSensor, {
-            activationConstraint: { 
-                distance: !isTouchDevice ? MIN_DISTANCE_TO_DND : 0,
-                delay: isTouchDevice ? 60 : 0,
-                tolerance: isTouchDevice ? 8 : 0,
-            },
-        }),
-        useSensor(KeyboardSensor)
-    );
+    const touchSensor = useSensor(TouchSensor, {
+        activationConstraint: {
+            distance: 0,
+            delay: MOBILE_DELAY,
+            tolerance: MOBILE_TOLERANCE,
+        },
+    });
+    const pointerSensor = useSensor(PointerSensor, {
+        activationConstraint: {
+            distance: POINTER_MIN_DISTANCE,
+        },
+    });
+    const keyboardSensor = useSensor(KeyboardSensor);
+    const sensors = isTouchDevice 
+        ? [touchSensor, keyboardSensor] 
+        : [pointerSensor, keyboardSensor];
 
     const enterEditNoteMode = (note) => {
         setEditedNote(note);

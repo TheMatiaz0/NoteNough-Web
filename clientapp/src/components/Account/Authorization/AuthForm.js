@@ -67,8 +67,17 @@ const AuthForm = ({
         </span>
       </div>
       <form action="#" onSubmit={handleSubmit}>
-        <EmailInputField email={email} handleChangeEmail={handleChangeEmail} placeholder="Enter your email" bright={true} />
-        <PasswordInputField password={password} handleChangePassword={handleChangePassword} placeholder="Enter your password" canForgotPassword={canForgotPassword} bright={true} />
+        <EmailInputField 
+          email={email} 
+          handleChangeEmail={handleChangeEmail} 
+          placeholder="Enter your email" 
+          bright={true} />
+        <PasswordInputField 
+          password={password} 
+          handleChangePassword={handleChangePassword} 
+          placeholder="Enter your password" 
+          canForgotPassword={canForgotPassword} 
+          bright={true} />
         <div className="form-bottom">
           <div className="input-checkbox">
             <label className="text center">

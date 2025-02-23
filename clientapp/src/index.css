@@ -114,7 +114,7 @@ body::-webkit-scrollbar-thumb {
   outline: none;
   background: none;
   color: white;
-  font-size: 22px;
+  font-size: 1.35rem;
   transition: all 0.2s ease;
 }
 
@@ -163,10 +163,13 @@ select:-webkit-autofill:focus {
 .input-field .auth-icon {
   z-index: 101;
   position: absolute;
-  top: 45%;
+  top: 48%;
   transform: translateY(-50%);
   color: #999;
-  font-size: 23px;
+  font-size: 1.5rem;
+  align-content: center;
+  align-items: center;
+  vertical-align: middle;
 }
 
 .icon-container {
@@ -206,7 +209,7 @@ select:-webkit-autofill:focus {
 
 .sidenav .form .auth-header {
   position: relative;
-  font-size: 30px;
+  font-size: 1.8rem;
   font-weight: 600;
   margin-top: 16.6px;
   color: white;
@@ -260,7 +263,6 @@ select:-webkit-autofill:focus {
 
 .form .text {
   color: var(--color-additional-2);
-  font-size: 16px;
 }
 
 .form-header {
@@ -309,15 +311,12 @@ select:-webkit-autofill:focus {
 }
 
 .disclaimer {
-  font-size: 20px;
+  font-size: 1.2rem;
 }
 
 input[type=checkbox] {
   transform: scale(1.5);
-}
-
-.accordion {
-  color: black;
+  margin-right: 10px;
 }
 
 .margin-right-active {
@@ -357,5 +356,26 @@ input[type=checkbox] {
 
   #main {
     transition: margin-right 0.1s;
-  }  
+  }
+  
+  .sidenav .form .auth-header {
+    font-size: 1.25rem;
+  }
+
+  .input-field input {
+    font-size: 1.05rem;
+  }
+
+  .disclaimer {
+    font-size: 1rem;
+  }
+  
+  input[type=checkbox] {
+    transform: scale(1);
+    margin-right: 8px;
+  }
+
+  .password-tips {
+    margin-left: 5px;
+  }
 }

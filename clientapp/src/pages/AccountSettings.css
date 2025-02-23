@@ -19,7 +19,6 @@
   .accordion {
     cursor: pointer;
     display: block;
-    padding: 15px 15px 15px 45px;
     font-size: 18px;
     border-bottom: 1px solid #2d374d;
     color: black;

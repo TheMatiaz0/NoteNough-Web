@@ -51,7 +51,6 @@ const InputNote = ({ handleAddNote, defaultText = "" }) => {
           <span className="error-text">⚠️ Max 3 lines allowed.</span>}
         </small>
         <div className="container">
-          <div className="vl"></div>
           <MdAddCircle
             title="Add a new note"
             size="2em"

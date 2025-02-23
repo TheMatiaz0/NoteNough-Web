@@ -30,7 +30,7 @@ const PasswordInputField = ({ password, handleChangePassword, placeholder, canFo
                     required
                     onKeyUp={getSpecialKeysWarning}
                     onClick={getSpecialKeysWarning}
-                    maxLength="64"
+                    maxLength="100"
                     minLength="8"
                 />
                 <MdLockOutline className="auth-icon" />
@@ -44,6 +44,7 @@ const PasswordInputField = ({ password, handleChangePassword, placeholder, canFo
                 </div>
 
             </div>
+            {bright &&
             <div className="disclaimer form-bottom">
                 {canForgotPassword ? (
                     <p>
@@ -56,7 +57,7 @@ const PasswordInputField = ({ password, handleChangePassword, placeholder, canFo
                         .
                     </p>
                 )}
-            </div>
+            </div>}
         </div>
     );
 };
