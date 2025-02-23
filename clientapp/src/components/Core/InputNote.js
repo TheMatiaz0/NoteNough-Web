@@ -32,6 +32,7 @@ const InputNote = ({ handleAddNote, defaultText = "" }) => {
     }
     handleAddNote(noteText);
     setNoteText("");
+    setLineLimitReached(false);
   };
 
   return (
