@@ -1,5 +1,6 @@
 import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from "@dnd-kit/sortable";
+import "./NotesList.css";
 
 const SortableNote = ({note, handleRemoveNote, enterEditNoteMode, constructNote}) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({id: note.key});
@@ -11,7 +12,7 @@ const SortableNote = ({note, handleRemoveNote, enterEditNoteMode, constructNote}
     };
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+        <div className="draggable-item" ref={setNodeRef} style={style} {...attributes} {...listeners}>
             {constructNote(note, handleRemoveNote, enterEditNoteMode)}
         </div>
     )

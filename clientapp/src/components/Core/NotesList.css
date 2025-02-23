@@ -24,6 +24,10 @@
   cursor: grab;
 }
 
+.draggable-item {
+  touch-action: manipulation;
+}
+
 .note:active {
   cursor: grabbing;
 }

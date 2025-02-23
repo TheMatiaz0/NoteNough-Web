@@ -3,15 +3,22 @@ import Note from './Note';
 import InputNote from './InputNote';
 import { useState, useEffect } from 'react';
 import { arrayMove, rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { closestCenter, DndContext, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import SortableNote from "./SortableNote";
 
 const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleEditNote, handleReorderNotes, isSortedByNewest }) => {
     const [editedNote, setEditedNote] = useState({});
+    const MIN_DISTANCE_TO_DND = 5;
+
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
     const sensors = useSensors(
-        useSensor(PointerSensor, {
-            activationConstraint: { distance: 5 }
+        useSensor(isTouchDevice ? TouchSensor : PointerSensor, {
+            activationConstraint: { 
+                distance: !isTouchDevice ? MIN_DISTANCE_TO_DND : 0,
+                delay: isTouchDevice ? 60 : 0,
+                tolerance: isTouchDevice ? 8 : 0,
+            },
         }),
         useSensor(KeyboardSensor)
     );
@@ -59,6 +66,7 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
         if (!over) {
             return;
         }
+
         if (active.id !== over.id) {
             const oldIndex = notes.findIndex((note) => note.key === active.id);
             const newIndex = notes.findIndex((note) => note.key === over.id);
