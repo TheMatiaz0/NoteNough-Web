@@ -19,7 +19,7 @@ const App = () => {
     const MAX_RESPONSE_TIME = 1500;
 
     useEffect(() => {
-        if (userLoggedIn) {
+        if (process.env.REACT_APP_BACKEND_ENABLED) {
             fetchUser();
         }
     }, [userLoggedIn]);
