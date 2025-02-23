@@ -11,9 +11,11 @@ namespace NoteNough.NET.Models
         public int Id { get; set; } = default(int);
 
         [Required]
+        [MaxLength(500)]
         public string Email { get; set; } = string.Empty;
 
         [JsonIgnore]
+        [MaxLength(500)]
         public string Password { get; set; }
 
         public ICollection<Note>? Notes { get; set; }

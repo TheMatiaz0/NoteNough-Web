@@ -1,12 +1,28 @@
 import { useState } from "react";
 import { MdAddCircle } from "react-icons/md";
+import "./NotesList.css";
 
 const InputNote = ({ handleAddNote, defaultText = "" }) => {
   const [noteText, setNoteText] = useState(defaultText);
-  const maxCharSize = 100;
+  const [lineLimitReached, setLineLimitReached] = useState(false);
+
+  const MAX_LINES = 3;
+  const LINE_HEIGHT = 32;
 
   const handleChange = (event) => {
-    setNoteText(event.target.value);
+    const input = event.target.value;
+    const lines = input.split("\n").length;
+
+    // Check actual number of visible lines using scrollHeight
+    const actualLines = Math.floor(event.target.scrollHeight / LINE_HEIGHT);
+
+    if (lines <= MAX_LINES && actualLines <= MAX_LINES) {
+      setNoteText(event.target.value);
+      setLineLimitReached(false);
+    }
+    else {
+      setLineLimitReached(true);
+    }
   };
 
   const handleSubmit = (event) => {
@@ -21,10 +37,8 @@ const InputNote = ({ handleAddNote, defaultText = "" }) => {
   return (
     <div className="note new">
       <textarea
-        className="note-text"
-        maxLength={maxCharSize}
-        rows="8"
-        cols="10"
+        className={`note-text ${lineLimitReached ? "shake" : ""}`}
+        rows="3"
         placeholder="Type to add a note..."
         value={noteText}
         onChange={handleChange}
@@ -32,7 +46,7 @@ const InputNote = ({ handleAddNote, defaultText = "" }) => {
       ></textarea>
       <div className="note-footer">
         <small className="remaining remain-color">
-          {maxCharSize - noteText.length}
+          {lineLimitReached && <span className="error-text">⚠️ Max 3 lines allowed.</span>}
         </small>
         <div className="vl"></div>
         <MdAddCircle

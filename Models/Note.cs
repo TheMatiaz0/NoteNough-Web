@@ -10,7 +10,7 @@ namespace NoteNough.NET.Models
         public int Key { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(500)]
         public string Text { get; set; } = string.Empty;
 
         public DateTime Created { get; set; }
