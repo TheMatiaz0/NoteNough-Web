@@ -112,11 +112,19 @@ body::-webkit-scrollbar-thumb {
   padding: 0 35px;
   border: none;
   outline: none;
-  background-color: black;
-  color:white;
+  background: none;
+  color: white;
   font-size: 22px;
   transition: all 0.2s ease;
-  border-bottom: 2px solid #ccc;
+}
+
+.bright-bg input {
+  border-bottom: 2px solid grey;
+  color: black;
+}
+
+.dark-bg input {
+  border-bottom: 2px solid grey;
 }
 
 /* Handles autofill background-color by Chrome etc. */
@@ -136,12 +144,20 @@ select:-webkit-autofill:focus {
 
 /* Deco stuff */ 
 
-.input-field input:is(:valid) {
+.dark-bg input:is(:valid) {
   border-bottom-color: white;
 }
 
-.input-field input:is(:focus) {
+.bright-bg input:is(:valid) {
+  border-bottom-color: black;
+}
+
+.dark-bg input:is(:focus) {
   border-bottom-color: var(--color-special);
+}
+
+.bright-bg input:is(:focus) {
+  border-bottom-color: black;
 }
 
 .input-field .auth-icon {
@@ -167,12 +183,20 @@ select:-webkit-autofill:focus {
   gap: 2px;
 }
 
-.input-field input:is(:valid) ~ .auth-icon {
+.dark-bg input:is(:valid) ~ .auth-icon {
   color: white;
 }
 
-.input-field input:is(:focus) ~ .auth-icon {
+.bright-bg input:is(:valid) ~ .auth-icon {
+  color: black;
+}
+
+.dark-bg input:is(:focus) ~ .auth-icon {
   color: var(--color-special);
+}
+
+.bright-bg input:is(:focus) ~ .auth-icon {
+  color: grey;
 }
 
 .sidenav .form .logo {

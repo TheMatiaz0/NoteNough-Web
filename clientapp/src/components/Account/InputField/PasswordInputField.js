@@ -4,7 +4,7 @@ import { MdLockOutline } from "react-icons/md";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { BsCapslockFill } from "react-icons/bs"
 
-const PasswordInputField = ({ password, handleChangePassword, placeholder, canForgotPassword }) => {
+const PasswordInputField = ({ password, handleChangePassword, placeholder, canForgotPassword, bright }) => {
     const [isShowingPassword, setShowingPassword] = useState(false);
     const [isCapsLocked, setCapsLocked] = useState(false);
 
@@ -20,7 +20,7 @@ const PasswordInputField = ({ password, handleChangePassword, placeholder, canFo
 
     return (
         <div>
-            <div className="input-field">
+            <div className={`input-field ${bright ? "dark-bg" : "bright-bg"}`}>
                 <input
                     type={isShowingPassword ? "text" : "password"}
                     placeholder={placeholder}

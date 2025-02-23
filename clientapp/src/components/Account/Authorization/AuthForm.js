@@ -67,8 +67,8 @@ const AuthForm = ({
         </span>
       </div>
       <form action="#" onSubmit={handleSubmit}>
-        <EmailInputField email={email} handleChangeEmail={handleChangeEmail} placeholder="Enter your email" />
-        <PasswordInputField password={password} handleChangePassword={handleChangePassword} placeholder="Enter your password" canForgotPassword={canForgotPassword} />
+        <EmailInputField email={email} handleChangeEmail={handleChangeEmail} placeholder="Enter your email" bright={true} />
+        <PasswordInputField password={password} handleChangePassword={handleChangePassword} placeholder="Enter your password" canForgotPassword={canForgotPassword} bright={true} />
         <div className="form-bottom">
           <div className="input-checkbox">
             <label className="text center">
@@ -87,7 +87,7 @@ const AuthForm = ({
             </a>
           )}
         </div>
-        <div className="input-field button">
+        <div className="input-field button dark-bg">
           <input type="submit" value={buttonText} />
         </div>
         {isLoading && <HorizontalLoadingSpinner />}
