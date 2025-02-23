@@ -20,7 +20,7 @@ const App = () => {
 
     useEffect(() => {
         if (userLoggedIn) {
-            fetchUser(true);
+            fetchUser();
         }
     }, [userLoggedIn]);
 
@@ -46,11 +46,11 @@ const App = () => {
                     }),
                 signal: controller.signal,
             });
-            const data = await response.json();
     
             if (!response.ok) {
-              setErrorMessage(data.message || GENERIC_ERROR_MESSAGE);
-              return false;
+                const data = await response.json();
+                setErrorMessage(data.message || GENERIC_ERROR_MESSAGE);
+                return false;
             }
 
             await fetchUser();
@@ -72,7 +72,7 @@ const App = () => {
         }
     }
 
-    const fetchUser = async (silently) => {
+    const fetchUser = async () => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), MAX_RESPONSE_TIME);
 
@@ -100,15 +100,6 @@ const App = () => {
             setUserLoggedIn(true);
         }
         catch (error) {
-            if (!silently) {
-                if (error.name === 'AbortError') {
-                    setErrorMessage(TIMEOUT_ERROR_MESSAGE);
-                }
-                else {
-                    setErrorMessage(LOGIN_ERROR_MESSAGE);
-                }
-            }
-
             setUser(null);
             setUserLoggedIn(false);
         }
