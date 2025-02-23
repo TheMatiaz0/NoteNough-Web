@@ -7,6 +7,409 @@
 	},
 	"item": [
 		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let requestBody = pm.request.body.raw ? JSON.parse(pm.request.body.raw) : {};\r",
+									"\r",
+									"let lastEmail = requestBody.email || \"\";\r",
+									"let lastPassword = requestBody.password || \"\";\r",
+									"\r",
+									"pm.environment.set(\"last_email\", lastEmail);\r",
+									"pm.environment.set(\"last_password\", lastPassword);\r",
+									"pm.environment.set(\"note_id\", 0);\r",
+									"\r",
+									"pm.test(\"Response status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{Port}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{Port}}/api/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{last_email}}\",\r\n    \"password\": \"{{last_password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{Port}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let requestBody = pm.request.body.raw ? JSON.parse(pm.request.body.raw) : {};\r",
+									"\r",
+									"let lastEmail = requestBody.email || \"\";\r",
+									"\r",
+									"pm.environment.set(\"last_email\", lastEmail);\r",
+									"\r",
+									"pm.test(\"Response status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"{{last_password}}\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{Port}}/api/auth/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"api",
+								"auth",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let requestBody = pm.request.body.raw ? JSON.parse(pm.request.body.raw) : {};\r",
+									"\r",
+									"let lastPassword = requestBody.password || \"\";\r",
+									"\r",
+									"pm.environment.set(\"last_password\", lastPassword);\r",
+									"\r",
+									"pm.test(\"Response status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"{{last_password}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{Port}}/api/auth/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"api",
+								"auth",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is within an acceptable range\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid email format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.email).to.match(/\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b/, \"Email is not in a valid format\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Password is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.password).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Password should not be empty\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{Port}}/api/auth/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"api",
+								"auth",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"last_email\", \"\");\r",
+									"pm.environment.set(\"last_password\", \"\");\r",
+									"\r",
+									"pm.environment.set(\"note_id\", 0);\r",
+									"\r",
+									"pm.test(\"Response status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"{{last_password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}:{{Port}}/api/auth/delete/",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"api",
+								"auth",
+								"delete",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Note",
 			"item": [
 				{
@@ -16,19 +419,16 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"\r",
+									"let responseBody = pm.response.json();\r",
+									"\r",
+									"let note_id = responseBody.key;\r",
+									"\r",
+									"pm.environment.set(\"note_id\", note_id);\r",
+									"\r",
+									"\r",
 									"pm.test(\"Response status code is 201\", function () {\r",
 									"  pm.response.to.have.status(201);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Response has the required fields\", function () {\r",
-									"    const responseData = pm.response.json();\r",
-									"    \r",
-									"    pm.expect(responseData).to.be.an('object');\r",
-									"    pm.expect(responseData).to.have.property('key');\r",
-									"    pm.expect(responseData).to.have.property('text');\r",
-									"    pm.expect(responseData).to.have.property('created');\r",
-									"    pm.expect(responseData).to.have.property('updated');\r",
 									"});\r",
 									"\r",
 									"\r",
@@ -53,7 +453,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"text\": \"hi, this is a test note!\"\r\n}",
+							"raw": "{\r\n    \"text\": \"{{$randomPhrase}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -61,10 +461,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:{{Port}}/api/notes",
-							"protocol": "http",
+							"raw": "{{base_url}}:{{Port}}/api/notes",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
 							"port": "{{Port}}",
 							"path": [
@@ -127,77 +526,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:{{Port}}/api/notes",
-							"protocol": "http",
+							"raw": "{{base_url}}:{{Port}}/api/notes",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
 							"port": "{{Port}}",
 							"path": [
 								"api",
 								"notes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Specific Note",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Response time is less than 200ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Response has the required fields\", function () {\r",
-									"    const responseData = pm.response.json();\r",
-									"    \r",
-									"    pm.expect(responseData).to.be.an('object');\r",
-									"    pm.expect(responseData).to.have.property('key');\r",
-									"    pm.expect(responseData).to.have.property('text');\r",
-									"    pm.expect(responseData).to.have.property('created');\r",
-									"    pm.expect(responseData).to.have.property('updated');\r",
-									"    pm.expect(responseData).to.have.property('userId');\r",
-									"    pm.expect(responseData).to.have.property('user');\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Key is a non-negative integer\", function () {\r",
-									"  const responseData = pm.response.json();\r",
-									"  \r",
-									"  pm.expect(responseData).to.be.an('object');\r",
-									"  pm.expect(responseData.key).to.be.a('number').and.to.satisfy((key) => key >= 0, \"Key must be a non-negative integer\");\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:{{Port}}/api/notes/6",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{Port}}",
-							"path": [
-								"api",
-								"notes",
-								"6"
 							]
 						}
 					},
@@ -250,7 +586,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"text\": \"change note to this!\"\r\n}",
+							"raw": "{\r\n    \"text\": \"{{$randomPhrase}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -258,16 +594,76 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:{{Port}}/api/notes/6",
-							"protocol": "http",
+							"raw": "{{base_url}}:{{Port}}/api/notes/{{note_id}}",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
 							"port": "{{Port}}",
 							"path": [
 								"api",
 								"notes",
-								"6"
+								"{{note_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Note",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('key');\r",
+									"    pm.expect(responseData).to.have.property('text');\r",
+									"    pm.expect(responseData).to.have.property('created');\r",
+									"    pm.expect(responseData).to.have.property('updated');\r",
+									"    pm.expect(responseData).to.have.property('userId');\r",
+									"    pm.expect(responseData).to.have.property('user');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Key is a non-negative integer\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.key).to.be.a('number').and.to.satisfy((key) => key >= 0, \"Key must be a non-negative integer\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}:{{Port}}/api/notes/{{note_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"api",
+								"notes",
+								"{{note_id}}"
 							]
 						}
 					},
@@ -280,13 +676,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.environment.set(\"note_id\", pm.environment.get(\"note_id\") - 1);\r",
+									"\r",
 									"pm.test(\"Response status code is 204\", function () {\r",
 									"  pm.expect(pm.response.code).to.equal(204);\r",
 									"});\r",
 									"\r",
 									"\r",
-									"pm.test(\"Response time is less than 500ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
 									"});\r",
 									"\r",
 									"\r",
@@ -304,281 +702,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:{{Port}}/api/notes/6",
-							"protocol": "http",
+							"raw": "{{base_url}}:{{Port}}/api/notes/{{note_id}}",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
 							"port": "{{Port}}",
 							"path": [
 								"api",
 								"notes",
-								"6"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "User",
-			"item": [
-				{
-					"name": "Register",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response status code is 204\", function () {\r",
-									"  pm.response.to.have.status(204);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Response time is less than 300ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"admin1@admin.com\",\r\n    \"password\": \"lubieplacki1234\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:{{Port}}/api/auth/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{Port}}",
-							"path": [
-								"api",
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response status code is 204\", function () {\r",
-									"    pm.response.to.have.status(204);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Response time is less than 200ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"admin1@admin.com\",\r\n    \"password\": \"lubieplacki1234\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:{{Port}}/api/auth/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{Port}}",
-							"path": [
-								"api",
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Response time is within an acceptable range\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Email is in a valid email format\", function () {\r",
-									"    const responseData = pm.response.json();\r",
-									"    \r",
-									"    pm.expect(responseData).to.be.an('object');\r",
-									"    pm.expect(responseData.email).to.match(/\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b/, \"Email is not in a valid format\");\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Password is a non-empty string\", function () {\r",
-									"    const responseData = pm.response.json();\r",
-									"\r",
-									"    pm.expect(responseData.password).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Password should not be empty\");\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:{{Port}}/api/auth/user",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{Port}}",
-							"path": [
-								"api",
-								"auth",
-								"user"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Logout",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response status code is 204\", function () {\r",
-									"  pm.response.to.have.status(204);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Response time is less than 200ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:{{Port}}/api/auth/logout",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{Port}}",
-							"path": [
-								"api",
-								"auth",
-								"logout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response status code is 204\", function () {\r",
-									"    pm.response.to.have.status(204);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Response time is less than 500ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:{{Port}}/api/auth/delete/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{Port}}",
-							"path": [
-								"api",
-								"auth",
-								"delete",
-								""
+								"{{note_id}}"
 							]
 						}
 					},
@@ -611,6 +743,11 @@
 		{
 			"key": "Port",
 			"value": "8080"
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost",
+			"type": "string"
 		}
 	]
 }

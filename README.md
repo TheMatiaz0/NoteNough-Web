@@ -38,7 +38,7 @@ docker compose up
 
 ### 3️⃣ Access the App
 Once setup is complete, open your browser and visit:
-http://localhost:8080
+http://localhost:3000
 
 Tada! 🎉 The website should be working locally!
 

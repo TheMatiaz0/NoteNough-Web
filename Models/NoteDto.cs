@@ -10,8 +10,7 @@ namespace NoteNough.NET.Models
         [Required]
         public string Text { get; set; } = string.Empty;
 
-        [Required]
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         public DateTime? Updated { get; set; }
 
