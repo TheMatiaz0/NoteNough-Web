@@ -30,7 +30,7 @@
 .slash {
     margin-right: 10px;
     font-weight: bold;
-    color: #f5a623;
+    color: yellow;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     display: inline-block;
     transform: translateY(-1px);
@@ -42,7 +42,7 @@
     }
 
     50% {
-        transform: translateX(50%);
+        transform: translateX(30%);
     }
 
     100% {
