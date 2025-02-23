@@ -8,7 +8,6 @@ import SortableNote from "./SortableNote";
 
 const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleEditNote, handleReorderNotes, isSortedByNewest }) => {
     const [editedNote, setEditedNote] = useState({});
-    const [sortedNotes, setSortedNotes] = useState([...notes]);
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -28,7 +27,11 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
 
     const constructNote = (note, handleRemoveNote, handleEditNote) =>
         note === editedNote ? 
-        (<InputNote key={note.key} defaultText={note.text} handleAddNote={(newText) => updateNote(note, newText)} />) : (<Note
+        (<InputNote 
+            key={note.key} 
+            defaultText={note.text} 
+            handleAddNote={(newText) => updateNote(note, newText)} />) : 
+        (<Note
             key={note.key}
             id={note.key}
             text={note.text}
@@ -71,6 +74,13 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                 <SortableContext items={filteredNotes.map((note) => note.key)} strategy={rectSortingStrategy} >
                     {filteredNotes.map((note) => (
+                        note === editedNote ? (
+                        <InputNote 
+                            key={note.key} 
+                            defaultText={note.text} 
+                            handleAddNote={(newText) => updateNote(note, newText)} 
+                        />
+                        ) : (
                         <SortableNote 
                             key={note.key}
                             note={note} 
@@ -78,6 +88,7 @@ const NotesList = ({ notes, searchText, handleAddNote, handleRemoveNote, handleE
                             enterEditNoteMode={enterEditNoteMode} 
                             constructNote={constructNote}
                         />
+                        )
                     ))}
                 </SortableContext>
             </DndContext>
